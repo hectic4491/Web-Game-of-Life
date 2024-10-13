@@ -9,6 +9,6 @@ $(document).ready(function() {
     root.innerHTML = null;
   }
 
-  $("#printButton").click(hello());
+  $("#printButton").click(() => hello());
   $("#clearButton").click(() => clear());
 });

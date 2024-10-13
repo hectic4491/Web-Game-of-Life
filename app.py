@@ -4,6 +4,9 @@ from lib.main import GenArray
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    return GenArray([10,10], 100).genArray
+def root():
+    return render_template("app.html")
 
+@app.route("/simulation")
+def simulation():
+    return GenArray([10,10], 100).genArray
