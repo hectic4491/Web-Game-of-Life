@@ -1,11 +1,32 @@
 $(document).ready(function() {
+  function renderSimulation(simulation) {
+    const simulationDiv = document.getElementById("simulation");
+    const renderFrame = (frame) =>
+      frame.forEach((row) =>
+        simulationDiv.append(row, document.createElement("div")),
+      );
+    const clearFrame = () => (simulationDiv.innerHTML = null);
+
+    let index = 0;
+
+    const intervalId = setInterval(() => {
+      if (index < simulation.length) {
+        clearFrame();
+        renderFrame(simulation[index]);
+        index++;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 100);
+  }
+
   function fetchSimulation() {
-    const simulation = document.getElementById("simulation");
     const form = new FormData();
 
-    const matrixRows = document.getElementById("matrixRows").value;
-    const matrixColumns = document.getElementById("matrixColumns").value;
-    const sequenceLength = document.getElementById("sequenceLength").value
+    const matrixRows = document.getElementById("matrixRows").value || 50;
+    const matrixColumns = document.getElementById("matrixColumns").value || 159;
+    const sequenceLength =
+      document.getElementById("sequenceLength").value || 100;
 
     form.append("matrixRows", matrixRows);
     form.append("matrixColumns", matrixColumns);
@@ -16,7 +37,7 @@ $(document).ready(function() {
       body: form,
     })
       .then((response) => response.json())
-      .then((simulationData) => (simulation.innerHTML = simulationData));
+      .then((simulationData) => renderSimulation(simulationData));
   }
 
   function clear() {
