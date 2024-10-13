@@ -1,14 +1,23 @@
 $(document).ready(function() {
   function fetchSimulation() {
-    const root = document.getElementById("root");
+    const simulation = document.getElementById("simulation");
+    const data = new FormData();
 
-    fetch(simulationEndpoint)
+    data.append("matrixRows", 10);
+    data.append("matrixColumns", 10);
+    data.append("sequenceLength", 10);
+
+    fetch(simulationEndpoint, {
+      method: "POST",
+      body: data,
+    })
       .then((response) => response.json())
-      .then((data) => (root.innerHTML = data));
+      .then((data) => (simulation.innerHTML = data));
   }
 
   function clear() {
     const root = document.getElementById("root");
+
     root.innerHTML = null;
   }
 

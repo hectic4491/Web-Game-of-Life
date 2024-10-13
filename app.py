@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from lib.main import GenArray
 
 app = Flask(__name__)
@@ -7,6 +7,11 @@ app = Flask(__name__)
 def root():
     return render_template("app.html")
 
-@app.route("/simulation")
+@app.route("/simulation", methods=['POST'])
 def simulation():
-    return GenArray([10,10], 100).genArray
+    if request.method == 'POST':
+        matrixRows = int(request.form.get('matrixRows'))
+        matrixColumns = int(request.form.get('matrixColumns'))
+        sequenceLength = int(request.form.get('sequenceLength'))
+
+        return GenArray([matrixRows, matrixColumns], sequenceLength).genArray
