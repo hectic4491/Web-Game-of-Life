@@ -1,24 +1,24 @@
 $(document).ready(function() {
   function fetchSimulation() {
     const simulation = document.getElementById("simulation");
-    const data = new FormData();
+    const form = new FormData();
 
-    data.append("matrixRows", 10);
-    data.append("matrixColumns", 10);
-    data.append("sequenceLength", 10);
+    form.append("matrixRows", 10);
+    form.append("matrixColumns", 10);
+    form.append("sequenceLength", 10);
 
     fetch(simulationEndpoint, {
       method: "POST",
-      body: data,
+      body: form,
     })
       .then((response) => response.json())
-      .then((data) => (simulation.innerHTML = data));
+      .then((simulationData) => (simulation.innerHTML = simulationData));
   }
 
   function clear() {
-    const root = document.getElementById("root");
+    const simulation = document.getElementById("simulation");
 
-    root.innerHTML = null;
+    simulation.innerHTML = null;
   }
 
   $("#printButton").click(() => fetchSimulation());
