@@ -3,9 +3,13 @@ $(document).ready(function() {
     const simulation = document.getElementById("simulation");
     const form = new FormData();
 
-    form.append("matrixRows", 10);
-    form.append("matrixColumns", 10);
-    form.append("sequenceLength", 10);
+    const matrixRows = document.getElementById("matrixRows").value;
+    const matrixColumns = document.getElementById("matrixColumns").value;
+    const sequenceLength = document.getElementById("sequenceLength").value
+
+    form.append("matrixRows", matrixRows);
+    form.append("matrixColumns", matrixColumns);
+    form.append("sequenceLength", sequenceLength);
 
     fetch(simulationEndpoint, {
       method: "POST",
