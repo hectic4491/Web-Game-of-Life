@@ -1,7 +1,9 @@
 $(document).ready(function() {
-  function hello() {
+  function fetchSimulation() {
     const root = document.getElementById("root");
-    root.innerHTML = "Hello World";
+    fetch("127.0.0.1:5000/simulation").then((response) =>
+      console.log(response.json()),
+    );
   }
 
   function clear() {
@@ -9,6 +11,6 @@ $(document).ready(function() {
     root.innerHTML = null;
   }
 
-  $("#printButton").click(() => hello());
+  $("#printButton").click(() => fetchSimulation());
   $("#clearButton").click(() => clear());
 });
