@@ -1,11 +1,12 @@
 $(document).ready(function() {
+  const simulationDiv = document.getElementById("simulation");
+  const clearFrame = () => (simulationDiv.innerHTML = null);
+
   function renderSimulation(simulation) {
-    const simulationDiv = document.getElementById("simulation");
     const renderFrame = (frame) =>
       frame.forEach((row) =>
         simulationDiv.append(row, document.createElement("div")),
       );
-    const clearFrame = () => (simulationDiv.innerHTML = null);
 
     let index = 0;
 
@@ -23,8 +24,8 @@ $(document).ready(function() {
   function fetchSimulation() {
     const form = new FormData();
 
-    const matrixRows = document.getElementById("matrixRows").value || 50;
-    const matrixColumns = document.getElementById("matrixColumns").value || 159;
+    const matrixRows = document.getElementById("matrixRows").value || 159;
+    const matrixColumns = document.getElementById("matrixColumns").value || 50;
     const sequenceLength =
       document.getElementById("sequenceLength").value || 100;
 
