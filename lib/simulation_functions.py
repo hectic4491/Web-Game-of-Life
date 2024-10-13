@@ -1,5 +1,5 @@
 from random import randint
-from cell import Cell
+from lib.cell import Cell
 from time import sleep
 from os import system
 

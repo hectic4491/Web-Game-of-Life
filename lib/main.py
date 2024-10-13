@@ -1,4 +1,4 @@
-import simulation_functions as sf
+import lib.simulation_functions as sf
 
 class GenArray():
     def __init__(self, display_size, steps):
@@ -19,9 +19,3 @@ class GenArray():
                 self.genArray.append(genMatrix)
                 sf.determineNextGen(self.display)
                 sf.updateNextGen(self.display)
-
-
-# Driver code to demonstrate the object
-if __name__ == '__main__':
-     array = GenArray(display_size=(60,30), steps=50)
-     sf.showArray(array.genArray)
