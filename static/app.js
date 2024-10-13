@@ -41,12 +41,6 @@ $(document).ready(function() {
       .then((simulationData) => renderSimulation(simulationData));
   }
 
-  function clear() {
-    const simulation = document.getElementById("simulation");
-
-    simulation.innerHTML = null;
-  }
-
   $("#printButton").click(() => fetchSimulation());
-  $("#clearButton").click(() => clear());
+  $("#clearButton").click(() => clearFrame());
 });
