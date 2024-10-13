@@ -40,6 +40,7 @@ def randomizeInitialAliveCells(display, rollUpperLimit=3):
     for j in range(len(display)):
         for i in range(len(display[0])):
             randomRoll = randint(0, rollUpperLimit)
+            # So the point here is that we always have a 1/(rollUpperLimit + 1) chance?
             if randomRoll == 1:
                 display[j][i].makeAlive()
 

@@ -1,6 +1,9 @@
 <html>
   <head>
     <link rel="stylesheet" href="/static/app.css" />
+    <script>
+      const simulationEndpoint = {{ url_for("simulation")|tojson }}
+    </script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="/static/app.js"></script>
   </head>

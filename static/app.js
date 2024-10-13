@@ -1,9 +1,10 @@
 $(document).ready(function() {
   function fetchSimulation() {
     const root = document.getElementById("root");
-    fetch("127.0.0.1:5000/simulation").then((response) =>
-      console.log(response.json()),
-    );
+
+    fetch(simulationEndpoint)
+      .then((response) => response.json())
+      .then((data) => (root.innerHTML = data));
   }
 
   function clear() {
