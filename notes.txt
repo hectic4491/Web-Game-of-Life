@@ -1,0 +1,4 @@
+### Read up on ###
+> Flash quickstart guide : https://flask.palletsprojects.com/en/3.0.x/quickstart/
+> HTTP : https://developer.mozilla.org/en-US/docs/Web/HTTP
+> 
