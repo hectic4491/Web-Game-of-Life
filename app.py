@@ -21,3 +21,20 @@ def simulation():
         sequenceLength = int(request.form.get('sequenceLength'))
 
         return GenArray([matrixRows, matrixColumns], sequenceLength).genArray
+    
+
+### Rob's stuff ###
+
+
+# This routes to the page rob has been working on.
+# This page shows the intended design of the web-app.
+# We can change the route to "/" later.
+#
+@app.route("/home")
+def home():
+  return render_template("home.html")
+
+# This code is just so I can run the program through the "run python file" button
+# in VScode.
+if __name__ =="__main__":
+  app.run(debug=True)
