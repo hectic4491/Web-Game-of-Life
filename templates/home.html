@@ -6,7 +6,10 @@
 
 		<title>Javascript practice - Home</title>
 		<link rel="stylesheet" href="static/styles.css">
-		<script src="static/testapp.js" defer></script>
+		<script type="module" src="static/testapp.js"></script>
+		<script>
+			const simulationEndpoint = {{ url_for("simulation")|tojson }}
+		</script>
 	</head>
 
 	<body>
@@ -22,7 +25,7 @@
 					<button id="drawButton" class="button">Draw</button>
 					</div>
 					<div class="label-container">
-						<p id="simulation-type" class="data-label">Type</p>
+						<p id="simulationType" class="data-label">Type</p>
 						<p id="generation" class="data-label">Gen</p>
 						<p id="population" class="data-label">Pop</p>
 					</div>
@@ -32,6 +35,7 @@
 				</div>
 			</div>
 		</div>
-	</body>
 
+	</body>
+	
 </html>

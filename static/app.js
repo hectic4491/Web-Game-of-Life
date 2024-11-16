@@ -26,8 +26,7 @@ $(document).ready(function() {
 
     const matrixRows = document.getElementById("matrixRows").value || 159;
     const matrixColumns = document.getElementById("matrixColumns").value || 50;
-    const sequenceLength =
-      document.getElementById("sequenceLength").value || 100;
+    const sequenceLength = document.getElementById("sequenceLength").value || 100;
 
     form.append("matrixRows", matrixRows);
     form.append("matrixColumns", matrixColumns);

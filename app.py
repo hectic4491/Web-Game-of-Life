@@ -20,7 +20,7 @@ def simulation():
     matrixColumns = int(request.form.get('matrixColumns'))
     sequenceLength = int(request.form.get('sequenceLength'))
 
-    return GenArray([matrixRows, matrixColumns], sequenceLength).genArray
+    return GenArray([matrixColumns, matrixRows], sequenceLength).genArray
 
 
 ### Rob's stuff ###
