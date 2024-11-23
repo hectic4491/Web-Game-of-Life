@@ -35,7 +35,7 @@ def home():
   GenArray([36, 82], 100).genArray
   return render_template("home.html")
 
-@app.route('/grabsimulation')
+@app.route('/simulation')
 def get_data():
   data = GenArray([36, 82], 100).genArray
   return jsonify(data)
