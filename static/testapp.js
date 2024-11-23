@@ -1,14 +1,14 @@
-import { Simulation } from './simulation.js';
+$(document).ready(function() {
 
-document.addEventListener('DOMContentLoaded', propPage);
-
-function propPage () {
+  console.log("JavaScript is running")
   const simulationField = document.getElementById("simulationField");
+  const pageHeader = document.getElementById("header");
+  pageHeader.innerText = "Conway's Game of Life";
 
+  // Buiild the simulationField
   const numRows = 36; // These numbers have to correspond to the styles.css repeat() declaration.
   const numCols = 82; // These numbers have to correspond to the styles.css repeat() declaration.
   // for now, use 36x82 (or 82x36) as the test GenArray size. 
-
   for (let i = 0; i < numRows; i++) {
     for (let j = 0; j < numCols; j++) {
       const gridCell = document.createElement('div');
@@ -17,6 +17,53 @@ function propPage () {
       simulationField.appendChild(gridCell);
     }
   }
+
+  function printFrame (simulationData) {
+    const renderFrame = (frame) => {
+      let j = 0;
+      frame.forEach((row) => {
+        let i = 0;
+        for (const cell of row) {
+          console.log(j, i, cell);
+          if (cell === 1) {
+            const makeId = j + "-" + i;
+            console.log(makeId);
+            const targetCell = document.getElementById(makeId);
+            targetCell.style.backgroundColor = "black"; // -> get the css style variables later
+          } else if (cell === 0) {
+            const makeId = j + "-" + i;
+            console.log(makeId);
+            const targetCell = document.getElementById(makeId);
+            targetCell.style.backgroundColor = "white"; // -> get the css style variables later
+
+          }
+          i++;
+        }
+        j++;
+      });
+    }
+    let index = 0;
+
+    const intervalId = setInterval(() => {
+      if (index< simulationData.length) {
+        renderFrame(simulationData[index]);
+        index++;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 100);
+  }
+
+
+  function fetchSimulation () {
+    fetch(simDataEndpoint)
+      .then((response) => response.json())
+      .then((simulationData) => printFrame(simulationData));
+  }
+
+  $("#startButton").click(() => fetchSimulation())
+
+});
 
   // const simulation = new Simulation("Random", [1, 2, 3]);
   // document.getElementById("simulationType").innerHTML = String(simulation.name);
@@ -72,7 +119,6 @@ function propPage () {
   // document.getElementById("selectButton").addEventListener('click', selectAction);
 
 
-};
 
 // function startAction () {
 //   return (document.getElementById("simulationField").innerHTML = "Start")

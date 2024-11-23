@@ -23,7 +23,7 @@ body {
 	height: 100vh;
 }
 
-.header {
+#header {
 	background-color: var(--color-background);
 	border: 0.5rem solid var(--color-page-border);
 	min-height: 8vh;

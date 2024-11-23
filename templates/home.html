@@ -6,15 +6,16 @@
 
 		<title>Javascript practice - Home</title>
 		<link rel="stylesheet" href="static/styles.css">
-		<script type="module" src="static/testapp.js"></script>
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="static/testapp.js"></script>
 		<script>
-			const simulationEndpoint = {{ url_for("simulation")|tojson }}
+			const simDataEndpoint = {{ url_for("simdata")|tojson }}
 		</script>
 	</head>
 
 	<body>
 		<div class="container">
-			<div class="header">Header</div>
+			<div id="header">Header</div>
 			<div class="body">
 				<div class="sub-container control-panel">
 					<div class="button-container">

@@ -81,40 +81,12 @@ $(document).ready(function() {
   // variables. This is the Div element that is going to contain our
   // simulation.
   const simulationDiv = document.getElementById("simulation");
-<<<<<<< HEAD
 
   // function
   const clearFrame = () => (simulationDiv.innerHTML = null);
 
   // function
   function renderSimulation(simulation) {
-=======
-  
-
-  // ## Functions ##
-  // Now we define our functions for the front-end client. These
-  // functions will help get data from the back end and display
-  // the data to the webpage.
-  // 
-  // This is a quick and simple "clearFrame" function, where we set
-  // the contents of simulation element (innerHTML) to nothing.
-  // i.e. we are clearing the frame.
-  // 
-  // The contents of an element may contain text nodes, html tags,
-  // and pther nested elements. It's basically everything written
-  // inbetween the targent element's opening and closing tags.
-  const clearFrame = () => (simulationDiv.innerHTML = null);
-
-
-  // This function renders the simulation by looking at the content of
-  // the simulation data object and cycling through it's array to 
-  // clear and render each frame. The default framerate being set to
-  // 10 fps.
-  function renderSimulation(simulationData) {
-    // Append all rows to the simulationDiv element that we initalized
-    // earlier. This generates one "Frame" of our simulation.
-    // First we create a render frame sub-function.
->>>>>>> 3799173629f6f6d8a0d92558f3cab796f61e8966
     const renderFrame = (frame) =>
       frame.forEach((row) =>
         simulationDiv.append(row, document.createElement("div")),
@@ -135,13 +107,7 @@ $(document).ready(function() {
     }, 100);
   }
 
-<<<<<<< HEAD
   // function
-=======
-
-  // This gets the simulation from the server by giving it this user imported
-  // data into a form.
->>>>>>> 3799173629f6f6d8a0d92558f3cab796f61e8966
   function fetchSimulation() {
     // we initalize a form object
     const form = new FormData();
@@ -174,17 +140,7 @@ $(document).ready(function() {
       .then((simulationData) => renderSimulation(simulationData));
   }
 
-<<<<<<< HEAD
   // attach functions to buttons
-=======
-
-  // Attaching button functionality
-  // Fetching the simulation (therefore rendering the simulation) is attached
-  // to a button "printButton".
-  //
-  // Clearing the current simulation is set to the "ClearButton" element. This
-  // uses our built clearFrame function.
->>>>>>> 3799173629f6f6d8a0d92558f3cab796f61e8966
   $("#printButton").click(() => fetchSimulation());
   $("#clearButton").click(() => clearFrame());
 });

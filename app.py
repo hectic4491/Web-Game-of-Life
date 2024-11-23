@@ -32,12 +32,12 @@ def simulation():
 #
 @app.route("/home")
 def home():
-  GenArray([36, 82], 100).genArray
+  #GenArray([36, 82], 100).genArray
   return render_template("home.html")
 
-@app.route('/simulation')
-def get_data():
-  data = GenArray([36, 82], 100).genArray
+@app.route('/simdata')
+def simdata():
+  data = GenArray([82, 36], 100).genArray
   return jsonify(data)
 
 # This code is just so I can run the program through
