@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from lib.main import GenArray
 
 app = Flask(__name__)
@@ -32,9 +32,16 @@ def simulation():
 #
 @app.route("/home")
 def home():
+  GenArray([36, 82], 100).genArray
   return render_template("home.html")
+
+@app.route('/grabsimulation')
+def get_data():
+  data = GenArray([36, 82], 100).genArray
+  return jsonify(data)
 
 # This code is just so I can run the program through
 # the "run python file" button in VScode.
 if __name__ =="__main__":
   app.run(debug=True)
+
