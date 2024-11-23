@@ -1,7 +1,10 @@
 $(document).ready(function() {
   const simulationDiv = document.getElementById("simulation");
+
+  // function
   const clearFrame = () => (simulationDiv.innerHTML = null);
 
+  // function
   function renderSimulation(simulation) {
     const renderFrame = (frame) =>
       frame.forEach((row) =>
@@ -21,6 +24,7 @@ $(document).ready(function() {
     }, 100);
   }
 
+  // function
   function fetchSimulation() {
     const form = new FormData();
 
@@ -40,6 +44,7 @@ $(document).ready(function() {
       .then((simulationData) => renderSimulation(simulationData));
   }
 
+  // attach functions to buttons
   $("#printButton").click(() => fetchSimulation());
   $("#clearButton").click(() => clearFrame());
 });

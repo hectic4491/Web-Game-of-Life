@@ -18,55 +18,55 @@ function propPage () {
     }
   }
 
-  const simulation = new Simulation("Random", [1, 2, 3]);
-  document.getElementById("simulationType").innerHTML = String(simulation.name);
+  // const simulation = new Simulation("Random", [1, 2, 3]);
+  // document.getElementById("simulationType").innerHTML = String(simulation.name);
 
-  // TODO
-  const clearFrame = () => (simulationDiv.innerHTML = null);
+  // // TODO
+  // const clearFrame = () => (simulationDiv.innerHTML = null);
 
-  // TODO
-  function renderSimulation(simulation) {
-    const renderFrame = (frame) =>
-      frame.forEach((row) =>
-        simulationDiv.append(row, document.createElement("div")),
-      );
-
-
-
-    let index = 0;
-
-    const intervalId = setInterval(() => {
-      if (index < simulation.length) {
-        clearFrame();
-        renderFrame(simulation[index]);
-        index++;
-      } else {
-        clearInterval(intervalId);
-      }
-    }, 100);
-  }
+  // // TODO
+  // function renderSimulation(simulation) {
+  //  const renderFrame = (frame) =>
+  //     frame.forEach((row) =>
+  //       simulationDiv.append(row, document.createElement("div")),
+  //     );
 
 
-  function fetchSimulation() {
-    const form = new FormData();
 
-    const matrixRows = 36;
-    const matrixColumns = 82;
-    const sequenceLength = 100;
+  //   let index = 0;
 
-    form.append("matrixRows", matrixRows);
-    form.append("matrixColumns", matrixColumns);
-    form.append("sequenceLength", sequenceLength);
+  //   const intervalId = setInterval(() => {
+  //     if (index < simulation.length) {
+  //       clearFrame();
+  //       renderFrame(simulation[index]);
+  //       index++;
+  //     } else {
+  //       clearInterval(intervalId);
+  //     }
+  //   }, 100);
+  // }
 
-    fetch(simulationEndpoint, {
-      method: "POST",
-      body: form,
-    })
-      .then((response) => response.json())
-      .then((simulationData) => renderSimulation(simulationData));
-  }
+
+  // function fetchSimulation() {
+  //   const form = new FormData();
+
+  //   const matrixRows = 36;
+  //   const matrixColumns = 82;
+  //   const sequenceLength = 100;
+
+  //   form.append("matrixRows", matrixRows);
+  //   form.append("matrixColumns", matrixColumns);
+  //   form.append("sequenceLength", sequenceLength);
+ 
+  //   fetch(simulationEndpoint, {
+  //     method: "POST",
+  //     body: form,
+  //   })
+  //     .then((response) => response.json())
+  //     .then((simulationData) => renderSimulation(simulationData));
+  // }
   
-  document.getElementById("startButton").addEventListener('click', fetchSimulation);
+  // document.getElementById("startButton").addEventListener('click', fetchSimulation);
   // document.getElementById("stopButton").addEventListener('click', stopAction);
   // document.getElementById("newButton").addEventListener('click', newAction);
   // document.getElementById("selectButton").addEventListener('click', selectAction);
