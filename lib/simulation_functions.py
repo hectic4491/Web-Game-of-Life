@@ -46,6 +46,9 @@ def randomizeInitialAliveCells(display, rollUpperLimit=3):
 
 
 def writeMatrix(display):
+    """
+    Writes a matrix of cells objects into a matrix of integers.
+    """
     matrix = [[0 for _ in range(len(display[0]))] for _ in range(len(display))]
 
     for j in range(len(display)):
@@ -74,6 +77,9 @@ def updateNextGen(display):
 
 
 def printMatrix(matrix):
+    """
+    Testing function to print a matrix.
+    """
     for j in range(len(matrix)):
         line = ""
         for i in range(len(matrix[0])):
@@ -82,6 +88,9 @@ def printMatrix(matrix):
 
 
 def showArray(genArray):
+    """
+    Testing function to iterate through an array of matricies and print each one.
+    """
     for matrix in genArray:
         printMatrix(matrix)
         sleep(0.25)

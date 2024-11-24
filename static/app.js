@@ -25,23 +25,6 @@ $(document).ready(function() {
     }
   }
 
-  //## Retrieve the css defined variables
-  function getCSSVariables() {
-    const styles = getComputedStyle(document.documentElement);
-    const cssVariables = {};
-
-    for (let i = 0; i < styles.length; i++) {
-      const name = styles[i];
-      if (name.startsWith('--')) {
-        cssVariables[name] = styles.getPropertyValue(name).trim();
-      }
-    }
-    return cssVariables;
-  }
-
-  const allCSSVariables = getCSSVariables();
-  console.log(Object.keys(allCSSVariables));
-
   //## Create functions
   //# Render the simulation.
   function renderSimulation (simulationData) {
