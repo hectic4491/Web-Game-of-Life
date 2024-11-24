@@ -75,5 +75,4 @@ $(document).ready(function() {
 /*
 TODO
 -> StartButton needs to prevent input on start and new button while the simulation is running.
-
 */
