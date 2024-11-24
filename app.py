@@ -37,7 +37,7 @@ def home():
 
 @app.route('/simdata')
 def simdata():
-  data = GenArray([82, 36], 100).genArray
+  data = GenArray([82, 36], 300).genArray
   return jsonify(data)
 
 # This code is just so I can run the program through

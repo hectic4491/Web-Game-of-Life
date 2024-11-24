@@ -1,11 +1,18 @@
 $(document).ready(function() {
 
+  //## Check to see if this prints in console.
   console.log("JavaScript is running")
+
+
+  //## Initalize variables
+  let simulation; //-> this will store our current simulation.
+  fetchSimulation();
   const simulationField = document.getElementById("simulationField");
   const pageHeader = document.getElementById("header");
   pageHeader.innerText = "Conway's Game of Life";
 
-  // Buiild the simulationField
+
+  //## Build the simulationField
   const numRows = 36; // These numbers have to correspond to the styles.css repeat() declaration.
   const numCols = 82; // These numbers have to correspond to the styles.css repeat() declaration.
   // for now, use 36x82 (or 82x36) as the test GenArray size. 
@@ -18,24 +25,39 @@ $(document).ready(function() {
     }
   }
 
-  function printFrame (simulationData) {
+  //## Retrieve the css defined variables
+  function getCSSVariables() {
+    const styles = getComputedStyle(document.documentElement);
+    const cssVariables = {};
+
+    for (let i = 0; i < styles.length; i++) {
+      const name = styles[i];
+      if (name.startsWith('--')) {
+        cssVariables[name] = styles.getPropertyValue(name).trim();
+      }
+    }
+    return cssVariables;
+  }
+
+  const allCSSVariables = getCSSVariables();
+  console.log(Object.keys(allCSSVariables));
+
+  //## Create functions
+  //# Render the simulation.
+  function renderSimulation (simulationData) {
     const renderFrame = (frame) => {
       let j = 0;
       frame.forEach((row) => {
         let i = 0;
         for (const cell of row) {
-          console.log(j, i, cell);
-          if (cell === 1) {
-            const makeId = j + "-" + i;
-            console.log(makeId);
-            const targetCell = document.getElementById(makeId);
-            targetCell.style.backgroundColor = "black"; // -> get the css style variables later
-          } else if (cell === 0) {
-            const makeId = j + "-" + i;
-            console.log(makeId);
-            const targetCell = document.getElementById(makeId);
-            targetCell.style.backgroundColor = "white"; // -> get the css style variables later
-
+          if (cell) {
+            const cellId = j + "-" + i;
+            const targetCell = document.getElementById(cellId);
+            targetCell.style.backgroundColor = "#B6C649"; // -> get the css style variables later
+          } else if (!cell) {
+            const cellId = j + "-" + i;
+            const targetCell = document.getElementById(cellId);
+            targetCell.style.backgroundColor = "#23333e"; // -> get the css style variables later
           }
           i++;
         }
@@ -54,84 +76,21 @@ $(document).ready(function() {
     }, 100);
   }
 
-
+  //# Fetch the simulation from the server.
   function fetchSimulation () {
     fetch(simDataEndpoint)
       .then((response) => response.json())
-      .then((simulationData) => printFrame(simulationData));
+      .then((simulationData) => simulation = simulationData);
   }
 
-  $("#startButton").click(() => fetchSimulation())
+  //## Attach functions to buttons.
+  $("#startButton").click(() => renderSimulation(simulation)) 
+  $("#newButton").click(() => fetchSimulation())
 
 });
 
-  // const simulation = new Simulation("Random", [1, 2, 3]);
-  // document.getElementById("simulationType").innerHTML = String(simulation.name);
+/*
+TODO
+-> StartButton needs to prevent input on start and new button while the simulation is running.
 
-  // // TODO
-  // const clearFrame = () => (simulationDiv.innerHTML = null);
-
-  // // TODO
-  // function renderSimulation(simulation) {
-  //  const renderFrame = (frame) =>
-  //     frame.forEach((row) =>
-  //       simulationDiv.append(row, document.createElement("div")),
-  //     );
-
-
-
-  //   let index = 0;
-
-  //   const intervalId = setInterval(() => {
-  //     if (index < simulation.length) {
-  //       clearFrame();
-  //       renderFrame(simulation[index]);
-  //       index++;
-  //     } else {
-  //       clearInterval(intervalId);
-  //     }
-  //   }, 100);
-  // }
-
-
-  // function fetchSimulation() {
-  //   const form = new FormData();
-
-  //   const matrixRows = 36;
-  //   const matrixColumns = 82;
-  //   const sequenceLength = 100;
-
-  //   form.append("matrixRows", matrixRows);
-  //   form.append("matrixColumns", matrixColumns);
-  //   form.append("sequenceLength", sequenceLength);
- 
-  //   fetch(simulationEndpoint, {
-  //     method: "POST",
-  //     body: form,
-  //   })
-  //     .then((response) => response.json())
-  //     .then((simulationData) => renderSimulation(simulationData));
-  // }
-  
-  // document.getElementById("startButton").addEventListener('click', fetchSimulation);
-  // document.getElementById("stopButton").addEventListener('click', stopAction);
-  // document.getElementById("newButton").addEventListener('click', newAction);
-  // document.getElementById("selectButton").addEventListener('click', selectAction);
-
-
-
-// function startAction () {
-//   return (document.getElementById("simulationField").innerHTML = "Start")
-// };
-
-// function stopAction () {
-//   return (document.getElementById("simulationField").innerHTML = "Stop")
-// };
-
-// function newAction () {
-//   return (document.getElementById("simulationField").innerHTML = null)
-// };
-
-// function selectAction () {
-//   return (document.getElementById("simulationField").innerHTML = "Selecting...")
-// };
+*/
