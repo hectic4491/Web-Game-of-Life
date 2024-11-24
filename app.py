@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify # type: ignore (flask kept saying it wasn't imported)
 from lib.main import GenArray
 
 app = Flask(__name__)
@@ -44,4 +44,3 @@ def simdata():
 # the "run python file" button in VScode.
 if __name__ =="__main__":
   app.run(debug=True)
-
