@@ -48,5 +48,19 @@ set list (i.e. unique elements) of alive cells, and only check and update the cu
 
 
 ## +NOTES+
+> 11/28/2024 6:35:00
+> Set difference:  A - B; i.e. "The elements in A that are not in B.
+>                  B - A; i.e. "The elements in B that are not in A.
+>
+>                  Let A be generation N's set of alive cell's coordinates.
+>                  Let B be generation N+1's set of alive cell's coordinates.
+>
+>                  Then:
+>                    A ∩ B is the set of cells that stay alive. Therefore, no need to update.
+>                    A - B is the set of cells that have died. Therefore, we need to update the background color as "dead".
+>                    B - A is the set of cells that have come alive. Therefore, we need to update the background color as "alive".
+>
+> Design Optimization: We don't need to send a full matrix to the client. The matrix is sparse and will typically contain mostly 0's. This means we have to iterate through the entire matrix every frame just to make a few adjustments. If we drop the matrix data object and instead use a set of the alive cell's coordinates as our data object, we narrow our focus into only the cells 
+
 
 > This is fun, I'm having a good time working on this project :> -rob

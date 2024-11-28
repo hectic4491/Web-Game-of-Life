@@ -1,10 +1,11 @@
 $(document).ready(function() {
-  //## Check to see if this prints in console.
+  //## Developer verify in the console that JavaScript is executing.
   console.log("JavaScript is running")
 
 
-  //## Create the simulation object
-  class SimulationClass {
+  //## Custom classes for the web page
+  class Simulation {
+    // This singleton object will hold the data for our simulation.
     constructor() {
       this.gridRows = 36;
       this.gridColumns = 82;
@@ -16,21 +17,42 @@ $(document).ready(function() {
     }
 
     reset () {
-        console.log("'reset' method called.");
-        this.gridRows = 36;
-        this.gridColumns = 82;
-        this.name = NaN;
-        this.genArray = NaN;
-        this.running = false;
-        this.paused = false;
-        this.pausedIndex = 0;
-      }
-      
+      console.log(`${this}.method 'reset' called.`);
+      this.gridRows = 36; 
+      this.gridColumns = 82;
+      this.name = NaN;
+      this.genArray = NaN;
+      this.running = false;
+      this.paused = false;
+      this.pausedIndex = 0;
     }
+  }
+
+  class UserInterface {
+    // This singleton object will hold the data for the user interface.
+    constructor () {
+      // Control buttons
+      this.start = document.getElementById("startButton");
+      this.stop = document.getElementById("stopButton");
+      this.new = document.getElementById("newButton");
+      this.select = document.getElementById("selectButton");
+      this.draw = document.getElementById("drawButton");
+
+      // Simulation display
+      this.display = document.getElementById("simulationField");
+
+      // Simulation info
+      this.title = document.getElementById("simulationType");
+      this.population = document.getElementById("population");
+      this.generation = document.getElementById("generation");
+    }
+  }
 
 
   //## Initalize variables
-  const SimObject = new SimulationClass();
+  const SimObject = new Simulation();
+  const ui = new UserInterface();
+  ui.stop.disabled = true;
 
   fetchSimulation();
 
@@ -41,13 +63,9 @@ $(document).ready(function() {
   const pageHeader = document.getElementById("header");
   pageHeader.innerText = "Conway's Game of Life";
 
-  const stopButton = document.getElementById("stopButton");
-  stopButton.disabled = true;
-
-
   //## Build the simulationField
-  const numRows = SimObject.gridRows; // These numbers have to correspond to the styles.css repeat() declaration.
-  const numCols = SimObject.gridColumns; // These numbers have to correspond to the styles.css repeat() declaration.
+  const numRows = SimObject.gridRows; //TODO These numbers have to correspond to the styles.css repeat() declaration.
+  const numCols = SimObject.gridColumns; //TODO These numbers have to correspond to the styles.css repeat() declaration.
   // for now, use 36x82 (or 82x36) as the test GenArray size. 
   for (let i = 0; i < numRows; i++) {
     for (let j = 0; j < numCols; j++) {
@@ -66,12 +84,9 @@ $(document).ready(function() {
       for (let i = 0; i < SimObject.gridColumns; i++) {
         const cellId = j + "-" + i;
         const targetCell = document.getElementById(cellId);
-        targetCell.style.backgroundColor = "#23333e"; // -> get the css style variables later
-      
+        targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
       }
-      
-    }
-      
+    } 
   }
 
   //# Render the simulation.
@@ -88,11 +103,11 @@ $(document).ready(function() {
           if (cell) {
             const cellId = j + "-" + i;
             const targetCell = document.getElementById(cellId);
-            targetCell.style.backgroundColor = "#B6C649"; // -> get the css style variables later
+            targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
           } else if (!cell) {
             const cellId = j + "-" + i;
             const targetCell = document.getElementById(cellId);
-            targetCell.style.backgroundColor = "#23333e"; // -> get the css style variables later
+            targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
           }
           i++;
         }
@@ -119,14 +134,9 @@ $(document).ready(function() {
         simObject.index = 0;
         simObject.running = false;
 
-        const startButton = document.getElementById("startButton");
-        startButton.disabled = false;
-
-        const newButton = document.getElementById("newButton");
-        newButton.disabled = false;
-
-        const stopButton = document.getElementById("stopButton");
-        stopButton.disabled = true;
+        ui.start.disabled = false;
+        ui.stop.disabled = true;
+        ui.new.disabled = false;
 
         console.log("Simulation Finished.")
       }
@@ -137,32 +147,25 @@ $(document).ready(function() {
   function fetchSimulation () {
     console.log("'fetchSimulation' function called.")
 
-    const startButton = document.getElementById("startButton");
-    startButton.disabled = true;
-    
+    ui.start.disabled = true;
+
     fetch(simDataEndpoint)
       .then((response) => response.json())
       .then((simulationData) => SimObject.genArray = simulationData)
       .then(() => {
-        const startButton = document.getElementById("startButton");
-        startButton.disabled = false;
+        ui.start.disabled = false;
       })
-      .then(() => console.log("'fetchSimulation Complete!"));
+      .then(() => console.log("'fetchSimulation complete!"));
   }
 
   // ## Button wrapper functions.
   function startAction () {
     console.log("'startAction' initiated.")
 
-    const startButton = document.getElementById("startButton");
-    startButton.disabled = true;
-
-    const newButton = document.getElementById("newButton");
-    newButton.disabled = true;
-
-    const stopButton = document.getElementById("stopButton");
-    stopButton.disabled = false;
-
+    ui.start.disabled = true;
+    ui.stop.disabled = false;
+    ui.new.disabled = true;
+    
     if (!SimObject.running) {
       console.log("SimObject is not running. Begin rendering.")
       renderSimulation(SimObject);
@@ -176,14 +179,9 @@ $(document).ready(function() {
   function stopAction () {
     console.log("'stopAction' initiated.")
 
-    const startButton = document.getElementById("startButton");
-    startButton.disabled = false;
-
-    const newButton = document.getElementById("newButton");
-    newButton.disabled = false;
-
-    const stopButton = document.getElementById("stopButton");
-    stopButton.disabled = true;
+    ui.start.disabled = false;
+    ui.stop.disabled = true;
+    ui.new.disabled = false;
 
     if (SimObject.running) {
       SimObject.paused = true;
@@ -193,7 +191,6 @@ $(document).ready(function() {
 
   function newAction () {
     console.log("'newAction' initiated.")
-    stopAction();
     clearSimulation();
     generation.innerHTML = "Gen";
     population.innerHTML = "Pop";

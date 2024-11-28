@@ -77,15 +77,15 @@ def updateNextGen(display):
 
 
 def countPopulation(matrix):
+    """
+    Counts the population of alive cells in a given matrix frame.
+    """
     pop = 0
     for row in matrix:
         for cell in row:
             if cell:
                 pop += 1
     return pop
-
-
-
 
 
 def printMatrix(matrix):
