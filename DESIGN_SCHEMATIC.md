@@ -19,8 +19,7 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 ### ++TODO List++
 
-- Running and Pausing the simulation.
-> We can currently run the simulation at a set size for a set number of iterations.
+- We can currently run the simulation at a set size for a set number of iterations.
 - Selecting from a library of pre-existing patterns.
 - Allowing the backend to process a sent simulation pattern.
 - Allowing the backend to process a "random" seed that would generate the same random initial grid everytime on every browser for every user (like minecraft seeds). 
@@ -35,14 +34,18 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 ## +KNOWN BUGS & NAIVE IMPLEMENTATIONS+
 
-> Clicking the start button more than once while the simulation is running causes a flickering effect. The simulation will try to display the simulation twice at the same time. We need to choke click input on the start button while the simulation is running.
-
 > The simulation can be sluggish in browser. We need to rework how the simulation is generated and displayed. We need to instead keep a running
 set list (i.e. unique elements) of alive cells, and only check and update the current list of alive cells and their neighbors, rather then running through the entire matrix of cells every frame. This requires rework on the backend and front end. Postpone this fix until more functionality is added.
 
 > The project files currently has a .venv and venv directory. We need to work out which one to keep and which one to scrap. We need to make sure that development is standardized between Travis' system, and Rob's Laptop and Desktop system.
 
 > The main development is still happening on the new-site-design branch. We need to work out the virtual envrionment issue before merging it back onto the master branch.
+
+## COMPLETED
+> Clicking the start button more than once while the simulation is running causes a flickering effect. The simulation will try to display the simulation twice at the same time. We need to choke click input on the start button while the simulation is running.
+
+> Running and Pausing the simulation.
+
 
 ## +NOTES+
 
