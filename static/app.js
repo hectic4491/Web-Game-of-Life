@@ -1,28 +1,28 @@
 $(document).ready(function() {
   //## Developer verify in the console that JavaScript is executing.
-  console.log("JavaScript is running")
+  console.log("JavaScript is running.")
 
 
   //## Custom classes for the web page
   class Simulation {
     // This singleton object will hold the data for our simulation.
     constructor() {
-      this.gridRows = 36;
-      this.gridColumns = 82;
-      this.name = NaN;
+      this.rows = 36;
+      this.columns = 82;
+      this.patternName = "Random";
       this.genArray = NaN;
-      this.running = false;
+      this.initiated = false;
       this.paused = false;
       this.pausedIndex = 0;
     }
 
     reset () {
-      console.log(`${this}.method 'reset' called.`);
-      this.gridRows = 36; 
-      this.gridColumns = 82;
-      this.name = NaN;
+      console.log(`Simulation.reset method called.`);
+      this.rows = 36; 
+      this.columns = 82;
+      this.patternName = "Random";
       this.genArray = NaN;
-      this.running = false;
+      this.initiated = false;
       this.paused = false;
       this.pausedIndex = 0;
     }
@@ -33,7 +33,9 @@ $(document).ready(function() {
     constructor () {
       // Control buttons
       this.start = document.getElementById("startButton");
+      this.start.disabled = true;
       this.stop = document.getElementById("stopButton");
+      this.stop.disabled = true;
       this.new = document.getElementById("newButton");
       this.select = document.getElementById("selectButton");
       this.draw = document.getElementById("drawButton");
@@ -42,46 +44,46 @@ $(document).ready(function() {
       this.display = document.getElementById("simulationField");
 
       // Simulation info
-      this.title = document.getElementById("simulationType");
+      this.patternName = document.getElementById("simulationType");
       this.population = document.getElementById("population");
       this.generation = document.getElementById("generation");
+      
+      // Header info
+      this.pageHeader = document.getElementById("header");
+      this.pageHeader.innerText = "Conway's Game of Life";
     }
   }
 
 
-  //## Initalize variables
-  const SimObject = new Simulation();
+  //## Initalize
+  const sim = new Simulation();
   const ui = new UserInterface();
-  ui.stop.disabled = true;
 
   fetchSimulation();
+  generateDisplay(sim);
 
-  const simulationField = document.getElementById("simulationField");
-  const generation = document.getElementById("population"); // Gen
-  const population = document.getElementById("generation"); // Pop
 
-  const pageHeader = document.getElementById("header");
-  pageHeader.innerText = "Conway's Game of Life";
+  //## Functions
+  //# Generate the display based off the simulation's dimensions.
+  function generateDisplay (sim) {
+    console.log("'generateDisplay' function called.")
 
-  //## Build the simulationField
-  const numRows = SimObject.gridRows; //TODO These numbers have to correspond to the styles.css repeat() declaration.
-  const numCols = SimObject.gridColumns; //TODO These numbers have to correspond to the styles.css repeat() declaration.
-  // for now, use 36x82 (or 82x36) as the test GenArray size. 
-  for (let i = 0; i < numRows; i++) {
-    for (let j = 0; j < numCols; j++) {
-      const gridCell = document.createElement('div');
-      gridCell.classList.add('gridCell');
-      gridCell.setAttribute('id', (String(i) + "-" + String(j)));
-      simulationField.appendChild(gridCell);
+    for (let i = 0; i < sim.rows; i++) {
+      for (let j = 0; j < sim.columns; j++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.setAttribute('id', (String(i) + "-" + String(j)));
+        ui.display.appendChild(cell);
+      }
     }
   }
 
-  //## Create functions
   //# Clear the simulation
   function clearSimulation () {
     console.log("'clearSimulation' function called.")
-    for (let j = 0; j < SimObject.gridRows; j++) {
-      for (let i = 0; i < SimObject.gridColumns; i++) {
+
+    for (let j = 0; j < sim.rows; j++) {
+      for (let i = 0; i < sim.columns; i++) {
         const cellId = j + "-" + i;
         const targetCell = document.getElementById(cellId);
         targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
@@ -90,10 +92,11 @@ $(document).ready(function() {
   }
 
   //# Render the simulation.
-  function renderSimulation (simObject) {
+  function renderSimulation (sim) {
     console.log("'renderSimulation' function called.")
-    const simulationData = simObject.genArray;
-    simObject.running = true;
+
+    const simulationData = sim.genArray;
+    sim.initiated = true;
 
     const renderFrame = (frame) => {
       let j = 0;
@@ -115,24 +118,24 @@ $(document).ready(function() {
       });
     }
 
-    let index = SimObject.pausedIndex;
+    let index = sim.pausedIndex;
 
     const intervalId = setInterval(() => {
       if (index < simulationData.length) {
-        if (!simObject.paused) {
+        if (!sim.paused) {
           renderFrame(simulationData[index][0]);
-          generation.innerText = `Gen: ${simulationData[index][1]}`;
-          population.innerText = `Pop: ${simulationData[index][2]}`;
+          ui.generation.innerText = `Gen: ${simulationData[index][1]}`;
+          ui.population.innerText = `Pop: ${simulationData[index][2]}`;
           index++;
         } else {
-          simObject.pausedIndex = index;
+          sim.pausedIndex = index;
           clearInterval(intervalId);
           console.log("Simulation Paused.");
         }
       } else {
         clearInterval(intervalId);
-        simObject.index = 0;
-        simObject.running = false;
+        sim.index = 0;
+        sim.initiated = false;
 
         ui.start.disabled = false;
         ui.stop.disabled = true;
@@ -151,11 +154,11 @@ $(document).ready(function() {
 
     fetch(simDataEndpoint)
       .then((response) => response.json())
-      .then((simulationData) => SimObject.genArray = simulationData)
+      .then((simulationData) => sim.genArray = simulationData)
       .then(() => {
         ui.start.disabled = false;
       })
-      .then(() => console.log("'fetchSimulation complete!"));
+      .then(() => console.log("'fetchSimulation' complete!"));
   }
 
   // ## Button wrapper functions.
@@ -166,13 +169,13 @@ $(document).ready(function() {
     ui.stop.disabled = false;
     ui.new.disabled = true;
     
-    if (!SimObject.running) {
-      console.log("SimObject is not running. Begin rendering.")
-      renderSimulation(SimObject);
-    } else if (SimObject.paused) {
-      console.log("SimObject is paused. Resume rendering.")
-      SimObject.paused = false;
-      renderSimulation(SimObject);
+    if (!sim.initiated) {
+      console.log("Initiating simulation. Begin rendering.")
+      renderSimulation(sim);
+    } else if (sim.paused) {
+      console.log("Simulation is paused. Resume rendering.")
+      sim.paused = false;
+      renderSimulation(sim);
     }
   }
 
@@ -183,8 +186,8 @@ $(document).ready(function() {
     ui.stop.disabled = true;
     ui.new.disabled = false;
 
-    if (SimObject.running) {
-      SimObject.paused = true;
+    if (sim.initiated) {
+      sim.paused = true;
       console.log("'stopAction' complete.")
     }
   }
@@ -192,16 +195,26 @@ $(document).ready(function() {
   function newAction () {
     console.log("'newAction' initiated.")
     clearSimulation();
-    generation.innerHTML = "Gen";
-    population.innerHTML = "Pop";
-    SimObject.reset();
+    ui.generation.innerHTML = "Gen";
+    ui.population.innerHTML = "Pop";
+    sim.reset();
     fetchSimulation();
     console.log("'newAction' complete.")
+  }
+
+  function selectAction () {
+    console.log("'selectAction' initiated. (This does nothing yet)")
+  }
+
+  function drawAction () {
+    console.log("'drawAction' initiated. (This does nothing yet)")
   }
 
   //## Attach wrapper functions to buttons.
   $("#startButton").click(() => startAction()); 
   $("#stopButton").click(() => stopAction());
   $("#newButton").click(() => newAction());
+  $("#selectButton").click(() => selectAction());
+  $("#drawButton").click(() => drawAction());
 
 });
