@@ -136,10 +136,18 @@ $(document).ready(function() {
   //# Fetch the simulation from the server.
   function fetchSimulation () {
     console.log("'fetchSimulation' function called.")
+
+    const startButton = document.getElementById("startButton");
+    startButton.disabled = true;
+    
     fetch(simDataEndpoint)
       .then((response) => response.json())
       .then((simulationData) => SimObject.genArray = simulationData)
-      .then(console.log("'fetchSimulation Complete!"));
+      .then(() => {
+        const startButton = document.getElementById("startButton");
+        startButton.disabled = false;
+      })
+      .then(() => console.log("'fetchSimulation Complete!"));
   }
 
   // ## Button wrapper functions.
