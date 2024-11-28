@@ -9,6 +9,7 @@ $(document).ready(function() {
     constructor() {
       this.rows = 36;
       this.columns = 82;
+      this.fps = 100; // Milliseconds; i.e.: 10fps
       this.patternName = "Random";
       this.genArray = NaN;
       this.initiated = false;
@@ -20,6 +21,7 @@ $(document).ready(function() {
       console.log(`Simulation.reset method called.`);
       this.rows = 36; 
       this.columns = 82;
+      this.fps = 100; // Milliseconds
       this.patternName = "Random";
       this.genArray = NaN;
       this.initiated = false;
@@ -66,6 +68,7 @@ $(document).ready(function() {
   //## Functions
   //# Generate the display based off the simulation's dimensions.
   function generateDisplay (sim) {
+    // TODO -> This function should be linked to the css #simulationField attributes
     console.log("'generateDisplay' function called.")
 
     for (let i = 0; i < sim.rows; i++) {
@@ -79,7 +82,7 @@ $(document).ready(function() {
   }
 
   //# Clear the simulation
-  function clearSimulation () {
+  function clearSimulation (sim) {
     console.log("'clearSimulation' function called.")
 
     for (let j = 0; j < sim.rows; j++) {
@@ -95,7 +98,7 @@ $(document).ready(function() {
   function renderSimulation (sim) {
     console.log("'renderSimulation' function called.")
 
-    const simulationData = sim.genArray;
+    const simData = sim.genArray;
     sim.initiated = true;
 
     const renderFrame = (frame) => {
@@ -118,14 +121,14 @@ $(document).ready(function() {
       });
     }
 
-    let index = sim.pausedIndex;
+    let index = sim.pausedIndex; // Defaults to 0 in a new simulation.
 
     const intervalId = setInterval(() => {
-      if (index < simulationData.length) {
+      if (index < simData.length) {
         if (!sim.paused) {
-          renderFrame(simulationData[index][0]);
-          ui.generation.innerText = `Gen: ${simulationData[index][1]}`;
-          ui.population.innerText = `Pop: ${simulationData[index][2]}`;
+          renderFrame(simData[index][0]);
+          ui.generation.innerText = `Gen: ${simData[index][1]}`;
+          ui.population.innerText = `Pop: ${simData[index][2]}`;
           index++;
         } else {
           sim.pausedIndex = index;
@@ -134,7 +137,7 @@ $(document).ready(function() {
         }
       } else {
         clearInterval(intervalId);
-        sim.index = 0;
+        sim.pausedIndex = 0;
         sim.initiated = false;
 
         ui.start.disabled = false;
@@ -143,23 +146,22 @@ $(document).ready(function() {
 
         console.log("Simulation Finished.")
       }
-    }, 100);
+    }, sim.fps);
   }
 
   //# Fetch the simulation from the server.
   function fetchSimulation () {
     console.log("'fetchSimulation' function called.")
 
-    ui.start.disabled = true;
-
     fetch(simDataEndpoint)
       .then((response) => response.json())
-      .then((simulationData) => sim.genArray = simulationData)
+      .then((simData) => sim.genArray = simData)
       .then(() => {
         ui.start.disabled = false;
       })
       .then(() => console.log("'fetchSimulation' complete!"));
   }
+
 
   // ## Button wrapper functions.
   function startAction () {
@@ -172,6 +174,7 @@ $(document).ready(function() {
     if (!sim.initiated) {
       console.log("Initiating simulation. Begin rendering.")
       renderSimulation(sim);
+      
     } else if (sim.paused) {
       console.log("Simulation is paused. Resume rendering.")
       sim.paused = false;
@@ -194,9 +197,11 @@ $(document).ready(function() {
 
   function newAction () {
     console.log("'newAction' initiated.")
-    clearSimulation();
+
+    ui.start.disabled = true;
     ui.generation.innerHTML = "Gen";
     ui.population.innerHTML = "Pop";
+    clearSimulation(sim);
     sim.reset();
     fetchSimulation();
     console.log("'newAction' complete.")
