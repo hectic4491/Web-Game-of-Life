@@ -4,7 +4,6 @@ class GenArray():
     def __init__(self, display_size, steps):
             self.display_size = display_size    #(w, h)
             self.steps = steps
-            self.genArray = list()
 
             # generate the display matrix
             self.display = sf.generateDisplay(self.display_size)
@@ -14,8 +13,21 @@ class GenArray():
 
             # append each genMatrix to genArray
             self.genArray = list()
-            for _ in range(steps):
+            for i in range(steps):
+                subArray = list()
+
+                # write matrix
                 genMatrix = sf.writeMatrix(self.display)
-                self.genArray.append(genMatrix)
+                subArray.append(genMatrix)
+
+                # write generation
+                subArray.append(i + 1) # gen starts at 1.
+
+                # write population
+                population = sf.countPopulation(genMatrix)
+                subArray.append(population)
+
                 sf.determineNextGen(self.display)
                 sf.updateNextGen(self.display)
+
+                self.genArray.append(subArray)

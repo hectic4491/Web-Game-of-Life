@@ -37,8 +37,6 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 > Clicking the start button more than once while the simulation is running causes a flickering effect. The simulation will try to display the simulation twice at the same time. We need to choke click input on the start button while the simulation is running.
 
-
-
 > The simulation can be sluggish in browser. We need to rework how the simulation is generated and displayed. We need to instead keep a running
 set list (i.e. unique elements) of alive cells, and only check and update the current list of alive cells and their neighbors, rather then running through the entire matrix of cells every frame. This requires rework on the backend and front end. Postpone this fix until more functionality is added.
 

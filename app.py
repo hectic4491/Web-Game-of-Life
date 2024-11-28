@@ -32,7 +32,6 @@ def simulation():
 #
 @app.route("/home")
 def home():
-  #GenArray([36, 82], 100).genArray
   return render_template("home.html")
 
 @app.route('/simdata')

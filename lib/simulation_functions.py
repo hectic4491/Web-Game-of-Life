@@ -76,6 +76,18 @@ def updateNextGen(display):
             display[j][i].updateState()
 
 
+def countPopulation(matrix):
+    pop = 0
+    for row in matrix:
+        for cell in row:
+            if cell:
+                pop += 1
+    return pop
+
+
+
+
+
 def printMatrix(matrix):
     """
     Testing function to print a matrix.
