@@ -7,12 +7,11 @@ $(document).ready(function() {
   class Simulation {
     // This singleton object will hold the data for our simulation.
     constructor() {
-      this.rows = 36;
-      this.columns = 82;
+      this.rows = 36; // TODO: Make this dependant on users window
+      this.columns = 82; // TODO: Make this dependant on users window
       this.fps = 100; // Milliseconds; i.e.: 10fps
       this.patternName = "Random";
       this.genArray = NaN;
-      this.initiated = false;
       this.paused = false;
       this.pausedIndex = 0;
     }
@@ -21,10 +20,9 @@ $(document).ready(function() {
       console.log(`Simulation.reset method called.`);
       this.rows = 36; 
       this.columns = 82;
-      this.fps = 100; // Milliseconds
+      this.fps = 100;
       this.patternName = "Random";
       this.genArray = NaN;
-      this.initiated = false;
       this.paused = false;
       this.pausedIndex = 0;
     }
@@ -99,7 +97,6 @@ $(document).ready(function() {
     console.log("'renderSimulation' function called.")
 
     const simData = sim.genArray;
-    sim.initiated = true;
 
     const renderFrame = (frame) => {
       let j = 0;
@@ -138,7 +135,6 @@ $(document).ready(function() {
       } else {
         clearInterval(intervalId);
         sim.pausedIndex = 0;
-        sim.initiated = false;
 
         ui.start.disabled = false;
         ui.stop.disabled = true;
@@ -171,11 +167,11 @@ $(document).ready(function() {
     ui.stop.disabled = false;
     ui.new.disabled = true;
     
-    if (!sim.initiated) {
-      console.log("Initiating simulation. Begin rendering.")
-      renderSimulation(sim);
-      
-    } else if (sim.paused) {
+    if (!sim.paused) {
+    console.log("Initiating simulation. Begin rendering.")
+    renderSimulation(sim);
+
+    } else {
       console.log("Simulation is paused. Resume rendering.")
       sim.paused = false;
       renderSimulation(sim);
@@ -185,14 +181,13 @@ $(document).ready(function() {
   function stopAction () {
     console.log("'stopAction' initiated.")
 
+    sim.paused = true;
+
     ui.start.disabled = false;
     ui.stop.disabled = true;
     ui.new.disabled = false;
 
-    if (sim.initiated) {
-      sim.paused = true;
-      console.log("'stopAction' complete.")
-    }
+    console.log("'stopAction' complete.")
   }
 
   function newAction () {
