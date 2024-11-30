@@ -1,7 +1,9 @@
-"""Flask is our WSGI framework"""
+"""Flask is our WSGI framework.
+lib.main is our backend processes"""
 
 from flask import Flask, render_template, jsonify
-from lib.main import GenArray
+from lib.simulation import Simulation
+
 
 app = Flask(__name__)
 
@@ -22,7 +24,7 @@ def simdata():
     """
     # number of columns, i.e. length of a row = 82
     # number of rows, i.e length of a column = 36
-    data = GenArray([82, 36], 300).gen_array
+    data = Simulation(height = 36, width= 82, steps = 100).render_data
     return jsonify(data)
 
 
