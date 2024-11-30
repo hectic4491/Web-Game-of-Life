@@ -9,7 +9,7 @@
  levels of scope as JavaScript, but javascript seems to be more
  event focused. i.e.: A lot of the code we write is event based.
  Meaning a lot of arguments we pass are simply the "effect" of 
- the outer functions "cause". e.g.: The first function call we
+ the outer function's "cause". e.g.: The first function call we
  define is accessing the $(document) object that is created to
  represent the entire DOM. This object is made available as soon
  as the jQuery library is loaded from app.html.

@@ -6,28 +6,28 @@ class GenArray():
             self.steps = steps
 
             # generate the display matrix
-            self.grid = sf.generateGrid(self.grid_size)
+            self.grid = sf.generate_grid(self.grid_size)
 
             # initialize the alive/dead state of each cell
-            sf.randomizeInitialAliveCells(self.grid)
+            sf.randomize_initial_alive_cells(self.grid)
 
             # append each genMatrix to genArray
-            self.genArray = list()
+            self.gen_array = list()
             for i in range(steps):
-                subArray = list()
+                sub_array = list()
 
                 # write matrix
-                genMatrix = sf.writeMatrix(self.grid)
-                subArray.append(genMatrix)
+                gen_matrix = sf.write_matrix(self.grid)
+                sub_array.append(gen_matrix)
 
                 # write generation
-                subArray.append(i + 1) # gen starts at 1.
+                sub_array.append(i + 1) # gen starts at 1.
 
                 # write population
-                population = sf.countPopulation(genMatrix)
-                subArray.append(population)
+                population = sf.count_population(gen_matrix)
+                sub_array.append(population)
 
-                sf.determineNextGen(self.grid)
-                sf.updateNextGen(self.grid)
+                sf.determine_next_gen(self.grid)
+                sf.update_next_gen(self.grid)
 
-                self.genArray.append(subArray)
+                self.gen_array.append(sub_array)

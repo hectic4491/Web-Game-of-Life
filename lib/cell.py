@@ -1,63 +1,88 @@
+"""The Cell module."""
+import numpy as np
+
+
 class Cell():
+    """A class used to represent the cells in Conway's Game of Life.
+    Cells are stored in a grid and intended to be iterated through 
+    generations. Each generation determines the grid of cell's next
+    state.
+
+    ...
+
+    Attributes
+    ----------
+    alive : boolean
+        a boolean to determine the current state of a cell.
+        alive = true, dead = false.
+    next_state : boolean
+        a boolean to determine the next state of a cell.
+    neighbors_list : array
+        an array of the 8 neighboring cells around an individal cell.
+    """
 
     def __init__(self):
-        self.alive = False   # alive = True, dead = False
-        self.neighbors = []  # list of neighbor cells
-        self.nextState = None
+        self.alive = False
+        self.next_state = False
+        self.neighbors = np.empty(8, dtype=object)
 
 
-    def makeAlive(self):
+    def make_alive(self):
         """
-        Sets the cell object's 'alive' attribute to True.
+        Sets the cell's 'alive' boolean attribute to True.
         """
         self.alive = True
 
 
-    def makeDead(self):
+    def make_dead(self):
         """
-        Sets the cell object's 'alive' attribute to False.
+        Sets the cell's 'alive' boolean attribute to False.
         """
         self.alive = False
 
 
-    def determineNextState(self):
+    def determine_next_state(self):
         """
-        Determines the cell object's 'nextState' attribute by\n
-        reading the 'alive' attribute of neighboring cells.
-        """
-        #   > Any Live cell with fewer than two live neighbors dies (underpopulation)
-        #   > Any Live cell with two or three live neighbors lives on to the next generator (equilibrium)
-        #   > Any Live cell with more than three live neighbors dies (overpopulation)
-        #   > Any Dead cell with exactly three live neighbors becomes a live cell (reproduction)
-        liveNeighbors = int()
-        isAlive = self.alive
-
-        for neighbors in self.neighbors:
-            if neighbors.alive:
-                liveNeighbors += 1
+        Determines the cells 'next_state' boolean attribute by reading
+        the 'alive' attribute of neighboring cells and running Conway's
+        Game of Life algorithm:
         
-        if isAlive:
-            if liveNeighbors < 2:
-                self.nextState = False
+        Any alive cell with fewer than two alive neighbors dies
+           (underpopulation).
+        Any alive cell with two or three alive neighbors lives on to
+           the next gen (equilibrium).
+        Any alive cell with more than three alive neighbors dies
+           (overpopulation).
+        Any dead cell with exactly three alive neighbors becomes an
+           alive cell (reproduction).
+        """
+        alive_neighbors = int()
 
-            elif liveNeighbors == 2 or liveNeighbors == 3:
-                self.nextState = True
+        for neighbor in self.neighbors:
+            if neighbor.alive:
+                alive_neighbors += 1
+
+        if self.alive:
+            if alive_neighbors < 2:
+                self.next_state = False
+
+            elif alive_neighbors in (2, 3):
+                self.next_state = True
 
             else:
-                self.nextState = False
+                self.next_state = False
 
         else:
-            if liveNeighbors == 3:
-                self.nextState = True
+            if alive_neighbors == 3:
+                self.next_state = True
 
 
-    def updateState(self):
+    def update_state(self):
+        """Uses the cell attribute 'next_state' to update the cell's
+        attribute 'alive' by calling either the .make_alive() or
+        .make_dead() method. 
         """
-        Uses the cell object's stored attribute 'nextState' to\n
-        update the cell's stored attribute 'alive' by\n
-        calling either the makeAlive or makeDead method. 
-        """
-        if self.nextState:
-            self.makeAlive()
+        if self.next_state:
+            self.make_alive()
         else:
-            self.makeDead()
+            self.make_dead()
