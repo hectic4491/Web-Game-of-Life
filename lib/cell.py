@@ -1,31 +1,23 @@
 class Cell():
 
-    ALIVE = "\u25A0"
-    DEAD = "\u00B7"
-
     def __init__(self):
         self.alive = False   # alive = True, dead = False
         self.neighbors = []  # list of neighbor cells
-        self.character = Cell.DEAD
         self.nextState = None
 
 
     def makeAlive(self):
         """
-        Sets the cell object's 'alive' attribute to True and\n
-        sets the 'character' attribute to the ALIVE graphic.
+        Sets the cell object's 'alive' attribute to True.
         """
         self.alive = True
-        self.character = Cell.ALIVE
 
 
     def makeDead(self):
         """
-        Sets the cell object's 'alive' attribute to False and\n
-        sets the 'character' attribute to the DEAD graphic.
+        Sets the cell object's 'alive' attribute to False.
         """
         self.alive = False
-        self.character = Cell.DEAD
 
 
     def determineNextState(self):
@@ -69,8 +61,3 @@ class Cell():
             self.makeAlive()
         else:
             self.makeDead()
-
-    @classmethod
-    def setGraphics(cls, simulation):
-        cls.ALIVE = simulation.GRAPHICS["Alive"]
-        cls.DEAD = simulation.GRAPHICS["Dead"]

@@ -1,0 +1,145 @@
+:root {
+	--color-white: #FFFFFF;
+	--color-background: #C1C1C1;
+	--color-start-button: #B6C649;
+	--color-stop-button: #D16666;
+	--color-simulation-field: #2C4251;
+	--color-page-border: #2C4251;
+	--color-control-border: #2C4251;
+	--color-dead-cell: #23333e;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 32px;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+}
+
+#header {
+	background-color: var(--color-background);
+	border: 0.5rem solid var(--color-page-border);
+	min-height: 8vh;
+	
+	/* These help to center the text */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.body {
+	display: flex;
+	height: 100vh;
+}
+
+.sub-container {
+	background-color: var(--color-background);
+	padding: 0.5rem;
+}
+
+.control-panel {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	border: 0.5rem solid var(--color-page-border);
+	border-top: 0;
+}
+
+.button-container{
+	width: 100%;
+	min-width: 6rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0;
+}
+
+.button {
+	font-size: 1rem;
+	background-color: var(--color-white);
+	padding: 0.5rem;
+	margin: 0.5rem;
+	width: 100%;
+
+	cursor: pointer;
+
+	border: 3px solid var(--color-control-border);
+	border-radius: 5px;
+}
+
+.button:active {
+	background-color: var(--color-background) !important;
+}
+
+#startButton {
+	margin-top: 0;
+	background-color: var(--color-start-button);
+}
+
+#stopButton {
+	background-color: var(--color-stop-button);
+}
+
+.label-container {
+	font-family: sans-serif;
+	font-size: 1rem;
+	background-color: var(--color-white);
+	min-width: 6rem;
+
+	text-align: center;
+
+	border: 3px solid var(--color-control-border);
+	border-radius: 5px;
+	}
+
+.simulation-container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border: 0.5rem solid var(--color-page-border);
+	border-top: 0;
+	border-left: 0;
+}
+
+#simulationType {
+	margin: 0.5rem;
+}
+
+#population {
+	margin: 0.5rem;
+}
+
+#simulationField {
+	background-color: var(--color-simulation-field);
+	width: 100%;
+	height: 100%;
+
+	/*This is for the Simulation*/
+	display: grid;
+	grid-template-rows: repeat(36, 16px);
+	grid-template-columns: repeat(82, 16px);
+
+	/*This is to center the gridCells*/
+	justify-content: center;
+	align-items: center;
+
+	justify-items: center;
+	align-content: center;
+}
+
+.cell {
+	background-color: var(--color-dead-cell);
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--color-control-border);
+}
