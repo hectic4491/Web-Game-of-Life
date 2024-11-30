@@ -20,6 +20,8 @@ def simdata():
     """Data URL
     Used to retrieve Simulation Data.
     """
+    # number of columns, i.e. length of a row = 82
+    # number of rows, i.e length of a column = 36
     data = GenArray([82, 36], 300).gen_array
     return jsonify(data)
 

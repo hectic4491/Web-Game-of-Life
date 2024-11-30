@@ -17,7 +17,7 @@ class Cell():
         alive = true, dead = false.
     next_state : boolean
         a boolean to determine the next state of a cell.
-    neighbors_list : array
+    neighbors_list : numpy array
         an array of the 8 neighboring cells around an individal cell.
     """
 

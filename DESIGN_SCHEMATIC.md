@@ -19,6 +19,9 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 ### ++TODO List++
 
+
+- Use Numpy on the backend to utilize arrays.
+
 - We can currently run the simulation at a set size for a set number of iterations.
 - Selecting from a library of pre-existing patterns.
 - Allowing the backend to process a sent simulation pattern.
