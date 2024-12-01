@@ -159,6 +159,9 @@ class Simulation ():
                     n += 1
                 # n will also tell us the population count of that gen.
 
+        gen_data["population"] = n
+        gen_data["generation"] = step
+
         if step == 0:
             gen_data["alive"] = list(all_alive)
             gen_data["dead"] = []
@@ -167,19 +170,16 @@ class Simulation ():
             # Let A be generation N's set of alive cell's coordinates.
             # Let B be generation N-1's set of alive cell's coordinates.
             # Then:
-            # A ∩ B is the set of cells that remain alive.
+            # A ∩ B is the set of cells that remain alive. (no update)
             #
-            # A - B is the set of cells that became alive.
+            # A - B is the set of cells that became alive. (update)
             #
-            # B - A is the set of cells that became dead.
+            # B - A is the set of cells that became dead. (update)
 
             # A - B
             gen_data["alive"] = all_alive - set(self.render_data[step-1]["alive"])
             # B - A
             gen_data["dead"] = set(self.render_data[step-1]["alive"]) - all_alive
-
-        gen_data["population"] = n
-        gen_data["generation"] = step
 
         return gen_data
 
