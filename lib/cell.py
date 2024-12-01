@@ -56,7 +56,7 @@ class Cell():
         Any dead cell with exactly three alive neighbors becomes an
            alive cell (reproduction).
         """
-        alive_neighbors = int()
+        alive_neighbors = 0
 
         for neighbor in self.neighbors:
             if neighbor.alive:
@@ -66,7 +66,7 @@ class Cell():
             if alive_neighbors < 2:
                 self.next_state = False
 
-            elif alive_neighbors in (2, 3):
+            elif alive_neighbors == 2 or  alive_neighbors == 3:
                 self.next_state = True
 
             else:

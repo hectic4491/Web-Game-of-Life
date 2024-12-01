@@ -7,22 +7,22 @@ $(document).ready(function() {
   class Simulation {
     // This singleton object will hold the data for our simulation.
     constructor() {
-      this.rows = 36; // TODO: Make this dependant on users window
-      this.columns = 82; // TODO: Make this dependant on users window
+      this.height = 36; // TODO: Make this dependant on users window
+      this.width = 82; // TODO: Make this dependant on users window
       this.fps = 100; // Milliseconds; i.e.: 10fps
       this.patternName = "Random";
-      this.genArray = NaN;
+      this.renderData = NaN;
       this.paused = false;
       this.pausedIndex = 0;
     }
 
     reset () {
       console.log(`Simulation.reset method called.`);
-      this.rows = 36; 
-      this.columns = 82;
+      this.height = 36; 
+      this.width = 82;
       this.fps = 100;
       this.patternName = "Random";
-      this.genArray = NaN;
+      this.renderData = NaN;
       this.paused = false;
       this.pausedIndex = 0;
     }
@@ -59,18 +59,18 @@ $(document).ready(function() {
   const sim = new Simulation();
   const ui = new UserInterface();
 
-  fetchSimulation();
+  fetchSimulation(sim);
   generateDisplay(sim);
 
 
   //## Functions
   //# Generate the display based off the simulation's dimensions.
-  function generateDisplay (sim) {
+  function generateDisplay (simulation) {
     // TODO -> This function should be linked to the css #simulationField attributes
     console.log("'generateDisplay' function called.")
 
-    for (let i = 0; i < sim.rows; i++) {
-      for (let j = 0; j < sim.columns; j++) {
+    for (let i = 0; i < simulation.height; i++) {
+      for (let j = 0; j < simulation.width; j++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
         cell.setAttribute('id', (String(i) + "-" + String(j)));
@@ -80,11 +80,11 @@ $(document).ready(function() {
   }
 
   //# Clear the simulation
-  function clearSimulation (sim) {
+  function clearSimulation (simulation) {
     console.log("'clearSimulation' function called.")
 
-    for (let j = 0; j < sim.rows; j++) {
-      for (let i = 0; i < sim.columns; i++) {
+    for (let j = 0; j < simulation.height; j++) {
+      for (let i = 0; i < simulation.width; i++) {
         const cellId = j + "-" + i;
         const targetCell = document.getElementById(cellId);
         targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
@@ -93,48 +93,66 @@ $(document).ready(function() {
   }
 
   //# Render the simulation.
-  function renderSimulation (sim) {
+  function renderSimulation (simulation) {
     console.log("'renderSimulation' function called.")
 
-    const simData = sim.genArray;
+    const renderData = simulation.renderData;
 
-    const renderFrame = (frame) => {
-      let j = 0;
-      frame.forEach((row) => {
-        let i = 0;
-        for (const cell of row) {
-          if (cell) {
-            const cellId = j + "-" + i;
-            const targetCell = document.getElementById(cellId);
-            targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
-          } else if (!cell) {
-            const cellId = j + "-" + i;
-            const targetCell = document.getElementById(cellId);
-            targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
-          }
-          i++;
-        }
-        j++;
+    const renderFrame = (aliveList, deadList) => {
+      aliveList.forEach((cell) => {
+        console.log(cell);
+        let [j, i] = cell;
+        const cellId = j + "-" + i;
+        const targetCell = document.getElementById(cellId);
+        targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
       });
-    }
 
-    let index = sim.pausedIndex; // Defaults to 0 in a new simulation.
+      deadList.forEach((cell) => {
+        console.log(cell);
+        let [j, i] = cell;
+        const cellId = j + "-" + i;
+        const targetCell = document.getElementById(cellId);
+        targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
+      });
+    };
+    // const renderFrame = (alive, dead) => {
+    //   let j = 0;
+    //   frame.forEach((row) => {
+    //     let i = 0;
+    //     for (const cell of row) {
+    //       if (cell) {
+    //         const cellId = j + "-" + i;
+    //         const targetCell = document.getElementById(cellId);
+    //         targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
+    //       } else if (!cell) {
+    //         const cellId = j + "-" + i;
+    //         const targetCell = document.getElementById(cellId);
+    //         targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
+    //       }
+    //       i++;
+    //     }
+    //     j++;
+    //   });
+    // }
+
+    let index = simulation.pausedIndex; // Defaults to 0 in a new simulation.
 
     const intervalId = setInterval(() => {
-      if (index < simData.length) {
+      if (index < renderData.length) {
         if (!sim.paused) {
-          renderFrame(simData[index][0]);
-          ui.generation.innerText = `Gen: ${simData[index][1]}`;
-          ui.population.innerText = `Pop: ${simData[index][2]}`;
+          renderFrame(aliveList = renderData[index]['alive'],
+                      deadList = renderData[index]['dead']);
+          ui.generation.innerText = `Gen: ${renderData[index]['generation']}`;
+          ui.population.innerText = `Pop: ${renderData[index]['population']}`;
           index++;
         } else {
-          sim.pausedIndex = index;
+          simulation.pausedIndex = index;
           clearInterval(intervalId);
           console.log("Simulation Paused.");
         }
       } else {
         clearInterval(intervalId);
-        sim.pausedIndex = 0;
+        simulation.pausedIndex = 0;
 
         ui.start.disabled = false;
         ui.stop.disabled = true;
@@ -146,16 +164,16 @@ $(document).ready(function() {
   }
 
   //# Fetch the simulation from the server.
-  function fetchSimulation () {
+  function fetchSimulation (simulation) {
     console.log("'fetchSimulation' function called.")
 
-    fetch(simDataEndpoint)
+    fetch('/simdata')
       .then((response) => response.json())
-      .then((simData) => sim.genArray = simData)
-      .then(() => {
+      .then((renderData) => {
+        simulation.renderData = renderData;
         ui.start.disabled = false;
+        console.log("'fetchSimulation' complete!");
       })
-      .then(() => console.log("'fetchSimulation' complete!"));
   }
 
 
@@ -198,7 +216,7 @@ $(document).ready(function() {
     ui.population.innerHTML = "Pop";
     clearSimulation(sim);
     sim.reset();
-    fetchSimulation();
+    fetchSimulation(sim);
     console.log("'newAction' complete.")
   }
 
