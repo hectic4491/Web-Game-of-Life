@@ -66,7 +66,7 @@ class Cell():
             if alive_neighbors < 2:
                 self.next_state = False
 
-            elif alive_neighbors == 2 or  alive_neighbors == 3:
+            elif alive_neighbors == 2 or alive_neighbors == 3:
                 self.next_state = True
 
             else:

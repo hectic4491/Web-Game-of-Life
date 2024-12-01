@@ -79,39 +79,36 @@ class Simulation ():
         # Build the new_alive and new_dead sets to replace the
         # render_data['alive'] and render_data['dead'] values.
         #
-        #
         # Let A be generation N's set of alive cell's coordinates.
         # Let B be generation N-1's set of alive cell's coordinates.
         # Then:
         #   A ∩ B is the set of cells that remain alive. (no update)
-        # 
+        #
         #   A - B is the set of cells that became alive. (update)
-        # 
+        #
         #   B - A is the set of cells that became dead. (update)
-        #
-        #
+
+        for i in range(1, steps):
+            previous_alive = set(map(tuple, self.render_data[i-1]['alive']))
+            current_alive = set(map(tuple, self.render_data[i]['alive']))
+
+            new_alive = current_alive.difference(previous_alive)
+            new_dead = previous_alive.difference(current_alive)
+
+            self.render_data[i]['alive'] = list(new_alive)
+            self.render_data[i]['dead'] = list(new_dead)
+
+            # # A - B
+            # gen_data['alive'] = gen_data['alive'].difference(self.render_data[i - 1]['alive'])
+            # # B - A
+            # gen_data['dead'] = self.render_data[i - 1]['alive'].difference(gen_data['alive'])
+
+        # Typecast to JSON legal data types.
         for gen_data in self.render_data:
-            n = 0
-        # A - B
-        gen_data['alive'] = gen_data['alive'] #.difference( previous gen_data['alive'] )
-        # B - A
-        gen_data['dead'] = # previous gen_data['alive'] .difference( gen_data['alive'] )
-        # # Let A be generation N's set of alive cell's coordinates.
-        # # Let B be generation N-1's set of alive cell's coordinates.
-        # # Then:
-        # # A ∩ B is the set of cells that remain alive. (no update)
-        # #
-        # # A - B is the set of cells that became alive. (update)
-        # #
-        # # B - A is the set of cells that became dead. (update)
-            
+            gen_data['alive'] = [list(indices) for indices in gen_data['alive']]
+            gen_data['dead'] = [list(indices) for indices in gen_data['dead']]
 
-        # # Typecast to JSON legal data type: list.
-        # self.render_data = self.render_data.tolist()
-        # for data in self.render_data:
-        #     data['alive'] = [list(element) for element in data['alive']]
-        #     data['dead'] = [list(element) for element in data['dead']]
-
+        self.render_data = list(self.render_data)
 
 
     ## Internal functions to aid object construction.
@@ -168,8 +165,7 @@ class Simulation ():
         """
 
         for cell in self._grid.flat:
-            random_roll = randint(1, roll_upper_limit)
-            if random_roll == 1:
+            if randint(1, roll_upper_limit) == 1:
                 cell.make_alive()
 
 
@@ -177,28 +173,18 @@ class Simulation ():
         """Writes the generation data to a data object.
         """
 
-        gen_data = {"alive": None,
-                    "dead": None,
-                    "population": None,
-                    "generation": None}
-        
-        all_alive = set()
-        all_dead = set()
-
-        n = 0
+        gen_data = {"alive": [],
+                    "dead": [],
+                    "population": 0,
+                    "generation": step}
+       
         for j in range(self._height):
             for i in range(self._width):
                 if self._grid[j, i].alive:
-                    all_alive.add((j, i))
-                    n += 1
-                    # n will also tell us the population count of that gen.
+                    gen_data['alive'].append((j, i))
+                    gen_data['population'] += 1
                 else:
-                    all_dead.add((j, i))
-
-        gen_data["population"] = n
-        gen_data["generation"] = step
-        gen_data["alive"] = all_alive
-        gen_data["dead"] = all_dead
+                    gen_data['dead'].append((j, i))
         return gen_data
 
     # # Let A be generation N's set of alive cell's coordinates.
@@ -239,9 +225,21 @@ class Simulation ():
 ## Testing Code ##
 if __name__ == '__main__':
     myData = Simulation(height = 8, width = 16, steps = 10)
+    print(type(myData.render_data))
+    print(type(myData.render_data[0]))
     print(type(myData.render_data[0]['alive']))
+    print(type(myData.render_data[0]['alive']))
+    print(type(myData.render_data[0]['alive'][0]))
+
     print(type(myData.render_data[0]['dead']))
-    # print(myData.render_data[1])
+    print(type(myData.render_data[0]['dead']))
+    print(type(myData.render_data[0]['alive'][0]))
+
+    print(type(myData.render_data[0]['generation']))
+    print(type(myData.render_data[0]['population']))
+
+    print(myData.render_data[0])
+
     # print(myData.render_data[2])
     # print(myData.render_data[3])
     # print(myData.render_data[4])

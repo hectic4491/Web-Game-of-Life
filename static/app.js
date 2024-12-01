@@ -93,26 +93,35 @@ $(document).ready(function() {
   }
 
   //# Render the simulation.
-  function renderSimulation (simulation) {
+  const renderSimulation = (simulation) => {
     console.log("'renderSimulation' function called.")
 
     const renderData = simulation.renderData;
 
     const renderFrame = (aliveList, deadList) => {
       aliveList.forEach((cell) => {
-        console.log(cell);
+        console.log("Alive cell:", cell);
         let [j, i] = cell;
-        const cellId = j + "-" + i;
+        const cellId = `${j}-${i}`;
         const targetCell = document.getElementById(cellId);
-        targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
+        if(targetCell) {
+          targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
+        } else {
+          console.warn(`Alive cell with ID ${cellId} not found.`);
+        }
       });
 
       deadList.forEach((cell) => {
+        console.log("Dead cell:", cell);
         console.log(cell);
         let [j, i] = cell;
-        const cellId = j + "-" + i;
+        const cellId = `${j}-${i}`;
         const targetCell = document.getElementById(cellId);
-        targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
+        if (targetCell) {
+          targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
+        } else {
+          console.warn(`Dead cell with ID ${cellId} not found.`);
+        }
       });
     };
     // const renderFrame = (alive, dead) => {
