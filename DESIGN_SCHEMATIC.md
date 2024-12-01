@@ -57,12 +57,12 @@ set list (i.e. unique elements) of alive cells, and only check and update the cu
 >                   B - A  :  i.e. "The elements in B that are not in A."
 >                   
 >                   Let A be generation N's set of alive cell's coordinates.
->                   Let B be generation N+1's set of alive cell's coordinates.
+>                   Let B be generation N-1's set of alive cell's coordinates.
 >
 >                   Then:
 >                     A ∩ B is the set of cells that stay alive. Therefore, no need to update.
->                     A - B is the set of cells that have died. Therefore, we need to update the background color as "dead".
->                     B - A is the set of cells that have come alive. Therefore, we need to update the background color as "alive".
+>                     A - B is the set of cells that become alive. Therefore, we need to update the background color as "alive".
+>                     B - A is the set of cells that become dead. Therefore, we need to update the background color as "dead".
 >                   
 >                   Thus, we've removed redundancy. We now access only the exact cells that need to be updated every frame.
 >
