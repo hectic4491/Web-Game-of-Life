@@ -37,8 +37,18 @@ $(document).ready(function() {
       this.stop = document.getElementById("stopButton");
       this.stop.disabled = true;
       this.new = document.getElementById("newButton");
+      this.new.disabled = true;
       this.select = document.getElementById("selectButton");
+      this.select.disabled = true;
       this.draw = document.getElementById("drawButton");
+      this.draw.disabled = true;
+
+      // Select Type container
+      this.typeContainer = document.getElementById("type-container");
+      this.typeContainer.style.visibility = "hidden";
+      this.selectToggle = 0;
+
+      // Select Type buttons
 
       // Simulation display
       this.display = document.getElementById("simulationField");
@@ -128,6 +138,8 @@ $(document).ready(function() {
         ui.start.disabled = false;
         ui.stop.disabled = true;
         ui.new.disabled = false;
+        ui.select.disabled = false;
+        ui.draw.disabled = false;
 
         console.log("Simulation Finished.")
       }
@@ -143,6 +155,9 @@ $(document).ready(function() {
       .then((renderData) => {
         simulation.renderData = renderData;
         ui.start.disabled = false;
+        ui.new.disabled = false;
+        ui.select.disabled = false;
+        ui.draw.disabled = false;
         console.log("'fetchSimulation' complete!");
       })
   }
@@ -155,6 +170,8 @@ $(document).ready(function() {
     ui.start.disabled = true;
     ui.stop.disabled = false;
     ui.new.disabled = true;
+    ui.select.disabled = true;
+    ui.draw.disabled = true;
     
     if (!sim.paused) {
     console.log("Initiating simulation. Begin rendering.")
@@ -175,6 +192,8 @@ $(document).ready(function() {
     ui.start.disabled = false;
     ui.stop.disabled = true;
     ui.new.disabled = false;
+    ui.select.disabled = false;
+    ui.draw.disabled = false;
 
     console.log("'stopAction' complete.")
   }
@@ -183,6 +202,10 @@ $(document).ready(function() {
     console.log("'newAction' initiated.")
 
     ui.start.disabled = true;
+    ui.new.disabled = true;
+    ui.select.disabled = true;
+    ui.draw.disabled = true;
+    
     ui.generation.innerHTML = "Gen";
     ui.population.innerHTML = "Pop";
     clearSimulation(ui);
@@ -192,11 +215,31 @@ $(document).ready(function() {
   }
 
   function selectAction () {
-    console.log("'selectAction' initiated. (This does nothing yet)")
+    if (ui.selectToggle == 0) {
+      ui.selectToggle = 1;
+      ui.start.disabled = true;
+      ui.new.disabled = true;
+      ui.draw.disabled = true;
+      ui.typeContainer.style.visibility = "visible";
+      console.log("'selectAction' initiated. Showing the select menu");
+    }
+    else if (ui.selectToggle == 1) {
+      ui.selectToggle = 0;
+      ui.start.disabled = false;
+      ui.new.disabled = false;
+      ui.draw.disabled = false;
+      ui.typeContainer.style.visibility = "hidden";
+      console.log("'selectAction' initiated. Hiding the select menu");
+    }
   }
 
   function drawAction () {
     console.log("'drawAction' initiated. (This does nothing yet)")
+  }
+
+  function fetchPattern(pattern) {
+    
+    console.log(pattern);
   }
 
   //## Attach wrapper functions to buttons.
@@ -205,5 +248,9 @@ $(document).ready(function() {
   $("#newButton").click(() => newAction());
   $("#selectButton").click(() => selectAction());
   $("#drawButton").click(() => drawAction());
-
+  
+  $("#type-1").click(() => console.log("Type 1"));
+  $("#type-2").click(() => console.log("Type 2"));
+  $("#type-3").click(() => console.log("Type 3"));
+  $("#type-4").click(() => console.log("Type 4"));
 });
