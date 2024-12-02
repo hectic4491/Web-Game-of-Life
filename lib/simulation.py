@@ -145,7 +145,7 @@ class Simulation ():
         gen_data = {"alive": [],
                     "population": 0,
                     "generation": step}
-       
+
         for j in range(self._height):
             for i in range(self._width):
                 if self._grid[j, i].alive:

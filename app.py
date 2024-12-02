@@ -3,10 +3,13 @@ lib.main is our backend processes"""
 
 from flask import Flask, render_template, jsonify
 from lib.simulation import Simulation
+from lib.read_toml import get_pattern_array
 
 
 app = Flask(__name__)
 
+
+blinker = [[3, 3], [4, 3], [5, 3]]
 
 @app.route("/")
 @app.route("/home")
@@ -24,7 +27,13 @@ def simdata():
     """
     # number of columns, i.e. length of a row = 82
     # number of rows, i.e length of a column = 36
-    data = Simulation(height = 36, width= 82, steps = 300).render_data
+    pattern = get_pattern_array("Toad")
+
+    data = Simulation(height = 36,
+                      width= 82,
+                      steps = 300,
+                      pattern=pattern
+                      ).render_data
     return jsonify(data)
 
 

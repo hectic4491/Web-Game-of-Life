@@ -66,7 +66,6 @@ $(document).ready(function() {
   //## Functions
   //# Generate the display based off the simulation's dimensions.
   function generateDisplay (simulation) {
-    // TODO -> This function should be linked to the css #simulationField attributes
     console.log("'generateDisplay' function called.")
 
     for (let i = 0; i < simulation.height; i++) {
@@ -81,7 +80,7 @@ $(document).ready(function() {
 
   //# Clear the simulation
   function clearSimulation (userInterface) {
-    // May way to rework this to just swap in an empty display
+    // May way to rework this to just swap in an empty display -t
     console.log("'clearSimulation' function called.");
 
     const childNodes = userInterface.display.querySelectorAll('.cellAlive');
@@ -96,25 +95,16 @@ $(document).ready(function() {
 
     const renderData = simulation.renderData;
 
-
-    /* I can instead have two classes of cells. one alive and one dead. i tell the alive cells
-    to join the "alive" class, and then at the end revert everyones class back to dead, as in "flushing"
-    the display back to a clean grid
-    */
-
-
     const writeAliveCells = (aliveList) => {
       aliveList.forEach((cell) => {
         let [j, i] = cell;
         const cellId = `${j}-${i}`;
         const targetCell = document.getElementById(cellId);
-        targetCell.classList.add('cellAlive'); //TODO -> get the css style variables later
+        targetCell.classList.add('cellAlive'); 
       });
     };
 
     let index = simulation.pausedIndex; // Defaults to 0 in a new simulation.
-
-    console.log(renderData[index]['alive'])
 
     const intervalId = setInterval(() => {
       if (index < renderData.length) {
