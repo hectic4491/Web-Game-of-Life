@@ -80,77 +80,49 @@ $(document).ready(function() {
   }
 
   //# Clear the simulation
-  function clearSimulation (simulation) {
-    console.log("'clearSimulation' function called.")
+  function clearSimulation (userInterface) {
+    // May way to rework this to just swap in an empty display
+    console.log("'clearSimulation' function called.");
 
-    for (let j = 0; j < simulation.height; j++) {
-      for (let i = 0; i < simulation.width; i++) {
-        const cellId = j + "-" + i;
-        const targetCell = document.getElementById(cellId);
-        targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
-      }
-    } 
+    const childNodes = userInterface.display.querySelectorAll('.cellAlive');
+    childNodes.forEach(child => {
+      child.classList.remove('cellAlive');
+    });
   }
 
   //# Render the simulation.
-  const renderSimulation = (simulation) => {
+  const renderSimulation = (simulation, userInterface) => {
     console.log("'renderSimulation' function called.")
 
     const renderData = simulation.renderData;
 
-    const renderFrame = (aliveList, deadList) => {
-      aliveList.forEach((cell) => {
-        console.log("Alive cell:", cell);
-        let [j, i] = cell;
-        const cellId = `${j}-${i}`;
-        const targetCell = document.getElementById(cellId);
-        if(targetCell) {
-          targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
-        } else {
-          console.warn(`Alive cell with ID ${cellId} not found.`);
-        }
-      });
 
-      deadList.forEach((cell) => {
-        console.log("Dead cell:", cell);
-        console.log(cell);
+    /* I can instead have two classes of cells. one alive and one dead. i tell the alive cells
+    to join the "alive" class, and then at the end revert everyones class back to dead, as in "flushing"
+    the display back to a clean grid
+    */
+
+
+    const writeAliveCells = (aliveList) => {
+      aliveList.forEach((cell) => {
         let [j, i] = cell;
         const cellId = `${j}-${i}`;
         const targetCell = document.getElementById(cellId);
-        if (targetCell) {
-          targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
-        } else {
-          console.warn(`Dead cell with ID ${cellId} not found.`);
-        }
+        targetCell.classList.add('cellAlive'); //TODO -> get the css style variables later
       });
     };
-    // const renderFrame = (alive, dead) => {
-    //   let j = 0;
-    //   frame.forEach((row) => {
-    //     let i = 0;
-    //     for (const cell of row) {
-    //       if (cell) {
-    //         const cellId = j + "-" + i;
-    //         const targetCell = document.getElementById(cellId);
-    //         targetCell.style.backgroundColor = "#B6C649"; //TODO -> get the css style variables later
-    //       } else if (!cell) {
-    //         const cellId = j + "-" + i;
-    //         const targetCell = document.getElementById(cellId);
-    //         targetCell.style.backgroundColor = "#23333e"; //TODO -> get the css style variables later
-    //       }
-    //       i++;
-    //     }
-    //     j++;
-    //   });
-    // }
 
     let index = simulation.pausedIndex; // Defaults to 0 in a new simulation.
+
+    console.log(renderData[index]['alive'])
 
     const intervalId = setInterval(() => {
       if (index < renderData.length) {
         if (!sim.paused) {
-          renderFrame(aliveList = renderData[index]['alive'],
-                      deadList = renderData[index]['dead']);
+
+          clearSimulation(userInterface);
+
+          writeAliveCells(renderData[index]['alive']);
           ui.generation.innerText = `Gen: ${renderData[index]['generation']}`;
           ui.population.innerText = `Pop: ${renderData[index]['population']}`;
           index++;
@@ -196,12 +168,12 @@ $(document).ready(function() {
     
     if (!sim.paused) {
     console.log("Initiating simulation. Begin rendering.")
-    renderSimulation(sim);
+    renderSimulation(sim, ui);
 
     } else {
       console.log("Simulation is paused. Resume rendering.")
       sim.paused = false;
-      renderSimulation(sim);
+      renderSimulation(sim, ui);
     }
   }
 
@@ -223,7 +195,7 @@ $(document).ready(function() {
     ui.start.disabled = true;
     ui.generation.innerHTML = "Gen";
     ui.population.innerHTML = "Pop";
-    clearSimulation(sim);
+    clearSimulation(ui);
     sim.reset();
     fetchSimulation(sim);
     console.log("'newAction' complete.")

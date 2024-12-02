@@ -24,7 +24,7 @@ def simdata():
     """
     # number of columns, i.e. length of a row = 82
     # number of rows, i.e length of a column = 36
-    data = Simulation(height = 36, width= 82, steps = 100).render_data
+    data = Simulation(height = 36, width= 82, steps = 300).render_data
     return jsonify(data)
 
 

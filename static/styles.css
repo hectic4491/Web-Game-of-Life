@@ -143,3 +143,10 @@ body {
 	height: 16px;
 	border: 2px solid var(--color-control-border);
 }
+
+.cellAlive {
+	background-color: var(--color-start-button);
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--color-control-border);
+}

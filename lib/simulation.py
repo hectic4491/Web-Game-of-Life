@@ -42,9 +42,7 @@ class Simulation ():
         following keys:
 
     (key) 'alive' : list
-            the list of newly alive cell coordinates
-    (dead) 'dead' : list
-            the list of newly dead cell coordinates
+            the list of all alive cell coordinates
     (key) 'population' : int
             the amount of cells currently alive
     (key) 'generation' : int
@@ -76,38 +74,9 @@ class Simulation ():
             self._determine_next_gen()
             self._update_next_gen()
 
-        # Build the new_alive and new_dead sets to replace the
-        # render_data['alive'] and render_data['dead'] values.
-        #
-        # Let A be generation N's set of alive cell's coordinates.
-        # Let B be generation N-1's set of alive cell's coordinates.
-        # Then:
-        #   A ∩ B is the set of cells that remain alive. (no update)
-        #
-        #   A - B is the set of cells that became alive. (update)
-        #
-        #   B - A is the set of cells that became dead. (update)
-
-        for i in range(1, steps):
-            previous_alive = set(map(tuple, self.render_data[i-1]['alive']))
-            current_alive = set(map(tuple, self.render_data[i]['alive']))
-
-            new_alive = current_alive.difference(previous_alive)
-            new_dead = previous_alive.difference(current_alive)
-
-            self.render_data[i]['alive'] = list(new_alive)
-            self.render_data[i]['dead'] = list(new_dead)
-
-            # # A - B
-            # gen_data['alive'] = gen_data['alive'].difference(self.render_data[i - 1]['alive'])
-            # # B - A
-            # gen_data['dead'] = self.render_data[i - 1]['alive'].difference(gen_data['alive'])
-
         # Typecast to JSON legal data types.
         for gen_data in self.render_data:
             gen_data['alive'] = [list(indices) for indices in gen_data['alive']]
-            gen_data['dead'] = [list(indices) for indices in gen_data['dead']]
-
         self.render_data = list(self.render_data)
 
 
@@ -174,32 +143,15 @@ class Simulation ():
         """
 
         gen_data = {"alive": [],
-                    "dead": [],
                     "population": 0,
                     "generation": step}
        
         for j in range(self._height):
             for i in range(self._width):
                 if self._grid[j, i].alive:
-                    gen_data['alive'].append((j, i))
+                    gen_data['alive'].append([j, i])
                     gen_data['population'] += 1
-                else:
-                    gen_data['dead'].append((j, i))
         return gen_data
-
-    # # Let A be generation N's set of alive cell's coordinates.
-    # # Let B be generation N-1's set of alive cell's coordinates.
-    # # Then:
-    # # A ∩ B is the set of cells that remain alive. (no update)
-    # #
-    # # A - B is the set of cells that became alive. (update)
-    # #
-    # # B - A is the set of cells that became dead. (update)
-
-    # # A - B
-    # gen_data["alive"] = all_alive.difference(set(self.render_data[step-1]["alive"]))
-    # # B - A
-    # gen_data["dead"] = set(self.render_data[step-1]["alive"]).difference(all_alive)
 
 
     def _determine_next_gen(self):
@@ -224,137 +176,5 @@ class Simulation ():
 
 ## Testing Code ##
 if __name__ == '__main__':
-    myData = Simulation(height = 8, width = 16, steps = 10)
-    print(type(myData.render_data))
-    print(type(myData.render_data[0]))
-    print(type(myData.render_data[0]['alive']))
-    print(type(myData.render_data[0]['alive']))
-    print(type(myData.render_data[0]['alive'][0]))
-
-    print(type(myData.render_data[0]['dead']))
-    print(type(myData.render_data[0]['dead']))
-    print(type(myData.render_data[0]['alive'][0]))
-
-    print(type(myData.render_data[0]['generation']))
-    print(type(myData.render_data[0]['population']))
-
-    print(myData.render_data[0])
-
-    # print(myData.render_data[2])
-    # print(myData.render_data[3])
-    # print(myData.render_data[4])
-
-
-
-
-
-
-
-### NOTES ###
-# generate_grid() takes in a single argument for it's grid size. We
-# should instead have it take two distinct aguments for it's rows and
-# columns. This is tricky because we use the equivalent states of a
-# matrix depending on the sitatuation.
-#
-# grid_size[0] == number of columns == length of a row = 82
-#
-# grid_size[1] == number of rows == length of a column = 36
-#
-# # data = GenArray([82, 36], 300).gen_array
-#
-#   # resolutions get listed as: w x h   e.g.: 1920x1080
-#                                          == # of elements x # of rows
-#
-#   The matrix 'grid' would be a 3 x 4 matrix. i.e. m x n: m = 3, n = 4
-#
-#   m == number of rows = 3
-#   n == number of columns i.e. elements per row = 4
-#
-#   grid =[
-#       [1, 0, 1, 0],
-#    m  [0, 1, 0, 0],
-#       [0, 0, 0, 1],
-#       ]     n
-#
-#   a(j,i)
-#       1 <= i <= m
-#       1 <= j <= n
-#
-#   gird[0] = [1, 0, 1, 0]
-#   grid[0][0] = 1
-#
-#   These are Equivalent statements about the grid object.
-#
-#    grid.length
-#    == j ??
-#    == m = 3 ( in our matrix example )
-#    == length of the grid
-#**  == number of subarrays
-#    == number of rows
-#    == height of display
-#    == length of a column
-#    == grid_size[1]
-#    == 36 ( in our JavaScript simulation)
-#
-#   And,
-#
-#    grid[i].length
-#    == i ??
-#    == n = 4 ( in our matrix example )
-#    == length of a subarray
-#**  == number of elements in subarray
-#    == number of columns
-#    == width of display
-#    == length of a row
-#    == grid_size[0]
-#    == 82 ( in our JavaScript simulation)
-#
-#  And,
-#
-#   grid[i][j]
-#   == index of a cell
-#   == div element id? (not sure about this one)
-#
-#
-#   If I start using a numpy 2D array, accessing looks like:
-#   arr[0, 1]; where we access "the second element on the first row"
-#   Think of 2-D arrays like a table with rows and columns. Where the
-#   Dimension represents the row and the index represents the column.
-#   arr[r, c]
-#   arr[m, n]
-#   arr[h, w]
-#   arr[j, i]
-#
-# We would like to know how big to make the alive_set array, so that
-# we could pre-allocate the necessary space in memory.
-# It needs to be large enough to fit every alive cell's coordinates.
-# The coordinates for each alive cell are stored in a set of the
-# form {j, i}, where j is the row index and i is the column index.
-#
-# We can't know how many cells are going to exist in each generation
-# however, we could supply a statistically implied lower limit.
-# On a random pattern, a grid of size m x n will most likely have
-# around (m x n) / 4 amount of alive cells on its initial generation.
-# (because of our 25% dice roll to become alive).
-#
-# e.g.: An intial random pattern grid of size (36, 82) will
-# have on average: (36 x 82) / 4 = 738 alive members on it's first
-# initial generation. So the we should consider this the lower limit
-# of the required array size.
-#
-# I'll choose twice the lower limit to be my pre-allocated array
-# size for now.
-#
-#
-#
-#
-# Let A be generation N's set of alive cell's coordinates.
-# Let B be generation N-1's set of alive cell's coordinates.
-#
-# Then:
-#   A ∩ B is the set of cells that stay alive. Therefore, no need to
-#          update.
-#   A - B is the set of cells that became alive. Therefore, we need to
-#       update the background color as "alive".
-#   B - A is the set of cells that became dead. Therefore, we need
-#       to update the background color as "dead".
+    myData = Simulation(height = 8, width = 16, steps = 4)
+    print(myData.render_data)
