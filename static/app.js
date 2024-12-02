@@ -14,6 +14,7 @@ $(document).ready(function() {
       this.renderData = NaN;
       this.paused = false;
       this.pausedIndex = 0;
+      this.requestedPattern = NaN;
     }
 
     reset () {
@@ -25,6 +26,7 @@ $(document).ready(function() {
       this.renderData = NaN;
       this.paused = false;
       this.pausedIndex = 0;
+      this.requestedPattern = NaN;
     }
   }
 
@@ -147,13 +149,13 @@ $(document).ready(function() {
   }
 
   //# Fetch the simulation from the server.
-  function fetchSimulation (simulation) {
+  function fetchSimulation () {
     console.log("'fetchSimulation' function called.")
 
     fetch('/simdata')
       .then((response) => response.json())
       .then((renderData) => {
-        simulation.renderData = renderData;
+        sim.renderData = renderData;
         ui.start.disabled = false;
         ui.new.disabled = false;
         ui.select.disabled = false;
@@ -210,7 +212,7 @@ $(document).ready(function() {
     ui.population.innerHTML = "Pop";
     clearSimulation(ui);
     sim.reset();
-    fetchSimulation(sim);
+    fetchSimulation();
     console.log("'newAction' complete.")
   }
 
@@ -238,8 +240,26 @@ $(document).ready(function() {
   }
 
   function fetchPattern(pattern) {
+    // prevent button pressing
+    ui.selectToggle = 0;
+    ui.select.disabled = true;
+    ui.typeContainer.style.visibility = "hidden";
+
+    console.log(`Fetching ${pattern}`);
+    const form = new FormData();
+    form.append("Pattern", pattern);
     
-    console.log(pattern);
+    fetch('/simdata', {method: "POST", body: form})
+      .then((response) => response.json())
+      .then((renderData) => {
+        sim.renderData = renderData;
+        ui.start.disabled = false;
+        ui.new.disabled = false;
+        ui.select.disabled = false;
+        ui.selectToggle = 0;
+        ui.draw.disabled = false;
+        console.log("'fetchPattern' complete!");
+      })
   }
 
   //## Attach wrapper functions to buttons.
@@ -249,8 +269,8 @@ $(document).ready(function() {
   $("#selectButton").click(() => selectAction());
   $("#drawButton").click(() => drawAction());
   
-  $("#type-1").click(() => console.log("Type 1"));
-  $("#type-2").click(() => console.log("Type 2"));
-  $("#type-3").click(() => console.log("Type 3"));
-  $("#type-4").click(() => console.log("Type 4"));
+  $("#type-1").click(() => fetchPattern(sim.requestedPattern = "Random"));
+  $("#type-2").click(() => fetchPattern(sim.requestedPattern = "Blinker"));
+  $("#type-3").click(() => fetchPattern(sim.requestedPattern = "Glider"));
+  $("#type-4").click(() => fetchPattern(sim.requestedPattern = "Glider Gun"));
 });

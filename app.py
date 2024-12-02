@@ -1,7 +1,7 @@
 """Flask is our WSGI framework.
 lib.main is our backend processes"""
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from lib.simulation import Simulation
 from lib.read_toml import get_pattern_array
 
@@ -20,20 +20,38 @@ def home():
     return render_template("home.html")
 
 
-@app.route('/simdata')
+@app.route('/simdata', methods=['GET', 'POST'])
 def simdata():
     """Data URL
     Used to retrieve Simulation Data.
     """
     # number of columns, i.e. length of a row = 82
     # number of rows, i.e length of a column = 36
-    pattern = get_pattern_array("Toad")
+    # pattern = get_pattern_array("Toad")
 
-    data = Simulation(height = 36,
-                      width= 82,
-                      steps = 300,
-                      pattern=pattern
-                      ).render_data
+    if request.method == 'POST':
+        pattern_name = str(request.form.get('Pattern'))
+        print(f"DEBUG!!!: {pattern_name}") # this is returning as none.
+        pattern = get_pattern_array(pattern_name)
+
+        data = Simulation(height = 36,
+                        width= 82,
+                        steps = 300,
+                        pattern=pattern
+                        ).render_data
+
+    elif request.method == 'GET':
+        data = Simulation(height = 36,
+                        width= 82,
+                        steps = 300,
+                        ).render_data
+
+    else:
+        data = Simulation(height = 36,
+                width= 82,
+                steps = 300,
+                ).render_data
+
     return jsonify(data)
 
 
