@@ -19,6 +19,7 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 ### ++TODO List++
 
+- Combine the fetch functions into a single function.
 
 - Use Numpy on the backend to utilize arrays.
 

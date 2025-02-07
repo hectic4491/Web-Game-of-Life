@@ -8,9 +8,6 @@ from lib.read_toml import get_pattern_array
 
 app = Flask(__name__)
 
-
-blinker = [[3, 3], [4, 3], [5, 3]]
-
 @app.route("/")
 @app.route("/home")
 def home():
@@ -31,14 +28,20 @@ def simdata():
 
     if request.method == 'POST':
         pattern_name = str(request.form.get('Pattern'))
-        print(f"DEBUG!!!: {pattern_name}") # this is returning as none.
-        pattern = get_pattern_array(pattern_name)
+        if pattern_name != "Random":
+            pattern = get_pattern_array(pattern_name)
 
-        data = Simulation(height = 36,
-                        width= 82,
-                        steps = 300,
-                        pattern=pattern
-                        ).render_data
+            data = Simulation(height = 36,
+                            width= 82,
+                            steps = 300,
+                            pattern=pattern
+                            ).render_data
+
+        else:
+            data = Simulation(height = 36,
+                width= 82,
+                steps = 300,
+                ).render_data
 
     elif request.method == 'GET':
         data = Simulation(height = 36,

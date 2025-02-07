@@ -10,23 +10,22 @@ $(document).ready(function() {
       this.height = 36; // TODO: Make this dependant on users window
       this.width = 82; // TODO: Make this dependant on users window
       this.fps = 100; // Milliseconds; i.e.: 10fps
-      this.patternName = "Random";
       this.renderData = NaN;
       this.paused = false;
       this.pausedIndex = 0;
-      this.requestedPattern = NaN;
+      this.pattern = "Random";
     }
 
     reset () {
+      // what exactly needs to be reset everytime? ## TODO ##
       console.log(`Simulation.reset method called.`);
       this.height = 36; 
       this.width = 82;
       this.fps = 100;
-      this.patternName = "Random";
       this.renderData = NaN;
       this.paused = false;
       this.pausedIndex = 0;
-      this.requestedPattern = NaN;
+      this.pattern = "Random";
     }
   }
 
@@ -51,6 +50,7 @@ $(document).ready(function() {
       this.selectToggle = 0;
 
       // Select Type buttons
+      // ##TODO## the buttons should be constructed automatically by the amount of elements we have in the toml file.
 
       // Simulation display
       this.display = document.getElementById("simulationField");
@@ -71,7 +71,7 @@ $(document).ready(function() {
   const sim = new Simulation();
   const ui = new UserInterface();
 
-  fetchSimulation(sim);
+  fetchSimulation(sim); // Here, we could probably condense the fetchSimulation function into just fetchPattern
   generateDisplay(sim);
 
 
@@ -101,7 +101,9 @@ $(document).ready(function() {
     });
   }
 
-  //# Render the simulation.
+  //# Render the simulation. ### TODO ### this function accepts simulation as
+  // an argument, but also calls global 'sim' variable. Work on only using the 
+  // the argument and reducing dependence on the sim variable.
   const renderSimulation = (simulation, userInterface) => {
     console.log("'renderSimulation' function called.")
 
@@ -148,22 +150,6 @@ $(document).ready(function() {
     }, sim.fps);
   }
 
-  //# Fetch the simulation from the server.
-  function fetchSimulation () {
-    console.log("'fetchSimulation' function called.")
-
-    fetch('/simdata')
-      .then((response) => response.json())
-      .then((renderData) => {
-        sim.renderData = renderData;
-        ui.start.disabled = false;
-        ui.new.disabled = false;
-        ui.select.disabled = false;
-        ui.draw.disabled = false;
-        console.log("'fetchSimulation' complete!");
-      })
-  }
-
 
   // ## Button wrapper functions.
   function startAction () {
@@ -186,6 +172,7 @@ $(document).ready(function() {
     }
   }
 
+
   function stopAction () {
     console.log("'stopAction' initiated.")
 
@@ -199,6 +186,7 @@ $(document).ready(function() {
 
     console.log("'stopAction' complete.")
   }
+
 
   function newAction () {
     console.log("'newAction' initiated.")
@@ -215,6 +203,7 @@ $(document).ready(function() {
     fetchSimulation();
     console.log("'newAction' complete.")
   }
+
 
   function selectAction () {
     if (ui.selectToggle == 0) {
@@ -235,12 +224,18 @@ $(document).ready(function() {
     }
   }
 
+
   function drawAction () {
-    console.log("'drawAction' initiated. (This does nothing yet)")
+    console.log("'drawAction' initiated. (This does nothing yet)");
   }
 
+
   function fetchPattern(pattern) {
-    // prevent button pressing
+    // We probably only need a single fetch function.
+    // only check if we have the pattern requested being "random" 
+    sim.reset();
+
+
     ui.selectToggle = 0;
     ui.select.disabled = true;
     ui.typeContainer.style.visibility = "hidden";
@@ -261,6 +256,24 @@ $(document).ready(function() {
         console.log("'fetchPattern' complete!");
       })
   }
+
+
+  //# Fetch the simulation from the server.
+  function fetchSimulation () {
+    console.log("'fetchSimulation' function called.")
+
+    fetch('/simdata')
+      .then((response) => response.json())
+      .then((renderData) => {
+        sim.renderData = renderData;
+        ui.start.disabled = false;
+        ui.new.disabled = false;
+        ui.select.disabled = false;
+        ui.draw.disabled = false;
+        console.log("'fetchSimulation' complete!");
+      })
+  }
+
 
   //## Attach wrapper functions to buttons.
   $("#startButton").click(() => startAction()); 
