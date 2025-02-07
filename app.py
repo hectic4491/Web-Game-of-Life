@@ -16,43 +16,27 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/simdata', methods=['GET', 'POST'])
+@app.route('/simdata', methods=['POST'])
 def simdata():
     """Data URL
-    Used to retrieve Simulation Data.
+    Used to answer fetchSimulation.
+    Returns a simulation object. 
     """
     # number of columns, i.e. length of a row = 82
     # number of rows, i.e length of a column = 36
     # pattern = get_pattern_array("Toad")
 
-    if request.method == 'POST':
-        pattern_name = str(request.form.get('Pattern'))
-        if pattern_name != "Random":
-            pattern = get_pattern_array(pattern_name)
+    pattern_name = str(request.form.get('Pattern'))
 
-            data = Simulation(height = 36,
-                            width= 82,
-                            steps = 300,
-                            pattern=pattern
-                            ).render_data
+    if pattern_name != "Random":
+        pattern = get_pattern_array(pattern_name)
+    else: pattern = None    # None is processed as random.
 
-        else:
-            data = Simulation(height = 36,
-                width= 82,
-                steps = 300,
-                ).render_data
-
-    elif request.method == 'GET':
-        data = Simulation(height = 36,
-                        width= 82,
-                        steps = 300,
-                        ).render_data
-
-    else:
-        data = Simulation(height = 36,
-                width= 82,
-                steps = 300,
-                ).render_data
+    data = Simulation(height = 36,
+                    width= 82,
+                    steps = 40,
+                    pattern=pattern
+                    ).render_data
 
     return jsonify(data)
 
