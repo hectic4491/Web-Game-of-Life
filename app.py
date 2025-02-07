@@ -9,12 +9,11 @@ from lib.read_toml import get_pattern_array
 app = Flask(__name__)
 
 @app.route("/")
-@app.route("/home")
-def home():
-    """Home URL
+def index():
+    """Index URL
     The main webpage.
     """
-    return render_template("home.html")
+    return render_template("index.html")
 
 
 @app.route('/simdata', methods=['GET', 'POST'])
@@ -60,25 +59,3 @@ def simdata():
 
 if __name__ =="__main__":
     app.run(debug=True)
-
-
-## Travis' initial Code
-
-# @app.route("/")
-# def root():
-#   return render_template("app.html")
-
-# # Doesn't provide explicit error handling for none POST case.
-# # Unsure if sepcifying only POST prevents GET requests,
-# # which may be desired. Should test this to see how it
-# # behaves when we throw certains verbs and invalid formats at it.
-# @app.route("/simulation", methods=['POST'])
-# def simulation():
-#   if request.method == 'POST':
-#     # Naturally, form params are read from the html file; so their strings.
-#     # Parse the values to int as we read them from the request.
-#     matrixRows = int(request.form.get('matrixRows'))
-#     matrixColumns = int(request.form.get('matrixColumns'))
-#     sequenceLength = int(request.form.get('sequenceLength'))
-
-#     return GenArray([matrixColumns, matrixRows], sequenceLength).genArray

@@ -174,7 +174,7 @@ $(document).ready(function() {
 
 
   function stopAction () {
-    console.log("'stopAction' initiated.")
+    console.log("'stopAction' initiated.");
 
     sim.paused = true;
 
@@ -184,12 +184,12 @@ $(document).ready(function() {
     ui.select.disabled = false;
     ui.draw.disabled = false;
 
-    console.log("'stopAction' complete.")
+    console.log("'stopAction' complete.");
   }
 
 
   function newAction () {
-    console.log("'newAction' initiated.")
+    console.log("'newAction' initiated.");
 
     ui.start.disabled = true;
     ui.new.disabled = true;
@@ -201,7 +201,7 @@ $(document).ready(function() {
     clearSimulation(ui);
     sim.reset();
     fetchSimulation();
-    console.log("'newAction' complete.")
+    console.log("'newAction' complete.");
   }
 
 
@@ -221,7 +221,7 @@ $(document).ready(function() {
       ui.draw.disabled = false;
       ui.typeContainer.style.visibility = "hidden";
       console.log("'selectAction' initiated. Hiding the select menu");
-    }
+    };
   }
 
 
