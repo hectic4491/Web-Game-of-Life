@@ -1,7 +1,3 @@
-//## Developer verify in the console that JavaScript is executing.
-console.log("JavaScript is running.")
-
-
 //## Main Objects to pass around the program.
 const sim = {
   // This object will hold the data for our simulation.
@@ -14,7 +10,7 @@ const sim = {
   pattern: "Random",
 
   resetAnimation: function() {
-    console.log(`.resetAnimation method called.`);
+    console.log(`sim.resetAnimation() called.`);
     this.renderData = NaN; // We want to reset this.
     this.pausedIndex = 0; // We want to rest this.
   }
@@ -69,7 +65,7 @@ function generateDisplay (simulation) {
  * the Game of Life simulation. It gives them the class name of 'cell'
  * and a unique id that corresponds to their "i-j" coordinates.
  */
-  console.log("'generateDisplay' function called.");
+  console.log("generateDisplay() called.");
   for (let i = 0; i < simulation.height; i++) {
     for (let j = 0; j < simulation.width; j++) {
       const cell = document.createElement('div');
@@ -89,7 +85,7 @@ function clearSimulation (userInterface) {
    * 
    * May want to rework this to just swap in an empty display -t
    */
-  console.log("'clearSimulation' function called.");
+  console.log("clearSimulation() called.");
 
   const childNodes = userInterface.display.querySelectorAll('.cellAlive');
   childNodes.forEach((child) => {
@@ -108,7 +104,7 @@ function renderSimulation(simulation, userInterface) {
    * be displayed with the new classes color properties. This handles
    * one frame of data at a time.
    */
-  console.log("'renderSimulation' function called.")
+  console.log("renderSimulation() called.")
 
   const renderData = simulation.renderData;
 
@@ -174,7 +170,7 @@ function renderSimulation(simulation, userInterface) {
 
 // ## Button wrapper functions.
 function startAction () {
-  console.log("'startAction' initiated.")
+  console.log("startAction() initiated.")
 
   //toggles
   ui.startBtn.disabled = true;
@@ -185,13 +181,12 @@ function startAction () {
   
   sim.paused = false;
   renderSimulation(sim, ui);
-  console.log("'startAction' complete.")
-
+  console.log("startAction() complete.")
 }
 
 
 function stopAction () {
-  console.log("'stopAction' initiated.");
+  console.log("stopAction() initiated.");
 
   // toggles
   ui.startBtn.disabled = false;
@@ -202,12 +197,12 @@ function stopAction () {
 
   sim.paused = true;
 
-  console.log("'stopAction' complete.");
+  console.log("stopAction() complete.");
 }
 
 
 function newAction () {
-  console.log("'newAction' initiated.");
+  console.log("newAction() initiated.");
 
   // toggles
   ui.startBtn.disabled = true;
@@ -220,7 +215,7 @@ function newAction () {
 
   fetchSimulation(sim.pattern);
   
-  console.log("'newAction' complete.");
+  console.log("newAction() complete.");
 }
 
 
@@ -234,7 +229,7 @@ function selectAction () {
     ui.drawBtn.disabled = true;
 
     ui.typeContainer.style.visibility = "visible";
-    console.log("'selectAction' initiated. Showing the select menu");
+    console.log("selectAction() initiated. Showing the select menu");
   } else if (ui.selectToggle == 1) {
 
     // toggles
@@ -244,26 +239,26 @@ function selectAction () {
     ui.drawBtn.disabled = false;
 
     ui.typeContainer.style.visibility = "hidden";
-    console.log("'selectAction' initiated. Hiding the select menu");
+    console.log("selectAction() initiated. Hiding the select menu");
   };
 }
 
 
 function drawAction () {
-  console.log("'drawAction' initiated. (This does nothing yet)");
+  console.log("drawAction() initiated. (This does nothing yet)");
 }
 
 
 function fetchSimulation(pattern="Random") {
   
-  console.log("'fetchSimulation' called.")
+  console.log("fetchSimulation() called.")
 
   clearSimulation(ui);
   sim.resetAnimation();
 
   ui.selectToggle = 0;
   ui.selectBtn.disabled = true;
-  
+
   ui.typeContainer.style.visibility = "hidden";
 
   const form = new FormData();
@@ -281,7 +276,7 @@ function fetchSimulation(pattern="Random") {
       ui.selectBtn.disabled = false;
       ui.drawBtn.disabled = false;
 
-      console.log("'fetchSimulation' complete!");
+      console.log("fetchSimulation() complete!");
     })
 }
 

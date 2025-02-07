@@ -41,5 +41,10 @@ def simdata():
     return jsonify(data)
 
 
+@app.route('/grid-camera')
+def gridcamera():
+    """Test page for the grid-camera"""
+    return render_template("grid-camera.html")
+
 if __name__ =="__main__":
     app.run(debug=True)

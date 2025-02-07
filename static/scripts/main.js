@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  console.log(`executing main.js`)
   // Load JavaScript files
   loadScript('static/scripts/script.js')
   //... Add more as needed...
