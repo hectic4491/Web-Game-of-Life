@@ -1,8 +1,8 @@
 //## Main Objects to pass around the program.
 const sim = {
   // This object will hold the data for our simulation.
-  height: 36, // TODO: Make this dependant on users window
-  width: 82, // TODO: Make this dependant on users window
+  height: 50, // TODO: Make this dependant on users window
+  width: 90, // TODO: Make this dependant on users window
   fps: 100, // Milliseconds; i.e.: 10fps
   renderData: NaN, // Where we store the fetched data from the server.
   paused: true,

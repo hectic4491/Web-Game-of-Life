@@ -22,8 +22,8 @@ def simdata():
     Used to answer fetchSimulation.
     Returns a simulation object. 
     """
-    # number of columns, i.e. length of a row = 82
     # number of rows, i.e length of a column = 36
+    # number of columns, i.e. length of a row = 82
     # pattern = get_pattern_array("Toad")
 
     pattern_name = str(request.form.get('Pattern'))
@@ -32,8 +32,8 @@ def simdata():
         pattern = get_pattern_array(pattern_name)
     else: pattern = None    # None is processed as random.
 
-    data = Simulation(height = 36,
-                    width= 82,
+    data = Simulation(height = 50,
+                    width= 90,
                     steps = 500,
                     pattern=pattern
                     ).render_data

@@ -26,6 +26,7 @@ function panGrid(dx, dy) {
 
 // Document Event listeners (for keybroad presses to move grid)
 let listeningKeys = {};
+//let directions = {'left': (), 'right': (), 'up': (), 'down': ()}
 
 document.addEventListener('keydown', function(event) {
   listeningKeys[event.key] = true;
@@ -39,27 +40,27 @@ document.addEventListener('keyup', function(event) {
 function handleKeyPresses() {
   if (listeningKeys['ArrowLeft'] && listeningKeys['ArrowUp']) {
       console.log('ArrowLeft & ArrowUp pressed -> moving grid left-up.');
-      panGrid(-10, -10);
+      panGrid(10, 10);
   } else if (listeningKeys['ArrowLeft'] && listeningKeys['ArrowDown']) {
       console.log('ArrowLeft & ArrowDown pressed -> moving grid left-down.');
-      panGrid(-10, 10);
+      panGrid(10, -10);
   } else if (listeningKeys['ArrowRight'] && listeningKeys['ArrowUp']) {
       console.log('ArrowRight & ArrowUp pressed -> moving grid right-up.');
-      panGrid(10, -10);
+      panGrid(-10, 10);
   } else if (listeningKeys['ArrowRight'] && listeningKeys['ArrowDown']) {
       console.log('ArrowRight & ArrowDown pressed -> moving grid right-down.');
-      panGrid(10, 10);
+      panGrid(-10, -10);
   } else if (listeningKeys['ArrowLeft']) {
       console.log('ArrowLeft pressed -> moving grid left.');
-      panGrid(-10, 0);
+      panGrid(10, 0);
   } else if (listeningKeys['ArrowRight']) {
       console.log('ArrowRight pressed -> moving grid right.');
-      panGrid(10, 0);
+      panGrid(-10, 0);
   } else if (listeningKeys['ArrowUp']) {
       console.log('ArrowUp pressed -> moving grid up.');
-      panGrid(0, -10);
+      panGrid(0, 10);
   } else if (listeningKeys['ArrowDown']) {
       console.log('ArrowDown pressed -> moving grid down.');
-      panGrid(0, 10);
+      panGrid(0, -10);
   }
 }

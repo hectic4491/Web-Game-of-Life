@@ -171,8 +171,8 @@ body {
 
 	/*This is for the Simulation*/
 	display: grid;
-	grid-template-rows: repeat(36, 16px);
-	grid-template-columns: repeat(82, 16px);
+	grid-template-rows: repeat(50, 32px);
+	grid-template-columns: repeat(90, 32px);
 
 	/*This is to center the gridCells*/
 	justify-content: center;
@@ -184,14 +184,14 @@ body {
 
 .cell {
 	background-color: var(--color-dead-cell);
-	width: 16px;
-	height: 16px;
+	width: 32px;
+	height: 32px;
 	border: 2px solid var(--color-control-border);
 }
 
 .cellAlive {
 	background-color: var(--color-start-button);
-	width: 16px;
-	height: 16px;
+	width: 32px;
+	height: 32px;
 	border: 2px solid var(--color-control-border);
 }
