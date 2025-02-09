@@ -28,13 +28,13 @@ const ui = {
   typeContainer: document.getElementById("type-container"),
   selectToggle: 0,
   // Simulation display
-  display: document.getElementById("simulationField"),
+  grid: document.getElementById("grid"),
   // Simulation Info
   patternName: document.getElementById("simulationType"),
   population: document.getElementById("population"),
   generation: document.getElementById("generation"),
   // Header Info
-  pageHeader: document.getElementById("header"),
+  pageHeader: document.getElementById("main-header"),
   
 
   initialize: function() {
@@ -54,24 +54,24 @@ const ui = {
 //## Initalize
 ui.initialize();
 fetchSimulation();
-generateDisplay(sim);
+generateGrid(sim);
 
 
 //## Functions
 
-//# Generate the display based off the simulation's dimensions.
-function generateDisplay (simulation) {
+//# Generate the grid based off the simulation's dimensions.
+function generateGrid (simulation) {
 /**This create's the cell div elements that will be animated for
  * the Game of Life simulation. It gives them the class name of 'cell'
  * and a unique id that corresponds to their "i-j" coordinates.
  */
-  console.log("generateDisplay() called.");
+  console.log("generateGrid() called.");
   for (let i = 0; i < simulation.height; i++) {
     for (let j = 0; j < simulation.width; j++) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
       cell.setAttribute('id', (String(i) + "-" + String(j)));
-      ui.display.appendChild(cell);
+      ui.grid.appendChild(cell);
     }
   }
 }
@@ -83,11 +83,11 @@ function clearSimulation (userInterface) {
    * from that class. Thus the cells revert back to their default
    * class and use the default element's color property.
    * 
-   * May want to rework this to just swap in an empty display -t
+   * May want to rework this to just swap in an empty grid -t
    */
   console.log("clearSimulation() called.");
 
-  const childNodes = userInterface.display.querySelectorAll('.cellAlive');
+  const childNodes = userInterface.grid.querySelectorAll('.cellAlive');
   childNodes.forEach((child) => {
     child.classList.remove('cellAlive');
   });
