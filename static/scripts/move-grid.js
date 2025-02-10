@@ -1,6 +1,9 @@
 /**javascript file to control the movement of the 'simulationField'
  * element. We listen for the left, right, up, and down arrow keys.*/ 
 
+//TODO: work on maximum grid position to prevent infinite scrolling.
+//FIXME: the grid should maybe move more smoothly.
+
 const grid = document.getElementById('grid');
 
 let gridPosition = { top: 0, left: 0 };
@@ -56,3 +59,19 @@ function handleKeyPresses() {
       panGrid(0, -16);
   }
 }
+
+
+//Notes**
+
+/**
+ * The gridPosition object is used to keep track of the grid's position.
+ * We keep track of the top and left positions. When those are at 0, the
+ * grid is at it's upper left most corner. To traverse down or right
+ * across the grid, we add increments of 16px. 
+ * 
+ * Therefore, if the change in position should yield either a negative
+ * top or left value, then if we wanted to prevent infinite moving into
+ * that direction, we should prevent the grid from moving further left
+ * or right. We need a max value of the positive left (right) and
+ * positive top (down) to prevent infinite scrolling in the other
+ * directions.*/

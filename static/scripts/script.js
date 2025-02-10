@@ -1,8 +1,14 @@
 //## Main Objects to pass around the program.
+
+//TODO: Make the drawing functionality work.
+//FIXME: The naming convention is not consistent
+//FIXME: The use of the sim and ui object's is not consistent.
+//       The functions should be able to take in the objects as arguments.
+
 const sim = {
   // This object will hold the data for our simulation.
-  height: 50, // TODO: Make this dependant on users window
-  width: 90, // TODO: Make this dependant on users window
+  height: 50, // TODO: Make this a user input
+  width: 90, // TODO: Make this a user input
   fps: 100, // Milliseconds; i.e.: 10fps
   renderData: NaN, // Where we store the fetched data from the server.
   paused: true,
@@ -250,8 +256,15 @@ function drawAction () {
 
 
 function fetchSimulation(pattern="Random") {
-  
   console.log("fetchSimulation() called.")
+
+  ui.pageHeader.innerText = "Loading";
+  const loading = setInterval(() => {
+    ui.pageHeader.innerText += ".";
+    if (ui.pageHeader.innerText.length > 10) {
+      ui.pageHeader.innerText = "Loading";
+    }
+  }, 200);
 
   clearSimulation(ui);
   sim.resetAnimation();
@@ -275,6 +288,9 @@ function fetchSimulation(pattern="Random") {
       ui.newBtn.disabled = false;
       ui.selectBtn.disabled = false;
       ui.drawBtn.disabled = false;
+
+      clearInterval(loading);
+      ui.pageHeader.innerText = "Conway's Game of Life";
 
       console.log("fetchSimulation() complete!");
     })
