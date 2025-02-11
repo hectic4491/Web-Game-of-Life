@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="UTF-8">
+
+		<title>Javascript practice - Home</title>
+		<link rel="stylesheet" href="static/styles.css">
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	</head>
+
+	<body>
+		<div id="main-container">
+			<div id="main-header">Header</div>
+			<div id="main-body">
+				<div id="control-panel">
+					<div id="button-container">
+						<button id="startButton" class="button">Start</button>
+						<button id="stopButton" class="button">Stop</button>
+						<button id="newButton" class="button">New</button>
+						<button id="selectButton" class="button">Select</button>
+						<button id="drawButton" class="button">Draw</button>
+							<div id="type-container" class="type-container">
+								<div class="type-spacer">
+								</div><!--type-spacer is left empty.-->
+								<button id="type-1" class="type-button">Random</button>
+								<button id="type-2" class="type-button">Blinker</button>
+								<button id="type-3" class="type-button">Glider</button>
+								<button id="type-4" class="type-button">Glider Gun</button>
+							</div>
+						</div>
+						<div class="label-container">
+							<p id="simulationType" class="data-label">Type</p>
+							<p id="generation" class="data-label">Gen: 0</p>
+							<p id="population" class="data-label">Pop: 0</p>
+						</div>
+				</div>
+				<div id="simulation-window">
+					<div id="grid-frame">
+						<div id="grid"></div>
+					</div>
+					<!--grid is the div element we append the child
+					cell elements to during the simulation.-->
+				</div>
+			</div>
+		</div>
+
+		<script src="static/scripts/main.js"></script>
+
+	</body>
+	
+</html>

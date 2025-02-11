@@ -14,18 +14,27 @@ body {
 	padding: 0;
 	font-family: 'Courier New', Courier, monospace;
 	font-size: 32px;
+	overflow: hidden;
 }
 
-.container {
+#main-body {
+	display: flex;
+	height: 100vh;
+	overflow: hidden;
+}
+
+#main-container {
 	display: flex;
 	flex-direction: column;
 	width: 100vw;
 	height: 100vh;
+	overflow: hidden;
 }
 
-#header {
+#main-header {
 	background-color: var(--color-background);
 	border: 0.5rem solid var(--color-page-border);
+	border-bottom: 0;
 	min-height: 8vh;
 	
 	/* These help to center the text */
@@ -34,26 +43,19 @@ body {
 	align-items: center;
 }
 
-.body {
-	display: flex;
-	height: 100vh;
-}
-
-.sub-container {
-	background-color: var(--color-background);
-	padding: 0.5rem;
-}
-
-.control-panel {
+#control-panel {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
 	border: 0.5rem solid var(--color-page-border);
-	border-top: 0;
+	border-right: 0;
+	background-color: var(--color-background);
+	padding: 0.5rem;
+	width: 8rem;
 }
 
-.button-container{
+#button-container{
 	width: 100%;
 	min-width: 6rem;
 	display: flex;
@@ -134,53 +136,68 @@ body {
 	border-radius: 5px;
 	}
 
-.simulation-container {
-	width: 100%;
+#simulationType {
+		margin: 0.5rem;
+	}
+	
+#population {
+		margin: 0.5rem;
+	}
+
+#simulation-window {
+	flex: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
+
 	border: 0.5rem solid var(--color-page-border);
-	border-top: 0;
-	border-left: 0;
+	overflow: hidden;
+	background-color: var(--color-control-border);
+	box-sizing: border-box;
 }
 
-#simulationType {
-	margin: 0.5rem;
-}
-
-#population {
-	margin: 0.5rem;
-}
-
-#simulationField {
-	background-color: var(--color-simulation-field);
+#grid-frame {
+	position: relative;
 	width: 100%;
 	height: 100%;
+	background: rgba(0,0,0,0);
+	border: 0.5rem solid var(--color-background);
+	overflow: hidden;
+	box-sizing: border-box;
+}
 
+#grid {
+	position: relative;
+	top: 0;
+	left: 0;
 	/*This is for the Simulation*/
 	display: grid;
-	grid-template-rows: repeat(36, 16px);
-	grid-template-columns: repeat(82, 16px);
-
+	grid-template-rows: repeat(50, 32px);
+	grid-template-columns: repeat(90, 32px);
 	/*This is to center the gridCells*/
-	justify-content: center;
-	align-items: center;
-
-	justify-items: center;
-	align-content: center;
+	justify-content: start;
+	align-items: start;
+	justify-items: start;
+	align-content: start;
 }
 
 .cell {
 	background-color: var(--color-dead-cell);
-	width: 16px;
-	height: 16px;
+	position: relative;
+	width: 28px;
+	height: 28px;
 	border: 2px solid var(--color-control-border);
+	transition: transform 0.1s ease-in-out;
 }
 
 .cellAlive {
 	background-color: var(--color-start-button);
-	width: 16px;
-	height: 16px;
+	width: 28px;
+	height: 28px;
 	border: 2px solid var(--color-control-border);
+}
+
+.cell:hover {
+	transform: scale(0.65);
 }
