@@ -55,7 +55,7 @@ body {
 	width: 8rem;
 }
 
-.button-container{
+#button-container{
 	width: 100%;
 	min-width: 6rem;
 	display: flex;

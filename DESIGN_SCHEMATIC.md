@@ -77,3 +77,9 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 > The select and draw functions should generate their own sub menus.
 > Draw will allow us to clear the current screen, or to plainly edit the current frame.
+
+> Instead of having the cells transform their size (thus making them smaller to click) we should instead increase the size of the border as well, so that the area of the clickable cell is still active.
+
+> The button colors should change to grey when they aren't currently clickable.
+
+> While in drawing mode, if we have an empty grid and click new, the backend handles this as "random"
