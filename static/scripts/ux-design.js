@@ -4,10 +4,11 @@ const cells = document.querySelectorAll('.cell');
 
 cells.forEach(cell => {
   cell.addEventListener('mouseover', function() {
-    cell.style.transform = 'scale(0.65)';
+    cell.style.border = '5px solid var(--color-white)';
   });
   
   cell.addEventListener('mouseout', function() {
-    cell.style.transform = 'scale(1)';
+    cell.style.scale = '1';
+    cell.style.border = '3px solid var(--color-control-border)';
   });
 });

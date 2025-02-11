@@ -7,6 +7,8 @@
 	--color-page-border: #2C4251;
 	--color-control-border: #2C4251;
 	--color-dead-cell: #23333e;
+	--simulation-columns: 90;
+	--simulation-rows: 50;
 }
 
 body {
@@ -171,10 +173,14 @@ body {
 	position: relative;
 	top: 0;
 	left: 0;
+	width: calc(var(--simulation-columns) * 32px);
+	height: calc(var(--simulation-rows) * 32px);
+	border: 32px solid var(--color-dead-cell);
+	padding: 3px;
 	/*This is for the Simulation*/
 	display: grid;
-	grid-template-rows: repeat(50, 32px);
-	grid-template-columns: repeat(90, 32px);
+	grid-template-rows: repeat(var(--simulation-rows), 32px);
+	grid-template-columns: repeat(var(--simulation-columns), 32px);
 	/*This is to center the gridCells*/
 	justify-content: start;
 	align-items: start;
@@ -185,19 +191,18 @@ body {
 .cell {
 	background-color: var(--color-dead-cell);
 	position: relative;
-	width: 28px;
-	height: 28px;
-	border: 2px solid var(--color-control-border);
+	width: 32px;
+	height: 32px;
+	border: 3px solid var(--color-control-border);
 	transition: transform 0.1s ease-in-out;
+	transform-origin: center;
+	box-sizing: border-box;
 }
 
 .cellAlive {
 	background-color: var(--color-start-button);
-	width: 28px;
-	height: 28px;
-	border: 2px solid var(--color-control-border);
 }
 
 .cell:hover {
-	transform: scale(0.65);
+	transform: scale(0.8);
 }

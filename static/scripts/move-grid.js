@@ -4,6 +4,7 @@
 //TODO: work on maximum grid position to prevent infinite scrolling.
 //FIXME: the grid should maybe move more smoothly.
 
+const gridFrame = document.getElementById('grid-frame');
 const grid = document.getElementById('grid');
 
 let gridPosition = { top: 0, left: 0 };
@@ -12,12 +13,30 @@ let gridPosition = { top: 0, left: 0 };
 
 function panGrid(dx, dy) {
   // the panning functionality.
-  gridPosition.left += dx;
-  gridPosition.top += dy;
+  let newLeft = gridPosition.left + dx;
+  let newTop = gridPosition.top + dy;
   
-  // the style attributes being modified.
-  grid.style.left = `${gridPosition.left}px`;
-  grid.style.top = `${gridPosition.top}px`;
+  // Get the border width of the grid
+  const borderWidth = parseInt(window.getComputedStyle(grid).borderWidth);
+
+  // Boundary Checks
+  const maxLeft = 0;
+  const maxTop = 0;
+  const minLeft = gridFrame.clientWidth - grid.clientWidth - 2 * borderWidth;
+  const minTop = gridFrame.clientHeight - grid.clientHeight - 2 * borderWidth;
+  
+  // Ensure the new position is within boundaries
+  if (newLeft > maxLeft) newLeft = maxLeft;
+  if (newTop > maxTop) newTop = maxTop;
+  if (newLeft < minLeft) newLeft = minLeft;
+  if (newTop < minTop) newTop = minTop;
+
+  // Update the grid position
+  gridPosition.left = newLeft;
+  gridPosition.top = newTop;
+
+  // Apply the new position
+  grid.style.transform = `translate(${gridPosition.left}px, ${gridPosition.top}px)`;
 }
 
 // Accessing buttons and giving them event listeners.
@@ -59,19 +78,3 @@ function handleKeyPresses() {
       panGrid(0, -16);
   }
 }
-
-
-//Notes**
-
-/**
- * The gridPosition object is used to keep track of the grid's position.
- * We keep track of the top and left positions. When those are at 0, the
- * grid is at it's upper left most corner. To traverse down or right
- * across the grid, we add increments of 16px. 
- * 
- * Therefore, if the change in position should yield either a negative
- * top or left value, then if we wanted to prevent infinite moving into
- * that direction, we should prevent the grid from moving further left
- * or right. We need a max value of the positive left (right) and
- * positive top (down) to prevent infinite scrolling in the other
- * directions.*/
