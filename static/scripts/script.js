@@ -5,6 +5,9 @@
 //FIXME: The use of the sim and ui object's is not consistent.
 //       The functions should be able to take in the objects as arguments.
 
+
+// ###
+// Objects
 const sim = {
   // This object will hold the data for our simulation.
   height: 50, // TODO: Make this a user input
@@ -12,13 +15,13 @@ const sim = {
   fps: 100, // Milliseconds; i.e.: 10fps
   renderData: NaN, // Where we store the fetched data from the server.
   paused: true,
-  pausedIndex: 0,
+  currentIndex: 0,
   pattern: "Random",
 
   resetAnimation: function() {
     console.log(`sim.resetAnimation() called.`);
     this.renderData = NaN; // We want to reset this.
-    this.pausedIndex = 0; // We want to rest this.
+    this.currentIndex = 0; // We want to rest this.
   }
 }
 
@@ -57,13 +60,42 @@ const ui = {
   }
 }
 
-//## Initalize
+
+// ###
+// Main
 ui.initialize();
 fetchSimulation();
 generateGrid(sim);
 
 
-//## Functions
+// Space bar to start and stop the simulation.
+document.addEventListener('keydown', function(event) {
+  if (event.key == " ") {
+    if (sim.paused) {
+      startAction();
+    } else {
+      stopAction();
+    }
+  } 
+});
+
+// '.' to move to the next frame.
+document.addEventListener('keydown', function(event) {
+  if (event.key == "." && sim.paused) {
+    moveFrame(sim.currentIndex + 1);
+  }
+});
+
+// ',' to move to the previous frame.
+document.addEventListener('keydown', function(event) {
+  if (event.key == "," && sim.paused) {
+    moveFrame(sim.currentIndex - 1);
+  }
+});
+
+
+// ###
+// Functions
 
 //# Generate the grid based off the simulation's dimensions.
 function generateGrid (simulation) {
@@ -100,6 +132,29 @@ function clearSimulation (userInterface) {
 }
 
 
+function writeAliveCells(simulation) {
+  aliveList = simulation.renderData[simulation.currentIndex]['alive'];
+
+  aliveList.forEach((cell) => {
+    let [j, i] = cell;
+    const cellId = `${j}-${i}`;
+    const targetCell = document.getElementById(cellId);
+    targetCell.classList.add('cellAlive'); 
+  });
+}
+
+
+function moveFrame(index) {
+  if (index >= 0 && index < sim.renderData.length) {
+    clearSimulation(ui);
+    sim.currentIndex = index;
+    writeAliveCells(sim);
+    ui.generation.innerText = `Gen: ${sim.renderData[index]['generation'] + 1}`;
+    ui.population.innerText = `Pop: ${sim.renderData[index]['population']}`;
+  }
+}
+
+
 //# Render the simulation. ### TODO ### this function accepts simulation as
 // an argument, but also calls global 'sim' variable. Work on only using the 
 // the argument and reducing dependence on the sim variable.
@@ -114,44 +169,24 @@ function renderSimulation(simulation, userInterface) {
 
   const renderData = simulation.renderData;
 
-  function writeAliveCells(aliveList) {
-    aliveList.forEach((cell) => {
-      let [j, i] = cell;
-      const cellId = `${j}-${i}`;
-      const targetCell = document.getElementById(cellId);
-      targetCell.classList.add('cellAlive'); 
-    });
-  }
 
-
-  let index = simulation.pausedIndex;
+  let renderIndex = simulation.currentIndex;
   // Defaults to 0 in a new simulation.
-
 
   const animation = setInterval(() => {
   /**We call the SetInterval function to enter the animation loop. We
    * pass the setInterval ID to the variable 'animation' so that we can
    * exit the interval later with clearInterval.  
    */
-    if (index < renderData.length) { 
+    if (renderIndex < renderData.length) { 
       // continue if we haven't reached the end of the data array.
       if (!sim.paused) {
-        clearSimulation(userInterface);
-        // query all alive cells and remove the cellAlive class from them.
-        writeAliveCells(renderData[index]['alive']);
-        // read the 'alive' value of the current 'index' (frame) of the
-        // renderData.
-
-        // update these two elements.
-        ui.generation.innerText = `Gen: ${renderData[index]['generation'] + 1}`;
-        ui.population.innerText = `Pop: ${renderData[index]['population']}`;
-
-        index++;
+        moveFrame(renderIndex);
+        renderIndex++;
 
       } else {
         // If we ever hit the stop button and pause the simulation.
         // (more details in the stop button)
-        simulation.pausedIndex = index;
         clearInterval(animation);
         console.log("Simulation Paused.");
       }
@@ -159,7 +194,7 @@ function renderSimulation(simulation, userInterface) {
       // If we reach the end of the animation:
       // (i.e.: index becomes equal or greater than renderData.length )
       clearInterval(animation);
-      simulation.pausedIndex = 0;
+      sim.paused = true;
 
       // toggles
       ui.startBtn.disabled = false;
@@ -174,7 +209,8 @@ function renderSimulation(simulation, userInterface) {
 }
 
 
-// ## Button wrapper functions.
+// ###
+// Button wrapper functions.
 function startAction () {
   console.log("startAction() initiated.")
 
@@ -259,6 +295,9 @@ function fetchSimulation(pattern="Random") {
   console.log("fetchSimulation() called.")
 
   ui.pageHeader.innerText = "Loading";
+  ui.generation.innerText = `Gen: 0`;
+  ui.population.innerText = `Pop: 0`;
+
   const loading = setInterval(() => {
     ui.pageHeader.innerText += ".";
     if (ui.pageHeader.innerText.length > 10) {
@@ -292,12 +331,15 @@ function fetchSimulation(pattern="Random") {
       clearInterval(loading);
       ui.pageHeader.innerText = "Conway's Game of Life";
 
+      moveFrame(0);
+
       console.log("fetchSimulation() complete!");
     })
 }
 
 
-//## Attach wrapper functions to buttons.
+// ###
+// Attach wrapper functions to buttons.
 $("#startButton").click(() => startAction()); 
 $("#stopButton").click(() => stopAction());
 $("#newButton").click(() => newAction());

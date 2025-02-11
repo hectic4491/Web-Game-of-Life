@@ -34,7 +34,7 @@ def simdata():
 
     data = Simulation(height = 50,
                     width= 90,
-                    steps = 500,
+                    steps = 20,
                     pattern=pattern
                     ).render_data
 

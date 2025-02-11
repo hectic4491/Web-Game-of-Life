@@ -70,3 +70,8 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 
 > This is fun, I'm having a good time working on this project :> -rob
+
+
+> 2/10/2025 07:15:00 -rob
+>
+> To clean up my code, I think I should think about the program interms of the main object's i defined. Simulation and UI. So instead of passing specific properties to functions, i pass the object to the functions and let the internal function logic pull out the object's information as it needs.
