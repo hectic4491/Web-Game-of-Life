@@ -22,14 +22,14 @@ function panGrid(dx, dy) {
   // Boundary Checks
   const maxLeft = 0;
   const maxTop = 0;
-  const minLeft = gridFrame.clientWidth - grid.clientWidth - 2 * borderWidth;
-  const minTop = gridFrame.clientHeight - grid.clientHeight - 2 * borderWidth;
+  const minLeft = gridFrame.clientWidth - grid.clientWidth - (2 * borderWidth);
+  const minTop = gridFrame.clientHeight - grid.clientHeight - (2 * borderWidth);
   
   // Ensure the new position is within boundaries
-  if (newLeft > maxLeft) newLeft = maxLeft;
-  if (newTop > maxTop) newTop = maxTop;
-  if (newLeft < minLeft) newLeft = minLeft;
-  if (newTop < minTop) newTop = minTop;
+  if (newLeft > maxLeft) {newLeft = maxLeft};
+  if (newTop > maxTop) {newTop = maxTop};
+  if (newLeft < minLeft) {newLeft = minLeft};
+  if (newTop < minTop) {newTop = minTop};
 
   // Update the grid position
   gridPosition.left = newLeft;

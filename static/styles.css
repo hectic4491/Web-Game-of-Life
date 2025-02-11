@@ -175,7 +175,7 @@ body {
 	left: 0;
 	width: calc(var(--simulation-columns) * 32px);
 	height: calc(var(--simulation-rows) * 32px);
-	border: 32px solid var(--color-dead-cell);
+	border: 28px solid var(--color-dead-cell);
 	padding: 3px;
 	/*This is for the Simulation*/
 	display: grid;
