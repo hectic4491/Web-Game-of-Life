@@ -29,7 +29,6 @@ def simdata():
 
     pattern_name = str(request.form.get('PatternName'))
 
-    ###FIXME: sending a drawn returns a random simulation.
     print(f"Pattern Name: {pattern_name}")
 
     if pattern_name == "Drawn":

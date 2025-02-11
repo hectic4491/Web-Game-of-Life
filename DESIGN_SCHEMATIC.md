@@ -8,11 +8,11 @@
 The idea of this project is that we have an interactive Game of Life. This includes:
 - Loading and Saving different simulation seeds / patterns. [DONE]
 - Moving the select menu to a new menu that slides out to the right of the control panel.
-- Drawing a simulation pattern.
+- Drawing a simulation pattern. [DONE]
 - Pausing and continuing a current simulation. [DONE]
-- Allowing the user to scrub through iterations of the simulation, allowing editing at any step. [WIP]
+- Allowing the user to scrub through iterations of the simulation, allowing editing at any step. [DONE]
 - Displaying data about each live simulation (current generations and current population count). [DONE]
-- Displaying the simulation as a "window" and allowing zooming in/out, and panning across the grid. [WIP]
+- Displaying the simulation as a "window" and allowing zooming in/out, and panning across the grid. [DONE]
 - A settings panel which would allow
 - - Changing the colors of the GUI
 - - Changing the framerate of the GUI
@@ -24,9 +24,7 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 ### ++TODO List++
 - Use Numpy on the backend to utilize arrays.
 - We can currently run the simulation at a set size for a set number of iterations.
-- Allowing the backend to process a sent simulation pattern.
 - Settings. 
-- Adding the drawing functionality.
 - Reformating the CSS page.
 - Reformating the grid size to be dynamic and not hard coded.
 - Having the simulationField grid generate an appropriate size for the user's browser.
@@ -49,6 +47,11 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 > Selecting from a library of pre-existing patterns.
 
 > Adding the scrubbing functionality.
+
+> Adding the drawing functionality.
+
+> Allowing the backend to process a sent simulation pattern.
+
 ## +NOTES+
 >  11/28/2024 06:35:00 -rob
 >  Set difference: 
