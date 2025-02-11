@@ -10,7 +10,7 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 - Moving the select menu to a new menu that slides out to the right of the control panel.
 - Drawing a simulation pattern.
 - Pausing and continuing a current simulation. [DONE]
-- Allowing the user to scrub through iterations of the simulation, allowing editing at any step. 
+- Allowing the user to scrub through iterations of the simulation, allowing editing at any step. [WIP]
 - Displaying data about each live simulation (current generations and current population count). [DONE]
 - Displaying the simulation as a "window" and allowing zooming in/out, and panning across the grid. [WIP]
 - A settings panel which would allow
@@ -27,7 +27,6 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 - Allowing the backend to process a sent simulation pattern.
 - Settings. 
 - Adding the drawing functionality.
-- Adding the scrubbing functionality.
 - Reformating the CSS page.
 - Reformating the grid size to be dynamic and not hard coded.
 - Having the simulationField grid generate an appropriate size for the user's browser.
@@ -49,7 +48,7 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 > Selecting from a library of pre-existing patterns.
 
-
+> Adding the scrubbing functionality.
 ## +NOTES+
 >  11/28/2024 06:35:00 -rob
 >  Set difference: 
@@ -75,3 +74,6 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 > 2/10/2025 07:15:00 -rob
 >
 > To clean up my code, I think I should think about the program interms of the main object's i defined. Simulation and UI. So instead of passing specific properties to functions, i pass the object to the functions and let the internal function logic pull out the object's information as it needs.
+
+> The select and draw functions should generate their own sub menus.
+> Draw will allow us to clear the current screen, or to plainly edit the current frame.

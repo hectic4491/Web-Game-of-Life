@@ -68,7 +68,9 @@ fetchSimulation();
 generateGrid(sim);
 
 
-// Space bar to start and stop the simulation.
+// ##
+// Document event listeners
+// ' ' (Space bar) to start and stop the simulation.
 document.addEventListener('keydown', function(event) {
   if (event.key == " ") {
     if (sim.paused) {
@@ -79,20 +81,33 @@ document.addEventListener('keydown', function(event) {
   } 
 });
 
-// '.' to move to the next frame.
+// '.' (>) to move to the next frame.
 document.addEventListener('keydown', function(event) {
   if (event.key == "." && sim.paused) {
     moveFrame(sim.currentIndex + 1);
   }
 });
 
-// ',' to move to the previous frame.
+// ',' (<) to move to the previous frame.
 document.addEventListener('keydown', function(event) {
   if (event.key == "," && sim.paused) {
     moveFrame(sim.currentIndex - 1);
   }
 });
 
+// 'r' to reset the simulation.
+document.addEventListener('keydown', function(event) {
+  if (event.key == "r" && sim.paused) {
+    moveFrame(0);
+  }
+});
+
+// 'n' to fetch a new simulation.
+document.addEventListener('keydown', function(event) {
+  if (event.key == "n" && sim.paused) {
+    newAction();
+  }
+});
 
 // ###
 // Functions
