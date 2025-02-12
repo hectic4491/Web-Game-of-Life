@@ -22,6 +22,8 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 
 
 ### ++TODO List++
+- Add a database to store user seeds that can be fetched from the client
+- The site has users
 - Use Numpy on the backend to utilize arrays.
 - We can currently run the simulation at a set size for a set number of iterations.
 - Settings. 
@@ -86,3 +88,5 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 > The button colors should change to grey when they aren't currently clickable.
 
 > While in drawing mode, if we have an empty grid and click new, the backend handles this as "random"
+
+
