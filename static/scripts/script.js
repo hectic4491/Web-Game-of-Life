@@ -1,6 +1,5 @@
 //## Main Objects to pass around the program.
 
-//TODO: Make the drawing functionality work.
 //FIXME: The naming convention is not consistent
 //FIXME: The use of the sim and ui object's is not consistent.
 //       The functions should be able to take in the objects as arguments.
@@ -13,19 +12,21 @@ const sim = {
   height: 50, // TODO: Make this a user input
   width: 90, // TODO: Make this a user input
   fps: 100, // Milliseconds; i.e.: 10fps
-  renderData: NaN, // Where we store the fetched data from the server.
+  patternData: undefined, // Where we store the fetched data from the server.
   paused: true,
   currentIndex: 0,
   pattern: "Random",
   drawing: false,
-  drawnPattern: NaN,
+  drawnPattern: undefined,
+  fetching: false,
 
   resetAnimation: function() {
     console.log(`sim.resetAnimation() called.`);
-    this.renderData = NaN; // We want to reset this.
+    this.patternData = undefined; // We want to reset this.
     this.currentIndex = 0; // We want to rest this.
   }
 }
+
 
 const ui = {
   // This object will hold the data for the user interface.
@@ -35,21 +36,15 @@ const ui = {
   stopBtn: document.getElementById("stopButton"),
   newBtn: document.getElementById("newButton"),
   selectBtn: document.getElementById("selectButton"),
-  drawBtn: document.getElementById("drawButton"),
-  // Select Button type-container
-  typeContainer: document.getElementById("type-container"),
-  // Select Button toggle
   selectToggle: 0,
-  // Draw Button Toggle
-  drawToggle: 0, //false
-  // Simulation display
-  grid: document.getElementById("grid"),
-  // Simulation Info
-  patternName: document.getElementById("simulationType"),
-  population: document.getElementById("population"),
-  generation: document.getElementById("generation"),
-  // Header Info
-  pageHeader: document.getElementById("main-header"),
+  drawBtn: document.getElementById("drawButton"),
+  drawToggle: 0,
+  typeContainer: document.getElementById("type-container"), // Select Button type-container
+  grid: document.getElementById("grid"),  // Simulation display
+  patternName: document.getElementById("simulationType"), // Simulation Info
+  population: document.getElementById("population"),      // Simulation Info
+  generation: document.getElementById("generation"),      // Simulation Info
+  pageHeader: document.getElementById("main-header"), // Header Info
   
 
   initialize: function() {
@@ -60,9 +55,7 @@ const ui = {
     this.selectBtn.disabled = true,
     this.drawBtn.disabled = true, 
     // Select Type container
-    this.typeContainer.style.visibility = "hidden";
-    // Header info
-    this.pageHeader.innerText = "Conway's Game of Life";
+    this.typeContainer.style.display = "none";
   }
 }
 
@@ -71,7 +64,7 @@ const ui = {
 // Main
 ui.initialize();
 fetchSimulation();
-generateGrid(sim);
+generateGrid();
 
 
 // ##
@@ -110,8 +103,15 @@ document.addEventListener('keydown', function(event) {
 
 // 'n' to fetch a new simulation.
 document.addEventListener('keydown', function(event) {
-  if (event.key == "n" && sim.paused) {
+  if (event.key == "n" && sim.paused && !sim.drawing) {
     newAction();
+  }
+});
+
+// 'd' to toggle the draw mode.
+document.addEventListener('keydown', function(event) {
+  if (event.key == "d" && sim.paused) {
+    drawAction();
   }
 });
 
@@ -120,14 +120,14 @@ document.addEventListener('keydown', function(event) {
 // Functions
 
 //# Generate the grid based off the simulation's dimensions.
-function generateGrid (simulation) {
+function generateGrid () {
 /**This create's the cell div elements that will be animated for
  * the Game of Life simulation. It gives them the class name of 'cell'
  * and a unique id that corresponds to their "i-j" coordinates.
  */
   console.log("generateGrid() called.");
-  for (let i = 0; i < simulation.height; i++) {
-    for (let j = 0; j < simulation.width; j++) {
+  for (let i = 0; i < sim.height; i++) {
+    for (let j = 0; j < sim.width; j++) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
       cell.setAttribute('id', (String(i) + "-" + String(j)));
@@ -167,7 +167,7 @@ function drawMode(mode) {
     clearBtn.classList.add('button');
     clearBtn.innerText = 'Clear';
     clearBtn.addEventListener('click', () => {
-      clearSimulation(ui);
+      clearSimulation();
       ui.population.innerText = 'Pop: 0';
     });
 
@@ -214,7 +214,7 @@ function drawMode(mode) {
 
 
 //# Clear the simulation
-function clearSimulation (userInterface) {
+function clearSimulation () {
   /**Selects all cells of the "cellAlive" class and removes them
    * from that class. Thus the cells revert back to their default
    * class and use the default element's color property.
@@ -223,15 +223,15 @@ function clearSimulation (userInterface) {
    */
   console.log("clearSimulation() called.");
 
-  const childNodes = userInterface.grid.querySelectorAll('.cellAlive');
+  const childNodes = ui.grid.querySelectorAll('.cellAlive');
   childNodes.forEach((child) => {
     child.classList.toggle('cellAlive');
   });
 }
 
 
-function writeAliveCells(simulation) {
-  aliveList = simulation.renderData[simulation.currentIndex]['alive'];
+function writeAliveCells() {
+  aliveList = sim.patternData[sim.currentIndex]['alive'];
 
   aliveList.forEach((cell) => {
     let [j, i] = cell;
@@ -243,12 +243,12 @@ function writeAliveCells(simulation) {
 
 
 function moveFrame(index) {
-  if (index >= 0 && index < sim.renderData.length) {
-    clearSimulation(ui);
+  if (index >= 0 && index < sim.patternData.length) {
+    clearSimulation();
     sim.currentIndex = index;
-    writeAliveCells(sim);
-    ui.generation.innerText = `Gen: ${sim.renderData[index]['generation'] + 1}`;
-    ui.population.innerText = `Pop: ${sim.renderData[index]['population']}`;
+    writeAliveCells();
+    ui.generation.innerText = `Gen: ${sim.patternData[index]['generation'] + 1}`;
+    ui.population.innerText = `Pop: ${sim.patternData[index]['population']}`;
   }
 }
 
@@ -257,7 +257,7 @@ function moveFrame(index) {
 // an argument, but also calls global 'sim' variable. Work on only using the 
 // the argument and reducing dependence on the sim variable.
 
-function renderSimulation(simulation, userInterface) {
+function renderSimulation() {
   /**We create an inner function  named writeAlive Cellsthat processes
    * an array of cell id's and adds their class to alive, so that it can
    * be displayed with the new classes color properties. This handles
@@ -265,22 +265,12 @@ function renderSimulation(simulation, userInterface) {
    */
   console.log("renderSimulation() called.")
 
-  const renderData = simulation.renderData;
-
-
-  let renderIndex = simulation.currentIndex;
-  // Defaults to 0 in a new simulation.
-
   const animation = setInterval(() => {
-  /**We call the SetInterval function to enter the animation loop. We
-   * pass the setInterval ID to the variable 'animation' so that we can
-   * exit the interval later with clearInterval.  
-   */
-    if (renderIndex < renderData.length) { 
+    if (sim.currentIndex < sim.patternData.length) { 
       // continue if we haven't reached the end of the data array.
       if (!sim.paused) {
-        moveFrame(renderIndex);
-        renderIndex++;
+        moveFrame(sim.currentIndex);
+        sim.currentIndex++;
 
       } else {
         // If we ever hit the stop button and pause the simulation.
@@ -290,7 +280,7 @@ function renderSimulation(simulation, userInterface) {
       }
     } else {
       // If we reach the end of the animation:
-      // (i.e.: index becomes equal or greater than renderData.length )
+      // (i.e.: index becomes equal or greater than patternData.length )
       clearInterval(animation);
       sim.paused = true;
 
@@ -320,7 +310,7 @@ function startAction () {
   ui.drawBtn.disabled = true;
   
   sim.paused = false;
-  renderSimulation(sim, ui);
+  renderSimulation();
   console.log("startAction() complete.")
 }
 
@@ -368,7 +358,7 @@ function selectAction () {
     ui.newBtn.disabled = true;
     ui.drawBtn.disabled = true;
 
-    ui.typeContainer.style.visibility = "visible";
+    ui.typeContainer.style.display = "flex";
     console.log("selectAction() initiated. Showing the select menu");
   } else if (ui.selectToggle == 1) {
 
@@ -378,7 +368,7 @@ function selectAction () {
     ui.newBtn.disabled = false;
     ui.drawBtn.disabled = false;
 
-    ui.typeContainer.style.visibility = "hidden";
+    ui.typeContainer.style.display = "none";
     console.log("selectAction() initiated. Hiding the select menu");
   };
 }
@@ -408,6 +398,7 @@ function drawAction () {
   }
 }
 
+
 function preventDefaultSpaceBar(event) {
   if (event.code === "Space") {
     event.preventDefault();
@@ -430,11 +421,10 @@ function fetchSimulation(pattern="Random") {
       const [j, i] = cellId.split('-'); // these are strings, they need to be integers
       aliveCells.push([parseInt(j), parseInt(i)]);
     });
-    console.log(aliveCells)
     form.append("DrawnPattern", JSON.stringify(aliveCells));
   }
 
-  // UX
+  // Loading UX
   ui.pageHeader.innerText = "Loading";
   ui.generation.innerText = `Gen: 0`;
   ui.population.innerText = `Pop: 0`;
@@ -446,18 +436,18 @@ function fetchSimulation(pattern="Random") {
   }, 200);
 
 
-  clearSimulation(ui);
+  clearSimulation();
   sim.resetAnimation();
 
   ui.selectToggle = 0;
   ui.selectBtn.disabled = true;
 
-  ui.typeContainer.style.visibility = "hidden";
+  ui.typeContainer.style.display = "none";
 
   fetch('/simdata', {method: "POST", body: form})
     .then((response) => response.json())
-    .then((renderData) => {
-      sim.renderData = renderData;
+    .then((patternData) => {
+      sim.patternData = patternData;
       sim.pattern = pattern;
 
       // toggles

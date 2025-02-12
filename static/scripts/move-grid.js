@@ -1,8 +1,6 @@
 /**javascript file to control the movement of the 'simulationField'
  * element. We listen for the left, right, up, and down arrow keys.*/ 
 
-//TODO: work on maximum grid position to prevent infinite scrolling.
-//FIXME: the grid should maybe move more smoothly.
 
 const gridFrame = document.getElementById('grid-frame');
 const grid = document.getElementById('grid');
@@ -11,7 +9,15 @@ let gridPosition = { top: 0, left: 0 };
 // grid position is initiated at 0, 0
 
 
+function isOverflowing() {
+  // Check if the grid is overflowing the grid frame
+  return grid.clientWidth > gridFrame.clientWidth || grid.clientHeight > gridFrame.clientHeight;
+}
+
 function panGrid(dx, dy) {
+  if (!isOverflowing()) {
+    return;
+  }
   // the panning functionality.
   let newLeft = gridPosition.left + dx;
   let newTop = gridPosition.top + dy;
@@ -26,10 +32,29 @@ function panGrid(dx, dy) {
   const minTop = gridFrame.clientHeight - grid.clientHeight - (2 * borderWidth);
   
   // Ensure the new position is within boundaries
-  if (newLeft > maxLeft) {newLeft = maxLeft};
-  if (newTop > maxTop) {newTop = maxTop};
-  if (newLeft < minLeft) {newLeft = minLeft};
-  if (newTop < minTop) {newTop = minTop};
+  if (newLeft > maxLeft) {
+    if (Math.abs(newLeft - maxLeft) >= 16) {
+      newLeft = maxLeft
+    } else {newLeft = gridPosition.left};
+  };
+
+  if (newTop > maxTop) {
+    if (Math.abs(newTop - maxTop) >= 16) {
+      newTop = maxTop
+    } else {newTop = gridPosition.top};
+  };
+
+  if (newLeft < minLeft) {
+    if (Math.abs(newLeft - minLeft) >= 16) {
+      newLeft = minLeft
+    } else {newLeft = gridPosition.left};
+};
+
+  if (newTop < minTop) {
+    if (Math.abs(newTop - minTop) >= 16) {
+      newTop = minTop
+    } else {newTop = gridPosition.top};
+  };
 
   // Update the grid position
   gridPosition.left = newLeft;
