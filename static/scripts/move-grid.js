@@ -1,4 +1,4 @@
-/**javascript file to control the movement of the 'simulationField'
+/**javascript file to control the movement of the 'grid'
  * element. We listen for the left, right, up, and down arrow keys.*/ 
 
 
