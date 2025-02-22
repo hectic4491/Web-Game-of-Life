@@ -2,7 +2,6 @@ $(document).ready(function() {
   console.log(`executing main.js`)
   // Load JavaScript files
   loadScript('static/scripts/script.js')
-  loadScript('static/scripts/ux-design.js')
   loadScript('static/scripts/move-grid.js')
   //... Add more as needed...
 

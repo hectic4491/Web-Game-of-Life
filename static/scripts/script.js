@@ -29,22 +29,33 @@ const sim = {
 
 
 const ui = {
-  // This object will hold the data for the user interface.
-  // Control 
-  buttonContainer: document.getElementById("button-container"),
+  /* This object relates its properties to elements on index.html and
+  provides the starting state of buttons and other elements.
+  */
+  // Header
+  pageHeader: document.getElementById("mainHeader"),
+  // Button Container 
+  buttonContainer: document.getElementById("buttonContainer"),
+  // Buttons
   startBtn: document.getElementById("startButton"),
   stopBtn: document.getElementById("stopButton"),
   newBtn: document.getElementById("newButton"),
   selectBtn: document.getElementById("selectButton"),
-  selectToggle: 0,
   drawBtn: document.getElementById("drawButton"),
+  // Button Toggles
+  selectToggle: 0,
   drawToggle: 0,
-  typeContainer: document.getElementById("type-container"), // Select Button type-container
-  grid: document.getElementById("grid"),  // Simulation display
-  patternName: document.getElementById("simulationType"), // Simulation Info
-  population: document.getElementById("population"),      // Simulation Info
-  generation: document.getElementById("generation"),      // Simulation Info
-  pageHeader: document.getElementById("main-header"), // Header Info
+  // ###FIXME### typeContainer still uses the old naming convention.
+  // typeContainer should refer to the dialog element 'selectMenu'.
+  typeContainer: document.getElementById("typeContainer"),
+  // Simulation display
+  grid: document.getElementById("grid"),
+  // Simulation Info
+  patternName: document.getElementById("simulationType"),
+  population: document.getElementById("population"),
+  generation: document.getElementById("generation"),
+  // Menus
+  settingsMenu: document.getElementById("settingsMenu"), // Settings Menu
   
 
   initialize: function() {
@@ -163,7 +174,7 @@ function drawMode(mode) {
 
     // Create Clear button
     const clearBtn = document.createElement('button');
-    clearBtn.id = 'clear-button';
+    clearBtn.id = 'clearButton';
     clearBtn.classList.add('button');
     clearBtn.innerText = 'Clear';
     clearBtn.addEventListener('click', () => {
@@ -174,7 +185,7 @@ function drawMode(mode) {
 
     // Create Generate button
     const generateBtn = document.createElement('button');
-    generateBtn.id = 'generate-button';
+    generateBtn.id = 'generateButton';
     generateBtn.classList.add('button');
     generateBtn.innerText = 'Generate';
     generateBtn.addEventListener('click', () => {
@@ -202,8 +213,8 @@ function drawMode(mode) {
       cell.removeEventListener('click', toggleCell);
     });
 
-    const clearButton = document.getElementById('clear-button');
-    const generateButton = document.getElementById('generate-button');
+    const clearButton = document.getElementById('clearButton');
+    const generateButton = document.getElementById('generateButton');
     clearButton.remove();
     generateButton.remove();
 
@@ -475,7 +486,7 @@ $("#selectButton").click(() => selectAction());
 $("#drawButton").click(() => drawAction());
 
 
-$("#type-1").click(() => fetchSimulation("Random"));
-$("#type-2").click(() => fetchSimulation("Blinker"));
-$("#type-3").click(() => fetchSimulation("Glider"));
-$("#type-4").click(() => fetchSimulation("Glider Gun"));
+$("#type1").click(() => fetchSimulation("Random"));
+$("#type2").click(() => fetchSimulation("Blinker"));
+$("#type3").click(() => fetchSimulation("Glider"));
+$("#type4").click(() => fetchSimulation("Glider Gun"));

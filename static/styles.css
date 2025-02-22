@@ -9,23 +9,18 @@
 	--color-dead-cell: #23333e;
 	--simulation-columns: 90;
 	--simulation-rows: 50;
+	--cell-size: 3vh;
 }
 
-body {
+html, body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Courier New', Courier, monospace;
-	font-size: 32px;
+	font-size: 2vh;
 	overflow: hidden;
 }
 
-#main-body {
-	display: flex;
-	height: 100vh;
-	overflow: hidden;
-}
-
-#main-container {
+.mainContainer {
 	display: flex;
 	flex-direction: column;
 	width: 100vw;
@@ -33,11 +28,14 @@ body {
 	overflow: hidden;
 }
 
-#main-header {
+.mainHeader {
+	font-weight: 400;
+	padding: 1vh;
+	font-size: 2rem;
 	background-color: var(--color-background);
 	border: 0.5rem solid var(--color-page-border);
 	border-bottom: 0;
-	min-height: 8vh;
+	min-height: 3vh;
 	
 	/* These help to center the text */
 	display: flex;
@@ -45,7 +43,13 @@ body {
 	align-items: center;
 }
 
-#control-panel {
+.mainBody {
+	display: flex;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.controlPanel {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -57,47 +61,13 @@ body {
 	width: 8rem;
 }
 
-#button-container{
+.buttonContainer{
 	width: 100%;
 	min-width: 6rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 0;
-}
-
-.type-container{
-	width: 100%;
-	min-width: 6rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 0;
-}
-
-.type-spacer {
-	font-size: 1rem;
-	padding: 0.5rem;
-	margin: 0.5rem;
-	height: 1rem;
-	width: 100%;
-}
-
-.type-button {
-	font-size: 1rem;
-	background-color: var(--color-white);
-	padding: 0.5rem;
-	margin: 0.5rem;
-	width: 100%;
-
-	cursor: pointer;
-
-	border: 3px solid var(--color-control-border);
-	border-radius: 5px;
-}
-
-.type-button:active {
-	background-color: var(--color-background) !important;
 }
 
 .button {
@@ -114,19 +84,53 @@ body {
 }
 
 .button:active {
-	background-color: var(--color-background) !important;
+	background-color: var(--color-background);
 }
 
-#startButton {
+.startButton {
 	margin-top: 0;
 	background-color: var(--color-start-button);
 }
 
-#stopButton {
+.stopButton {
 	background-color: var(--color-stop-button);
 }
 
-.label-container {
+.typeContainer{
+	width: 100%;
+	min-width: 6rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0;
+}
+
+.typeSpacer {
+	font-size: 1rem;
+	padding: 0.5rem;
+	margin: 0.5rem;
+	height: 1rem;
+	width: 100%;
+}
+
+.typeButton {
+	font-size: 1rem;
+	background-color: var(--color-white);
+	padding: 0.5rem;
+	margin: 0.5rem;
+	width: 100%;
+
+	cursor: pointer;
+
+	border: 3px solid var(--color-control-border);
+	border-radius: 5px;
+}
+
+.typeButton:active {
+	background-color: var(--color-background);
+}
+
+.labelContainer {
 	font-family: sans-serif;
 	font-size: 1rem;
 	background-color: var(--color-white);
@@ -138,15 +142,15 @@ body {
 	border-radius: 5px;
 	}
 
-#simulationType {
+.simulationType {
 		margin: 0.5rem;
 	}
 	
-#population {
+.population {
 		margin: 0.5rem;
 	}
 
-#simulation-window {
+.simulationWindow {
 	flex: 1;
 	display: flex;
 	align-items: center;
@@ -159,7 +163,7 @@ body {
 	box-sizing: border-box;
 }
 
-#grid-frame {
+.gridFrame {
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -169,18 +173,18 @@ body {
 	box-sizing: border-box;
 }
 
-#grid {
+.grid {
 	position: relative;
 	top: 0;
 	left: 0;
-	width: calc(var(--simulation-columns) * 32px);
-	height: calc(var(--simulation-rows) * 32px);
-	border: 28px solid var(--color-dead-cell);
-	padding: 3px;
+	width: calc(var(--simulation-columns) * var(--cell-size));
+	height: calc(var(--simulation-rows) * var(--cell-size));
+	border: calc(var(--cell-size) * 0.9) solid var(--color-dead-cell);
+	padding:calc(var(--cell-size) * 0.1);
 	/*This is for the Simulation*/
 	display: grid;
-	grid-template-rows: repeat(var(--simulation-rows), 32px);
-	grid-template-columns: repeat(var(--simulation-columns), 32px);
+	grid-template-rows: repeat(var(--simulation-rows), var(--cell-size));
+	grid-template-columns: repeat(var(--simulation-columns), var(--cell-size));
 	/*This is to center the gridCells*/
 	justify-content: start;
 	align-items: start;
@@ -188,15 +192,17 @@ body {
 	align-content: start;
 }
 
+
 .cell {
 	background-color: var(--color-dead-cell);
 	position: relative;
-	width: 32px;
-	height: 32px;
-	border: 3px solid var(--color-control-border);
+	width: var(--cell-size);
+	height: var(--cell-size);
+	border: calc(var(--cell-size) * 0.1) solid var(--color-control-border);
 	transition: transform 0.1s ease-in-out;
 	transform-origin: center;
 	box-sizing: border-box;
+	transform: scale(1);
 }
 
 .cellAlive {
@@ -204,5 +210,6 @@ body {
 }
 
 .cell:hover {
+	border: calc(var(--cell-size) * 0.2) solid var(--color-white);
 	transform: scale(0.8);
 }

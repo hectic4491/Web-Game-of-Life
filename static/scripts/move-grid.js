@@ -2,7 +2,7 @@
  * element. We listen for the left, right, up, and down arrow keys.*/ 
 
 
-const gridFrame = document.getElementById('grid-frame');
+const gridFrame = document.getElementById('gridFrame');
 const grid = document.getElementById('grid');
 
 let gridPosition = { top: 0, left: 0 };

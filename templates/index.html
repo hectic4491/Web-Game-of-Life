@@ -3,47 +3,58 @@
 
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title></title>
+		<title>Conway's Game of Life</title>
 		<link rel="stylesheet" href="static/styles.css">
 		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	</head>
 
 	<body>
-		<div id="main-container">
-			<div id="main-header">Conway's Game of Life</div>
-			<div id="main-body">
-				<div id="control-panel">
-					<div id="button-container">
-						<button id="startButton" class="button">Start</button>
-						<button id="stopButton" class="button">Stop</button>
-						<button id="newButton" class="button">New</button>
-						<button id="selectButton" class="button">Select</button>
-						<button id="drawButton" class="button">Draw</button>
-							<div id="type-container" class="type-container">
-								<div class="type-spacer">
+		<div class="mainContainer">
+			<div class="mainHeader" id="mainHeader">Conway's Game of Life</div>
+			<div class="mainBody">
+				<div class="controlPanel">
+					<div class="buttonContainer" id="buttonContainer">
+						<button class="button startButton" id="startButton">Start</button>
+						<button class="button stopButton" id="stopButton">Stop</button>
+						<button class="button" id="newButton">New</button>
+						<button class="button" id="selectButton">Select</button>
+						<button class="button" id="drawButton">Draw</button>
+							<div class="typeContainer" id="typeContainer">
+								<div class="typeSpacer">
 								</div><!--type-spacer is left empty.-->
-								<button id="type-1" class="type-button">Random</button>
-								<button id="type-2" class="type-button">Blinker</button>
-								<button id="type-3" class="type-button">Glider</button>
-								<button id="type-4" class="type-button">Glider Gun</button>
+								<button class="typeButton" id="type1">Random</button>
+								<button class="typeButton" id="type2">Blinker</button>
+								<button class="typeButton" id="type3">Glider</button>
+								<button class="typeButton" id="type4">Glider Gun</button>
 							</div>
 						</div>
-						<div class="label-container">
-							<p id="simulationType" class="data-label">Type</p>
-							<p id="generation" class="data-label">Gen: 0</p>
-							<p id="population" class="data-label">Pop: 0</p>
+						<div class="labelContainer">
+							<p class="simulationType" id="simulationType">Type</p>
+							<p class="generation" id="generation">Gen: 0</p>
+							<p class="population" id="population">Pop: 0</p>
 						</div>
 				</div>
-				<div id="simulation-window">
-					<div id="grid-frame">
-						<div id="grid"></div>
+				<div class="simulationWindow" id="simulationWindow">
+					<div class="gridFrame" id="gridFrame">
+						<div class="grid" id="grid"></div>
+						<!--grid is the div element we append the child
+						cell elements to during the simulation.-->
 					</div>
-					<!--grid is the div element we append the child
-					cell elements to during the simulation.-->
 				</div>
 			</div>
 		</div>
+
+
+		<dialog class="menu" id="selectMenu">
+			<div class="selectMenuHeader" id="selectMenuHeader">
+				Select
+			</div>
+			<div class="selectMenuBody" id="selectMenuBody">
+			</div>
+		</dialog>
+
 
 		<script src="static/scripts/main.js"></script>
 
