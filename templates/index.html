@@ -21,32 +21,43 @@
 			<div class="mainBody">
 				<div class="controlPanel">
 					<div class="buttonContainer" id="buttonContainer">
-						<button class="button playButton" id="playButton" title="[p] - Play/Pause Simulation">
+						<button class="button playButton" id="playButton" title="[ p ] - Play/Pause Simulation">
 							<svg width="60" height="60">
-								<use xlink:href="#playButtonIcon"/>      
+								<use xlink:href="#playIcon"/>      
 							</svg>
 						</button>
-						<div class="stepContainer">
-							<button class="stepButton stepBackwards" id="stepBackwards" title="[ &lt; ] - Step Backwards">
+						<div class="smallButtonContainer">
+							<button class="smallButton stepBackwards" id="stepBackwards" title="[ &lt; ] - Step Backwards">
 								<svg width="35" height="35">
 									<use xlink:href="#stepBackwardsIcon"/>      
 								</svg>
 							</button>
-							<button class="stepButton stepForwards" id="stepForwards" title="[ &gt; ] Step Forwards]">
+							<button class="smallButton stepForwards" id="stepForwards" title="[ &gt; ] - Step Forwards">
 								<svg width="35" height="35">
 									<use xlink:href="#stepForwardsIcon"/>      
 								</svg>
 							</button>
 						</div>
-						<button class="button" id="newButton" title="[n] - New Simulation">New</button>
+						<div class="smallButtonContainer">
+							<button class="smallButton resetButton" id="resetButton" title="[ r ] - Reset Simulation">
+								<svg width="35" height="35">
+									<use xlink:href="#resetIcon"/>      
+								</svg>
+							</button>
+							<button class="smallButton newButton" id="newButton" title="[ n ] - New Simulation">
+								<svg width="35" height="35">
+									<use xlink:href="#newIcon"/>      
+								</svg>
+							</button>
+						</div>
 						<button class="button" id="selectButton" title="[s] - Select Simulation">Select</button>
 						<button class="button" id="drawButton" title="[d] - Draw On Grid">Draw</button>
 
 						</div>
 						<div class="labelContainer">
-							<p class="simulationType" id="simulationType">Type</p>
-							<p class="generation" id="generation">Gen: 0</p>
-							<p class="population" id="population">Pop: 0</p>
+							<p class="simulationType" id="simulationType"></p>
+							<p class="generation" id="generation"></p>
+							<p class="population" id="population"></p>
 						</div>
 				</div>
 				<div class="simulationWindow" id="simulationWindow">
@@ -82,7 +93,7 @@
           <polygon points="15,25 50,0 50,50" />
         </symbol>
 
-        <symbol class="icon playButtonIcon" id="playButtonIcon" viewBox="0 0 90 50">
+        <symbol class="icon playButtonIcon" id="playIcon" viewBox="0 0 90 50">
           <polygon points="0,0 0,50, 50,25" />
           <rect x="50" y="0" width="15" height="50" />
           <rect x="75" y="0" width="15" height="50" />
@@ -91,6 +102,16 @@
         <symbol class="icon stepForwardsIcon" id="stepForwardsIcon" viewBox="0 0 50 50">
           <polygon points="0,0 0,50, 35,25" />
           <rect x="35" y="0" width="15" height="50" />
+        </symbol>
+
+				<symbol class="icon resetButtonIcon" id="resetIcon" viewBox="0 0 50 50">
+          <polygon points="5,5 45,5 45,20 50,20 40,33 30,20 35,20 35,15 5,15"/>
+          <polygon points="45,45 5,45 5,30 0,30 10,17 20,30 15,30 15,35 45,35"/>
+        </symbol>
+
+				<symbol class="icon iconPath newButton" id="newIcon" viewBox="0 0 50 50">
+          <path d="M3,3 L47,3 L47,47 L3,47 Z" fill="none" stroke-width="6"/>
+          <polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22" />
         </symbol>
 
       </defs>

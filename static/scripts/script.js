@@ -70,6 +70,9 @@ const ui = {
     this.newBtn.disabled = true;
     this.selectBtn.disabled = true;
     this.drawBtn.disabled = true;
+    this.patternName.innerText = `${sim.pattern}`;
+    this.generation.innerText = `Gen: 0` ;
+    this.population.innerText = `Pop: 0`
   }
 }
 
@@ -474,6 +477,7 @@ function fetchSimulation(pattern="Random") {
     .then((patternData) => {
       sim.patternData = patternData;
       sim.pattern = pattern;
+      ui.patternName.innerText =`${pattern}`
 
       // toggles
       ui.playBtn.disabled = false;
@@ -494,9 +498,12 @@ function fetchSimulation(pattern="Random") {
 
 // ###
 // Attach wrapper functions to buttons.
+//###FIXME### prevent certain button clicks from firing off if certain actions have
+// been started.
 $("#playButton").click(() => playAction()); 
 $("#stepForwards").click(() => moveFrame(sim.currentIndex + 1));
 $("#stepBackwards").click(() => moveFrame(sim.currentIndex - 1));
+$("#resetButton").click(() => moveFrame(0)); //###FIXME### need to disable this when sim running.
 $("#newButton").click(() => newAction());
 $("#selectButton").click(() => selectActionNew());
 $("#drawButton").click(() => drawAction());

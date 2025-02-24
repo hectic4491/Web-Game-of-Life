@@ -79,6 +79,7 @@ html, body {
 	background-color: var(--color-white);
 	padding: 0.5vh;
 	margin: 0.5rem;
+	margin-top: 0;
 	width: 100%;
 
 	cursor: pointer;
@@ -87,15 +88,17 @@ html, body {
 	border-radius: 5px;
 }
 
-.stepContainer {
+.smallButtonContainer {
 	width: 100%;
 	min-width: 6rem;
 	display: flex;
 	justify-content: space-between;
 	padding: 0;
+	margin: 0.5rem;
+	margin-top: 0;
 }
 
-.stepButton {
+.smallButton {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -269,4 +272,15 @@ html, body {
 
 .icon {
 	fill: var(--color-dead-cell);
+}
+
+.icon.iconPath{
+	path {
+		fill: none;
+		stroke: var(--color-dead-cell);
+		stroke-width: 6;
+	}
+	rect {
+		fill: var(--color-dead-cell);
+	}
 }
