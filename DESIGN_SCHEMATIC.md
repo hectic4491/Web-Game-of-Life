@@ -95,3 +95,8 @@ The idea of this project is that we have an interactive Game of Life. This inclu
 > While in drawing mode, if we have an empty grid and click new, the backend handles this as "random"
 
 
+> 2/24/2025 11:52:00 -rob
+>
+> JavaScript if statements have sort-circuit evaluation. Meaning that when we are chaining multiple booleans with the AND operator (&&) the if statement will exit after the first 'false' value is encountered. 
+
+

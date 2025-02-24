@@ -72,34 +72,35 @@ function panGrid(dx, dy) {
 // document.getElementById('panDown').addEventListener('click', () => panGrid(0, 10));
 
 // Document Event listeners (for keybroad presses to move grid)
-let listeningKeys = {};
+let listeningMoveKeys = {};
 //let directions = {'left': (), 'right': (), 'up': (), 'down': ()}
 
 document.addEventListener('keydown', function(event) {
-  listeningKeys[event.key] = true;
-  handleKeyPresses();
+  // console.log("Hello from move-grid.js");
+  listeningMoveKeys[event.key] = true;
+  handleMoveKeyPresses();
 });
 document.addEventListener('keyup', function(event) {
-  listeningKeys[event.key] = false;
-  handleKeyPresses();
+  listeningMoveKeys[event.key] = false;
+  handleMoveKeyPresses();
 });
 
-function handleKeyPresses() {
-  if (listeningKeys['ArrowLeft'] && listeningKeys['ArrowUp']) {
+function handleMoveKeyPresses() {
+  if (listeningMoveKeys['ArrowLeft'] && listeningMoveKeys['ArrowUp']) {
       panGrid(16, 16);
-  } else if (listeningKeys['ArrowLeft'] && listeningKeys['ArrowDown']) {
+  } else if (listeningMoveKeys['ArrowLeft'] && listeningMoveKeys['ArrowDown']) {
       panGrid(16, -16);
-  } else if (listeningKeys['ArrowRight'] && listeningKeys['ArrowUp']) {
+  } else if (listeningMoveKeys['ArrowRight'] && listeningMoveKeys['ArrowUp']) {
       panGrid(-16, 16);
-  } else if (listeningKeys['ArrowRight'] && listeningKeys['ArrowDown']) {
+  } else if (listeningMoveKeys['ArrowRight'] && listeningMoveKeys['ArrowDown']) {
       panGrid(-16, -16);
-  } else if (listeningKeys['ArrowLeft']) {
+  } else if (listeningMoveKeys['ArrowLeft']) {
       panGrid(16, 0);
-  } else if (listeningKeys['ArrowRight']) {
+  } else if (listeningMoveKeys['ArrowRight']) {
       panGrid(-16, 0);
-  } else if (listeningKeys['ArrowUp']) {
+  } else if (listeningMoveKeys['ArrowUp']) {
       panGrid(0, 16);
-  } else if (listeningKeys['ArrowDown']) {
+  } else if (listeningMoveKeys['ArrowDown']) {
       panGrid(0, -16);
   }
 }

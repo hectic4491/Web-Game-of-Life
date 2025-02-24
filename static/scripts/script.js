@@ -13,12 +13,12 @@ const sim = {
   width: 90, // TODO: Make this a user input
   fps: 100, // Milliseconds; i.e.: 10fps
   patternData: undefined, // Where we store the fetched data from the server.
-  paused: true,
   currentIndex: 0,
   pattern: "Random",
-  drawing: false,
   drawnPattern: undefined,
+  drawing: false,
   fetching: false,
+
 
   resetAnimation: function() {
     console.log(`sim.resetAnimation() called.`);
@@ -39,16 +39,18 @@ const ui = {
   // Button Container 
   buttonContainer: document.getElementById("buttonContainer"),
   // Buttons
-  startBtn: document.getElementById("startButton"),
-  stopBtn: document.getElementById("stopButton"),
+  playBtn: document.getElementById("playButton"),
   newBtn: document.getElementById("newButton"),
   selectBtn: document.getElementById("selectButton"),
   drawBtn: document.getElementById("drawButton"),
   forwardBtn: document.getElementById('stepForwards'),
   backwardBtn: document.getElementById('stepBackwards'),
   // Button Toggles
-  selectToggle: 0,
-  drawToggle: 0,
+  playToggle: false,
+  selectToggle: false,
+  drawToggle: false,
+  // Keydown Booleans
+  heldDownKeys: {},
   // ###FIXME### typeContainer still uses the old naming convention.
   // typeContainer should refer to the dialog element 'selectMenu'.
   typeContainer: document.getElementById("typeContainer"),
@@ -64,8 +66,7 @@ const ui = {
 
   initialize: function() {
     // Initialize button to disabled.
-    this.startBtn.disabled = true;
-    this.stopBtn.disabled = true;
+    this.playBtn.disabled = true;
     this.newBtn.disabled = true;
     this.selectBtn.disabled = true;
     this.drawBtn.disabled = true;
@@ -81,70 +82,67 @@ generateGrid();
 
 
 // ##
-// Document event listeners
-// ' ' (Space bar) to start and stop the simulation.
+// Document event listeners.
+// Handle down key events.
 document.addEventListener('keydown', function(event) {
-  if (event.key == " " && !sim.drawing) {
-    if (sim.paused) {
-      startAction();
+  // ' ' (space bar) prevent this key from doing it's default function in
+  // the browser.
+  if (event.key === ' ') {
+    event.preventDefault();
+    console.log('Space bar pressed - default behavior prevented.');
+  }
+  // 'p' to play and pause the simulation.
+  if (event.key === "p" && !ui.heldDownKeys['p'] && !sim.drawing && !sim.fetching) {
+    ui.heldDownKeys['p'] = true;
+    if (!ui.playToggle) {
+      playSubAction();
     } else {
-      stopAction();
+      pauseSubAction();
     }
-  } 
-});
-
-// 's' to open the select menu.
-document.addEventListener('keydown', function(event) {
-  if (event.key == "s" && !sim.drawing && !sim.fetching && sim.paused) {
+  }
+  // 's' to open the select menu.
+  if (event.key == "s" && !ui.heldDownKeys['s'] && !sim.drawing && !sim.fetching && !ui.playToggle) {
+    ui.heldDownKeys['s'] = true;
     if (!ui.selectMenu.open) {
       selectActionNew();
     } else {
       ui.mainContainer.style.display = "flex";
       ui.selectMenu.close();
     }
-  } 
-});
-
-// '.' (>) to move to the next frame.
-document.addEventListener('keydown', function(event) {
-  if (event.key == "." && sim.paused) {
+  }
+  // '.' (>) to move to the next frame.
+  if (event.key == "." && !ui.playToggle && !sim.fetching) {
     moveFrame(sim.currentIndex + 1);
   }
-});
-
-// ',' (<) to move to the previous frame.
-document.addEventListener('keydown', function(event) {
-  if (event.key == "," && sim.paused) {
+  // ',' (<) to move to the previous frame.
+  if (event.key == "," && !ui.playToggle && !sim.fetching) {
     moveFrame(sim.currentIndex - 1);
   }
-});
-
-// 'r' to reset the simulation.
-document.addEventListener('keydown', function(event) {
-  if (event.key == "r" && sim.paused) {
+  // 'r' to reset the simulation.) {
+  if (event.key == "r" && !ui.heldDownKeys['r'] && !ui.playToggle && !sim.fetching) {
+    ui.heldDownKeys['r'] = true;
     moveFrame(0);
   }
-});
-
-// 'n' to fetch a new simulation.
-document.addEventListener('keydown', function(event) {
-  if (event.key == "n" && sim.paused && !sim.drawing) {
+  // 'n' to fetch a new simulation.
+  if (event.key == "n" && !ui.heldDownKeys['n'] && !ui.playToggle && !sim.drawing && !sim.fetching) {
+    ui.heldDownKeys['n'] = true;
     newAction();
   }
-});
-
-// 'd' to toggle the draw mode.
-document.addEventListener('keydown', function(event) {
-  if (event.key == "d" && sim.paused) {
+  // 'd' to toggle the draw mode.
+  if (event.key == "d" && !ui.heldDownKeys['d'] && !ui.playToggle && !sim.fetching) {
+    ui.heldDownKeys['d'] = true;
     drawAction();
   }
-});
-
-// 'esc' to toggle the menu visiblity.
-document.addEventListener('keydown', function(event) {
-  if (event.key == "Escape" && ui.mainContainer.style.display == "none") {
+  // 'esc' to toggle the menu visiblity.
+  if (event.key == "Escape" && !ui.heldDownKeys['Escape'] && ui.mainContainer.style.display == "none") {
+    ui.heldDownKeys['Escape'] = true;
     ui.mainContainer.style.display = "flex";
   }
+});
+
+// Handle up key events.
+document.addEventListener('keyup', function(event) {
+  ui.heldDownKeys[event.key] = false;
 });
 
 
@@ -211,10 +209,10 @@ function drawMode(mode) {
     generateBtn.innerText = 'Generate';
     generateBtn.addEventListener('click', () => {
       fetchSimulation("Drawn");
-      ui.drawToggle = 0;
+      ui.drawToggle = false;
       drawMode(false);
       // toggles
-      ui.startBtn.disabled = false;
+      ui.playBtn.disabled = false;
       ui.newBtn.disabled = false;
       ui.selectBtn.disabled = false;
       console.log("generateBtn() initiated. Hiding the draw menu");
@@ -223,10 +221,6 @@ function drawMode(mode) {
     // Insert the buttons after the Draw button
     ui.buttonContainer.insertBefore(clearBtn, ui.drawBtn.nextSibling);
     ui.buttonContainer.insertBefore(generateBtn, clearBtn.nextSibling);
-    
-    // Prevent space bar from triggering the draw action
-    document.addEventListener('keydown', preventDefaultSpaceBar, false);
-
   } else {
     sim.drawing = false;
     const cells = ui.grid.querySelectorAll('.cell');
@@ -238,9 +232,6 @@ function drawMode(mode) {
     const generateButton = document.getElementById('generateButton');
     clearButton.remove();
     generateButton.remove();
-
-    // Remove the space bar prevention when not in drawing mode
-    document.removeEventListener('keydown', preventDefaultSpaceBar, false);
   }
 }
 
@@ -300,25 +291,24 @@ function renderSimulation() {
   const animation = setInterval(() => {
     if (sim.currentIndex < sim.patternData.length) { 
       // continue if we haven't reached the end of the data array.
-      if (!sim.paused) {
+      if (ui.playToggle) {
         moveFrame(sim.currentIndex);
         sim.currentIndex++;
 
       } else {
-        // If we ever hit the stop button and pause the simulation.
-        // (more details in the stop button)
+        // If we ever hit the play/pause button to pause the simulation
         clearInterval(animation);
+        pauseSubAction();
         console.log("Simulation Paused.");
       }
     } else {
       // If we reach the end of the animation:
       // (i.e.: index becomes equal or greater than patternData.length )
       clearInterval(animation);
-      sim.paused = true;
+      pauseSubAction();
 
       // toggles
-      ui.startBtn.disabled = false;
-      ui.stopBtn.disabled = true;
+      ui.playBtn.disabled = false;
       ui.newBtn.disabled = false;
       ui.selectBtn.disabled = false;
       ui.drawBtn.disabled = false;
@@ -331,35 +321,41 @@ function renderSimulation() {
 
 // ###
 // Button wrapper functions.
-function startAction () {
-  console.log("startAction() initiated.")
+
+function playAction() {
+  if (!ui.playToggle) {
+    playSubAction();
+  } else {
+    pauseSubAction();
+  }
+}
+
+function playSubAction () {
+  console.log("playSubAction() initiated.")
 
   //toggles
-  ui.startBtn.disabled = true;
-  ui.stopBtn.disabled = false;
+  ui.playToggle = true;
+  ui.playBtn.style.backgroundColor = "var(--color-stop-button)"
   ui.newBtn.disabled = true;
   ui.selectBtn.disabled = true;
   ui.drawBtn.disabled = true;
   
-  sim.paused = false;
   renderSimulation();
-  console.log("startAction() complete.")
+  console.log("playSubAction() complete.")
 }
 
 
-function stopAction () {
-  console.log("stopAction() initiated.");
+function pauseSubAction () {
+  console.log("pauseSubAction() initiated.");
 
   // toggles
-  ui.startBtn.disabled = false;
-  ui.stopBtn.disabled = true;
+  ui.playToggle = false;
+  ui.playBtn.style.backgroundColor = "var(--color-start-button)"
   ui.newBtn.disabled = false;
   ui.selectBtn.disabled = false;
   ui.drawBtn.disabled = false;
 
-  sim.paused = true;
-
-  console.log("stopAction() complete.");
+  console.log("pauseSubAction() complete.");
 }
 
 
@@ -367,7 +363,7 @@ function newAction () {
   console.log("newAction() initiated.");
 
   // toggles
-  ui.startBtn.disabled = true;
+  ui.playBtn.disabled = true;
   ui.newBtn.disabled = true;
   ui.selectBtn.disabled = true;
   ui.drawBtn.disabled = true;
@@ -382,21 +378,21 @@ function newAction () {
 
 
 function selectAction () {
-  if (ui.selectToggle == 0) {
+  if (!ui.selectToggle) {
 
     // toggles
-    ui.selectToggle = 1;
-    ui.startBtn.disabled = true;
+    ui.selectToggle = true;
+    ui.playBtn.disabled = true;
     ui.newBtn.disabled = true;
     ui.drawBtn.disabled = true;
 
     ui.typeContainer.style.display = "flex";
     console.log("selectAction() initiated. Showing the select menu");
-  } else if (ui.selectToggle == 1) {
+  } else if (ui.selectToggle) {
 
     // toggles
-    ui.selectToggle = 0;
-    ui.startBtn.disabled = false;
+    ui.selectToggle = false;
+    ui.playBtn.disabled = false;
     ui.newBtn.disabled = false;
     ui.drawBtn.disabled = false;
 
@@ -413,32 +409,25 @@ function selectActionNew () {
 
 function drawAction () {
 
-  if (ui.drawToggle == 0) {
-    ui.drawToggle = 1;
+  if (!ui.drawToggle) {
+    ui.drawToggle = true;
     drawMode(true);
 
     // toggles
-    ui.startBtn.disabled = true;
+    ui.playBtn.disabled = true;
     ui.newBtn.disabled = true;
     ui.selectBtn.disabled = true;
     console.log("drawAction() initiated. Showing the draw menu");
 
-  } else if (ui.drawToggle == 1) {
-    ui.drawToggle = 0;
+  } else if (ui.drawToggle) {
+    ui.drawToggle = false;
     drawMode(false);
 
     // toggles
-    ui.startBtn.disabled = false;
+    ui.playBtn.disabled = false;
     ui.newBtn.disabled = false;
     ui.selectBtn.disabled = false;
     console.log("drawAction() initiated. Hiding the draw menu");
-  }
-}
-
-
-function preventDefaultSpaceBar(event) {
-  if (event.code === "Space") {
-    event.preventDefault();
   }
 }
 
@@ -477,7 +466,7 @@ function fetchSimulation(pattern="Random") {
   clearSimulation();
   sim.resetAnimation();
 
-  ui.selectToggle = 0;
+  ui.selectToggle = false;
   ui.selectBtn.disabled = true;
 
   fetch('/simdata', {method: "POST", body: form})
@@ -487,7 +476,7 @@ function fetchSimulation(pattern="Random") {
       sim.pattern = pattern;
 
       // toggles
-      ui.startBtn.disabled = false;
+      ui.playBtn.disabled = false;
       ui.newBtn.disabled = false;
       ui.selectBtn.disabled = false;
       ui.drawBtn.disabled = false;
@@ -505,10 +494,9 @@ function fetchSimulation(pattern="Random") {
 
 // ###
 // Attach wrapper functions to buttons.
-$("#startButton").click(() => startAction()); 
+$("#playButton").click(() => playAction()); 
 $("#stepForwards").click(() => moveFrame(sim.currentIndex + 1));
 $("#stepBackwards").click(() => moveFrame(sim.currentIndex - 1));
-$("#stopButton").click(() => stopAction());
 $("#newButton").click(() => newAction());
 $("#selectButton").click(() => selectActionNew());
 $("#drawButton").click(() => drawAction());
