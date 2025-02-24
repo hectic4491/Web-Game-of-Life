@@ -26,6 +26,7 @@ html, body {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
+	transition: all 0.3s allow-discrete;
 }
 
 .mainHeader {
@@ -71,9 +72,12 @@ html, body {
 }
 
 .button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	font-size: 1rem;
 	background-color: var(--color-white);
-	padding: 0.5rem;
+	padding: 0.5vh;
 	margin: 0.5rem;
 	width: 100%;
 
@@ -83,51 +87,37 @@ html, body {
 	border-radius: 5px;
 }
 
+.stepContainer {
+	width: 100%;
+	min-width: 6rem;
+	display: flex;
+	justify-content: space-between;
+	padding: 0;
+}
+
+.stepButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1vh;
+	width: 40%;
+	cursor: pointer;
+	border: 3px solid var(--color-control-border);
+	border-radius: 5px;
+
+}
 .button:active {
 	background-color: var(--color-background);
 }
 
 .startButton {
 	margin-top: 0;
+	padding: 0;
 	background-color: var(--color-start-button);
 }
 
 .stopButton {
 	background-color: var(--color-stop-button);
-}
-
-.typeContainer{
-	width: 100%;
-	min-width: 6rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 0;
-}
-
-.typeSpacer {
-	font-size: 1rem;
-	padding: 0.5rem;
-	margin: 0.5rem;
-	height: 1rem;
-	width: 100%;
-}
-
-.typeButton {
-	font-size: 1rem;
-	background-color: var(--color-white);
-	padding: 0.5rem;
-	margin: 0.5rem;
-	width: 100%;
-
-	cursor: pointer;
-
-	border: 3px solid var(--color-control-border);
-	border-radius: 5px;
-}
-
-.typeButton:active {
-	background-color: var(--color-background);
 }
 
 .labelContainer {
@@ -192,7 +182,7 @@ html, body {
 	align-content: start;
 }
 
-
+/* Cell element classes*/
 .cell {
 	background-color: var(--color-dead-cell);
 	position: relative;
@@ -204,12 +194,78 @@ html, body {
 	box-sizing: border-box;
 	transform: scale(1);
 }
+/* 
+.cellSpawn {
+
+} */
 
 .cellAlive {
+	transition: background-color 0.15s ease;
 	background-color: var(--color-start-button);
 }
 
 .cell:hover {
 	border: calc(var(--cell-size) * 0.2) solid var(--color-white);
 	transform: scale(0.8);
+}
+
+
+.menu {
+	position: absolute;
+	align-items: center;
+	justify-content: center;
+	max-width: none; /*Necessary for filling the screen*/
+	max-height: none; /*Necessary for filling the screen*/
+	width: 100vw;
+	height: 100vh;
+	border: none;
+	background-color: rgb(98, 183, 209);
+	/*transition*/
+	opacity: 0;
+	transition: all 0.3s allow-discrete;
+}
+
+.selectMenuBody {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+.typeContainer{
+	background-color: var(--color-start-button);
+	border: 3px solid var(--color-control-border);
+}
+
+.typeButton {
+	font-size: 1rem;
+	background-color: var(--color-white);
+	padding: 0.5rem;
+	margin: 0.5rem;
+
+	cursor: pointer;
+
+	border: 3px solid var(--color-control-border);
+	border-radius: 5px;
+}
+
+.typeButton:active {
+	background-color: var(--color-background);
+}
+
+.menu[open] {
+	/*transition*/
+	opacity: 1;
+}
+
+/*needed for the transition*/
+@starting-style {
+	.menu[open] {
+		opacity: 0;
+	}
+}
+
+.icon {
+	fill: var(--color-dead-cell);
 }

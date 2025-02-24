@@ -32,6 +32,8 @@ const ui = {
   /* This object relates its properties to elements on index.html and
   provides the starting state of buttons and other elements.
   */
+  // Main Container (Home Page)
+  mainContainer: document.getElementById("mainContainer"),
   // Header
   pageHeader: document.getElementById("mainHeader"),
   // Button Container 
@@ -42,6 +44,8 @@ const ui = {
   newBtn: document.getElementById("newButton"),
   selectBtn: document.getElementById("selectButton"),
   drawBtn: document.getElementById("drawButton"),
+  forwardBtn: document.getElementById('stepForwards'),
+  backwardBtn: document.getElementById('stepBackwards'),
   // Button Toggles
   selectToggle: 0,
   drawToggle: 0,
@@ -55,18 +59,16 @@ const ui = {
   population: document.getElementById("population"),
   generation: document.getElementById("generation"),
   // Menus
-  settingsMenu: document.getElementById("settingsMenu"), // Settings Menu
+  selectMenu: document.getElementById("selectMenu"), // Settings Menu
   
 
   initialize: function() {
     // Initialize button to disabled.
-    this.startBtn.disabled = true,
-    this.stopBtn.disabled = true,
-    this.newBtn.disabled = true,
-    this.selectBtn.disabled = true,
-    this.drawBtn.disabled = true, 
-    // Select Type container
-    this.typeContainer.style.display = "none";
+    this.startBtn.disabled = true;
+    this.stopBtn.disabled = true;
+    this.newBtn.disabled = true;
+    this.selectBtn.disabled = true;
+    this.drawBtn.disabled = true;
   }
 }
 
@@ -87,6 +89,18 @@ document.addEventListener('keydown', function(event) {
       startAction();
     } else {
       stopAction();
+    }
+  } 
+});
+
+// 's' to open the select menu.
+document.addEventListener('keydown', function(event) {
+  if (event.key == "s" && !sim.drawing && !sim.fetching && sim.paused) {
+    if (!ui.selectMenu.open) {
+      selectActionNew();
+    } else {
+      ui.mainContainer.style.display = "flex";
+      ui.selectMenu.close();
     }
   } 
 });
@@ -123,6 +137,13 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('keydown', function(event) {
   if (event.key == "d" && sim.paused) {
     drawAction();
+  }
+});
+
+// 'esc' to toggle the menu visiblity.
+document.addEventListener('keydown', function(event) {
+  if (event.key == "Escape" && ui.mainContainer.style.display == "none") {
+    ui.mainContainer.style.display = "flex";
   }
 });
 
@@ -384,6 +405,11 @@ function selectAction () {
   };
 }
 
+// ###WIP###
+function selectActionNew () {
+  ui.mainContainer.style.display = "none";
+  ui.selectMenu.showModal();
+}
 
 function drawAction () {
 
@@ -419,6 +445,7 @@ function preventDefaultSpaceBar(event) {
 
 function fetchSimulation(pattern="Random") {
   console.log("fetchSimulation() called.")
+  sim.fetching = true;
 
   const form = new FormData();
   form.append("PatternName", pattern);
@@ -453,8 +480,6 @@ function fetchSimulation(pattern="Random") {
   ui.selectToggle = 0;
   ui.selectBtn.disabled = true;
 
-  ui.typeContainer.style.display = "none";
-
   fetch('/simdata', {method: "POST", body: form})
     .then((response) => response.json())
     .then((patternData) => {
@@ -472,6 +497,7 @@ function fetchSimulation(pattern="Random") {
 
       moveFrame(0);
 
+      sim.fetching = false;
       console.log("fetchSimulation() complete!");
     })
 }
@@ -480,13 +506,31 @@ function fetchSimulation(pattern="Random") {
 // ###
 // Attach wrapper functions to buttons.
 $("#startButton").click(() => startAction()); 
+$("#stepForwards").click(() => moveFrame(sim.currentIndex + 1));
+$("#stepBackwards").click(() => moveFrame(sim.currentIndex - 1));
 $("#stopButton").click(() => stopAction());
 $("#newButton").click(() => newAction());
-$("#selectButton").click(() => selectAction());
+$("#selectButton").click(() => selectActionNew());
 $("#drawButton").click(() => drawAction());
 
 
-$("#type1").click(() => fetchSimulation("Random"));
-$("#type2").click(() => fetchSimulation("Blinker"));
-$("#type3").click(() => fetchSimulation("Glider"));
-$("#type4").click(() => fetchSimulation("Glider Gun"));
+$("#type1").click(() => {
+  fetchSimulation("Random");
+  ui.mainContainer.style.display = "flex";
+  ui.selectMenu.close();
+});
+$("#type2").click(() => {
+  fetchSimulation("Blinker");
+  ui.mainContainer.style.display = "flex";
+  ui.selectMenu.close();
+});
+$("#type3").click(() => {
+  fetchSimulation("Glider");
+  ui.mainContainer.style.display = "flex";
+  ui.selectMenu.close();
+});
+$("#type4").click(() => {
+  fetchSimulation("Glider Gun");
+  ui.mainContainer.style.display = "flex";
+  ui.selectMenu.close();
+});

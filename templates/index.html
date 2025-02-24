@@ -4,6 +4,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+					content="A Conway's Game of Life simulation. Includes drawing on the grid, selecting from a list of pre-made patterns, and running the simulation on automatic and manual modes.">
+		<meta name="author" content="Robert G Hunt III">
 
 		<title>Conway's Game of Life</title>
 		<link rel="stylesheet" href="static/styles.css">
@@ -11,24 +14,35 @@
 	</head>
 
 	<body>
-		<div class="mainContainer">
+
+		<!--Main Screen-->
+		<div class="mainContainer" id="mainContainer">
 			<div class="mainHeader" id="mainHeader">Conway's Game of Life</div>
 			<div class="mainBody">
 				<div class="controlPanel">
 					<div class="buttonContainer" id="buttonContainer">
-						<button class="button startButton" id="startButton">Start</button>
-						<button class="button stopButton" id="stopButton">Stop</button>
-						<button class="button" id="newButton">New</button>
-						<button class="button" id="selectButton">Select</button>
-						<button class="button" id="drawButton">Draw</button>
-							<div class="typeContainer" id="typeContainer">
-								<div class="typeSpacer">
-								</div><!--type-spacer is left empty.-->
-								<button class="typeButton" id="type1">Random</button>
-								<button class="typeButton" id="type2">Blinker</button>
-								<button class="typeButton" id="type3">Glider</button>
-								<button class="typeButton" id="type4">Glider Gun</button>
-							</div>
+						<button class="button startButton" id="startButton" title="[space] - Start Simulation">
+							<svg width="60" height="60">
+								<use xlink:href="#playButtonIcon"/>      
+							</svg>
+						</button>
+						<div class="stepContainer">
+							<button class="stepButton stepBackwards" id="stepBackwards" title="[ &lt; ] - Step Backwards">
+								<svg width="35" height="35">
+									<use xlink:href="#stepBackwardsIcon"/>      
+								</svg>
+							</button>
+							<button class="stepButton stepForwards" id="stepForwards" title="[ &gt; ] Step Forwards]">
+								<svg width="35" height="35">
+									<use xlink:href="#stepForwardsIcon"/>      
+								</svg>
+							</button>
+						</div>
+						<button class="button stopButton" id="stopButton" title="[space] - Stop Simulation">Stop</button>
+						<button class="button" id="newButton" title="[n] - New Simulation">New</button>
+						<button class="button" id="selectButton" title="[s] - Select Simulation">Select</button>
+						<button class="button" id="drawButton" title="[d] - Draw On Grid">Draw</button>
+
 						</div>
 						<div class="labelContainer">
 							<p class="simulationType" id="simulationType">Type</p>
@@ -46,16 +60,44 @@
 			</div>
 		</div>
 
-
-		<dialog class="menu" id="selectMenu">
+		<!--Select Screen-->
+		<dialog class="menu selectMenu" id="selectMenu">
 			<div class="selectMenuHeader" id="selectMenuHeader">
-				Select
+				<p>Select</p>
 			</div>
 			<div class="selectMenuBody" id="selectMenuBody">
+				<div class="typeContainer" id="typeContainer">
+					<button class="typeButton" id="type1">Random</button>
+					<button class="typeButton" id="type2">Blinker</button>
+					<button class="typeButton" id="type3">Glider</button>
+					<button class="typeButton" id="type4">Glider Gun</button>
+				</div>
 			</div>
 		</dialog>
 
+		<!--SVG symbols-->
+		<svg width="0" height="0" style="position: absolute; visibility: hidden;" >
+      <defs>
+        <symbol class="icon stepBackwardsIcon" id="stepBackwardsIcon" viewBox="0 0 50 50">
+          <rect x="0" y="0" width="15" height="50" />
+          <polygon points="15,25 50,0 50,50" />
+        </symbol>
 
+        <symbol class="icon playButtonIcon" id="playButtonIcon" viewBox="0 0 90 50">
+          <polygon points="0,0 0,50, 50,25" />
+          <rect x="50" y="0" width="15" height="50" />
+          <rect x="75" y="0" width="15" height="50" />
+        </symbol>
+
+        <symbol class="icon stepForwardsIcon" id="stepForwardsIcon" viewBox="0 0 50 50">
+          <polygon points="0,0 0,50, 35,25" />
+          <rect x="35" y="0" width="15" height="50" />
+        </symbol>
+
+      </defs>
+    </svg>
+
+		<!--Main Script-->
 		<script src="static/scripts/main.js"></script>
 
 	</body>
