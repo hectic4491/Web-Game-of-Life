@@ -36,21 +36,25 @@ const ui = {
   mainContainer: document.getElementById("mainContainer"),
   // Header
   pageHeader: document.getElementById("mainHeader"),
-  // Button Container 
-  buttonContainer: document.getElementById("buttonContainer"),
+  // Button Sections 
+  simControlSection: document.getElementById("simControlSection"),
+  otherSection: document.getElementById("otherSection"),
   // Buttons
   playBtn: document.getElementById("playButton"),
   newBtn: document.getElementById("newButton"),
-  selectBtn: document.getElementById("selectButton"),
-  drawBtn: document.getElementById("drawButton"),
+  jumpToBtn: document.getElementById("jumpToButton"),
   forwardBtn: document.getElementById('stepForwards'),
   backwardBtn: document.getElementById('stepBackwards'),
+  selectBtn: document.getElementById("selectButton"),
+  drawBtn: document.getElementById("drawButton"),
   // Button Toggles
   playToggle: false,
   selectToggle: false,
   drawToggle: false,
   // Keydown Booleans
   heldDownKeys: {},
+  // Input Fields and Values
+  jumpToField: document.getElementById("jumpToField"),
   // ###FIXME### typeContainer still uses the old naming convention.
   // typeContainer should refer to the dialog element 'selectMenu'.
   typeContainer: document.getElementById("typeContainer"),
@@ -222,8 +226,8 @@ function drawMode(mode) {
     });
 
     // Insert the buttons after the Draw button
-    ui.buttonContainer.insertBefore(clearBtn, ui.drawBtn.nextSibling);
-    ui.buttonContainer.insertBefore(generateBtn, clearBtn.nextSibling);
+    ui.otherSection.insertBefore(clearBtn, ui.drawBtn.nextSibling);
+    ui.otherSection.insertBefore(generateBtn, clearBtn.nextSibling);
   } else {
     sim.drawing = false;
     const cells = ui.grid.querySelectorAll('.cell');
@@ -275,6 +279,8 @@ function moveFrame(index) {
     writeAliveCells();
     ui.generation.innerText = `Gen: ${sim.patternData[index]['generation'] + 1}`;
     ui.population.innerText = `Pop: ${sim.patternData[index]['population']}`;
+  } else {
+    console.log("Target index invalid")
   }
 }
 
@@ -505,6 +511,7 @@ $("#stepForwards").click(() => moveFrame(sim.currentIndex + 1));
 $("#stepBackwards").click(() => moveFrame(sim.currentIndex - 1));
 $("#resetButton").click(() => moveFrame(0)); //###FIXME### need to disable this when sim running.
 $("#newButton").click(() => newAction());
+$("#jumpToButton").click(() => moveFrame(ui.jumpToField.value - 1));
 $("#selectButton").click(() => selectActionNew());
 $("#drawButton").click(() => drawAction());
 

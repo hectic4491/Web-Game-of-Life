@@ -71,6 +71,15 @@ html, body {
 	padding: 0;
 }
 
+.buttonSection {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-bottom: 0.5rem solid var(--color-page-border);
+	margin-bottom: 0.5rem;
+}
+
 .button {
 	display: flex;
 	align-items: center;
@@ -105,10 +114,23 @@ html, body {
 	padding: 1vh;
 	width: 40%;
 	cursor: pointer;
+	background-color: var(--color-white);
 	border: 3px solid var(--color-control-border);
 	border-radius: 5px;
-
 }
+
+.mediumButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.25vh;
+	width: 40%;
+	cursor: pointer;
+	background-color: var(--color-white);
+	border: 3px solid var(--color-control-border);
+	border-radius: 5px;
+}
+
 .button:active {
 	background-color: var(--color-background);
 }
@@ -119,10 +141,16 @@ html, body {
 	background-color: var(--color-start-button);
 }
 
-/*Defunct*/
-.stopButton {
-	background-color: var(--color-stop-button);
+.jumpToButton {
+	width:40%;
+	padding: 0;
 }
+
+.jumpToField {
+	width: 50%;
+	margin: 0.25rem 0rem 0.25rem 0.5rem;
+}
+
 
 .labelContainer {
 	font-family: sans-serif;
@@ -282,5 +310,26 @@ html, body {
 	}
 	rect {
 		fill: var(--color-dead-cell);
+	}
+}
+
+.icon.iconPath.loadButton,
+.icon.iconPath.saveButton {
+	path {
+		fill: none;
+		stroke: var(--color-dead-cell);
+		stroke-width: 1;
+	}
+	rect {
+		fill: var(--color-dead-cell);
+	}
+}
+
+.icon.iconPath.drawButton {
+	path {
+		stroke-width: 1;
+	}
+	.thickPath {
+		stroke-width: 2;
 	}
 }
