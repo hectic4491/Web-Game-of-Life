@@ -1,106 +1,169 @@
 /**javascript file to control the movement of the 'grid'
  * element. We listen for the left, right, up, and down arrow keys.*/ 
 
+const moveUi = {
+  gridFrame: document.getElementById('gridFrame'),
+  grid: document.getElementById('grid'),
+  gridPosition: { top: 0, left: 0 },
+  listeningMoveKeys: {},
 
-const gridFrame = document.getElementById('gridFrame');
-const grid = document.getElementById('grid');
+  upArrow: document.getElementById('upArrowButton'),
+  leftArrow: document.getElementById('leftArrowButton'),
+  downArrow: document.getElementById('downArrowButton'),
+  rightArrow: document.getElementById('rightArrowButton'),
+}
 
-let gridPosition = { top: 0, left: 0 };
-// grid position is initiated at 0, 0
+// Document Event listeners (for keybroad presses to move grid)
+document.addEventListener('keydown', function(event) {
+  // console.log("Hello from move-grid.js");
+  moveUi.listeningMoveKeys[event.key] = true;
+  handleMoveKeyPresses();
+});
+
+document.addEventListener('keyup', function(event) {
+  moveUi.listeningMoveKeys[event.key] = false;
+  if (event.key == 'ArrowUp') {
+    moveUi.upArrow.classList.remove('active');
+  }
+  if (event.key == 'ArrowLeft') {
+    moveUi.leftArrow.classList.remove('active');
+  }
+  if (event.key == 'ArrowDown') {
+    moveUi.downArrow.classList.remove('active');
+  }
+  if (event.key == 'ArrowRight') {
+    moveUi.rightArrow.classList.remove('active');
+  }
+  handleMoveKeyPresses();
+});
+
+
+function handleMoveKeyPresses() {
+  if (moveUi.listeningMoveKeys['ArrowLeft'] && moveUi.listeningMoveKeys['ArrowUp']) {
+      moveUi.leftArrow.classList.add('active');
+      moveUi.upArrow.classList.add('active');
+      panGrid(16, 16);
+  } else if (moveUi.listeningMoveKeys['ArrowLeft'] && moveUi.listeningMoveKeys['ArrowDown']) {
+      moveUi.leftArrow.classList.add('active');
+      moveUi.downArrow.classList.add('active');
+      panGrid(16, -16);
+  } else if (moveUi.listeningMoveKeys['ArrowRight'] && moveUi.listeningMoveKeys['ArrowUp']) {
+      moveUi.rightArrow.classList.add('active');
+      moveUi.upArrow.classList.add('active');
+      panGrid(-16, 16);
+  } else if (moveUi.listeningMoveKeys['ArrowRight'] && moveUi.listeningMoveKeys['ArrowDown']) {
+      moveUi.rightArrow.classList.add('active');
+      moveUi.downArrow.classList.add('active');
+      panGrid(-16, -16);
+  } else if (moveUi.listeningMoveKeys['ArrowLeft']) {
+      moveUi.leftArrow.classList.add('active');
+      panGrid(16, 0);
+  } else if (moveUi.listeningMoveKeys['ArrowRight']) {
+      moveUi.rightArrow.classList.add('active');
+      panGrid(-16, 0);
+  } else if (moveUi.listeningMoveKeys['ArrowUp']) {
+      moveUi.upArrow.classList.add('active');
+      panGrid(0, 16);
+  } else if (moveUi.listeningMoveKeys['ArrowDown']) {
+      moveUi.downArrow.classList.add('active');
+      panGrid(0, -16);
+  }
+}
 
 
 function isOverflowing() {
   // Check if the grid is overflowing the grid frame
-  return grid.clientWidth > gridFrame.clientWidth || grid.clientHeight > gridFrame.clientHeight;
+  return moveUi.grid.clientWidth > moveUi.gridFrame.clientWidth || moveUi.grid.clientHeight > moveUi.gridFrame.clientHeight;
 }
+
 
 function panGrid(dx, dy) {
   if (!isOverflowing()) {
     return;
   }
   // the panning functionality.
-  let newLeft = gridPosition.left + dx;
-  let newTop = gridPosition.top + dy;
+  let newLeft = moveUi.gridPosition.left + dx;
+  let newTop = moveUi.gridPosition.top + dy;
   
   // Get the border width of the grid
-  const borderWidth = parseInt(window.getComputedStyle(grid).borderWidth);
+  const borderWidth = parseInt(window.getComputedStyle(moveUi.grid).borderWidth);
 
   // Boundary Checks
   const maxLeft = 0;
   const maxTop = 0;
-  const minLeft = gridFrame.clientWidth - grid.clientWidth - (2 * borderWidth);
-  const minTop = gridFrame.clientHeight - grid.clientHeight - (2 * borderWidth);
+  const minLeft = moveUi.gridFrame.clientWidth - moveUi.grid.clientWidth - (2 * borderWidth);
+  const minTop = moveUi.gridFrame.clientHeight - moveUi.grid.clientHeight - (2 * borderWidth);
   
   // Ensure the new position is within boundaries
   if (newLeft > maxLeft) {
     if (Math.abs(newLeft - maxLeft) >= 16) {
       newLeft = maxLeft
-    } else {newLeft = gridPosition.left};
+    } else {newLeft = moveUi.gridPosition.left};
   };
 
   if (newTop > maxTop) {
     if (Math.abs(newTop - maxTop) >= 16) {
       newTop = maxTop
-    } else {newTop = gridPosition.top};
+    } else {newTop = moveUi.gridPosition.top};
   };
 
   if (newLeft < minLeft) {
     if (Math.abs(newLeft - minLeft) >= 16) {
       newLeft = minLeft
-    } else {newLeft = gridPosition.left};
-};
+    } else {newLeft = moveUi.gridPosition.left};
+  };
 
   if (newTop < minTop) {
     if (Math.abs(newTop - minTop) >= 16) {
       newTop = minTop
-    } else {newTop = gridPosition.top};
+    } else {newTop = moveUi.gridPosition.top};
   };
 
   // Update the grid position
-  gridPosition.left = newLeft;
-  gridPosition.top = newTop;
+  moveUi.gridPosition.left = newLeft;
+  moveUi.gridPosition.top = newTop;
 
   // Apply the new position
-  grid.style.transform = `translate(${gridPosition.left}px, ${gridPosition.top}px)`;
+  moveUi.grid.style.transform = `translate(${moveUi.gridPosition.left}px, ${moveUi.gridPosition.top}px)`;
 }
+
+/* On screen button helper functions */
+
+let holdInterval;
+
+function startPanning(x, y) {
+  panGrid(x, y);
+  holdInterval = setInterval(() => panGrid(x, y), 30); 
+}
+
+function stopPanning() {
+  if (holdInterval) {
+    clearInterval(holdInterval);
+    holdInterval = null; 
+  }
+} 
 
 // Accessing buttons and giving them event listeners.
-// ### (We don't currently have clickable arrow button html elements.)
-// document.getElementById('panLeft').addEventListener('click', () => panGrid(-10, 0));
-// document.getElementById('panRight').addEventListener('click', () => panGrid(10, 0));
-// document.getElementById('panUp').addEventListener('click', () => panGrid(0, -10));
-// document.getElementById('panDown').addEventListener('click', () => panGrid(0, 10));
-
-// Document Event listeners (for keybroad presses to move grid)
-let listeningMoveKeys = {};
-//let directions = {'left': (), 'right': (), 'up': (), 'down': ()}
-
-document.addEventListener('keydown', function(event) {
-  // console.log("Hello from move-grid.js");
-  listeningMoveKeys[event.key] = true;
-  handleMoveKeyPresses();
+$('#leftArrowButton').mousedown(function() {
+  startPanning(16, 0)
 });
-document.addEventListener('keyup', function(event) {
-  listeningMoveKeys[event.key] = false;
-  handleMoveKeyPresses();
-});
+$('#leftArrowButton').mouseup(stopPanning);
+$('#leftArrowButton').mouseleave(stopPanning);
 
-function handleMoveKeyPresses() {
-  if (listeningMoveKeys['ArrowLeft'] && listeningMoveKeys['ArrowUp']) {
-      panGrid(16, 16);
-  } else if (listeningMoveKeys['ArrowLeft'] && listeningMoveKeys['ArrowDown']) {
-      panGrid(16, -16);
-  } else if (listeningMoveKeys['ArrowRight'] && listeningMoveKeys['ArrowUp']) {
-      panGrid(-16, 16);
-  } else if (listeningMoveKeys['ArrowRight'] && listeningMoveKeys['ArrowDown']) {
-      panGrid(-16, -16);
-  } else if (listeningMoveKeys['ArrowLeft']) {
-      panGrid(16, 0);
-  } else if (listeningMoveKeys['ArrowRight']) {
-      panGrid(-16, 0);
-  } else if (listeningMoveKeys['ArrowUp']) {
-      panGrid(0, 16);
-  } else if (listeningMoveKeys['ArrowDown']) {
-      panGrid(0, -16);
-  }
-}
+$('#rightArrowButton').mousedown(function() {
+  startPanning(-16, 0)
+});
+$('#rightArrowButton').mouseup(stopPanning);
+$('#rightArrowButton').mouseleave(stopPanning);
+
+$('#upArrowButton').mousedown(function() {
+  startPanning(0, 16)
+});
+$('#upArrowButton').mouseup(stopPanning);
+$('#upArrowButton').mouseleave(stopPanning);
+
+$('#downArrowButton').mousedown(function() {
+  startPanning(0, -16)
+});
+$('#downArrowButton').mouseup(stopPanning);
+$('#downArrowButton').mouseleave(stopPanning);

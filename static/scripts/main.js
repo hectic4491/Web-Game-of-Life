@@ -3,6 +3,7 @@ $(document).ready(function() {
   // Load JavaScript files
   loadScript('static/scripts/script.js')
   loadScript('static/scripts/move-grid.js')
+  loadScript('static/scripts/badge-redirect.js')
   //... Add more as needed...
 
 

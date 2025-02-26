@@ -3,7 +3,7 @@
 //FIXME: The naming convention is not consistent
 //FIXME: The use of the sim and ui object's is not consistent.
 //       The functions should be able to take in the objects as arguments.
-
+//FIXME: After clicking the playBtn once, the CSS hover property doesn't work anymore.
 
 // ###
 // Objects
@@ -34,8 +34,8 @@ const ui = {
   */
   // Main Container (Home Page)
   mainContainer: document.getElementById("mainContainer"),
-  // Header
-  pageHeader: document.getElementById("mainHeader"),
+  // Game Ttitle
+  gameTitle: document.getElementById("gameTitle"),
   // Button Sections 
   simControlSection: document.getElementById("simControlSection"),
   otherSection: document.getElementById("otherSection"),
@@ -75,9 +75,9 @@ const ui = {
     this.newBtn.disabled = true;
     this.selectBtn.disabled = true;
     this.drawBtn.disabled = true;
-    this.patternName.innerText = `${sim.pattern}`;
-    this.generation.innerText = `Gen: 0` ;
-    this.population.innerText = `Pop: 0`
+    this.patternName.textContent = `${sim.pattern}`;
+    this.generation.textContent = `Gen: 0` ;
+    this.population.textContent = `Pop: 0`
   }
 }
 
@@ -115,12 +115,7 @@ document.addEventListener('keydown', function(event) {
     ui.heldDownKeys['s'] = true;
     ui.selectBtn.classList.add('active');
 
-    if (!ui.selectMenu.open) {
-      selectActionNew();
-    } else {
-      ui.mainContainer.style.display = "flex";
-      ui.selectMenu.close();
-    }
+    ui.selectBtn.click();
 
     setTimeout(function() {
       ui.selectBtn.classList.remove('active');
@@ -175,9 +170,13 @@ document.addEventListener('keydown', function(event) {
     drawAction();
   }
   // 'esc' to toggle the menu visiblity.
-  if (event.key == "Escape" && !ui.heldDownKeys['Escape'] && ui.mainContainer.style.display == "none") {
+  // ### WARNING ###
+  // This will have to depend on which menu is being shown.
+  if (event.key == "Escape" && !ui.heldDownKeys['Escape']) {
     ui.heldDownKeys['Escape'] = true;
-    ui.mainContainer.style.display = "flex";
+    if (ui.selectMenu.open) {
+      ui.selectBtn.click();
+    }
   }
 });
 
@@ -221,7 +220,7 @@ function toggleCell (event) {
    */
   const cell = event.target;
   cell.classList.toggle('cellAlive');
-  ui.population.innerText = `Pop: ${ui.grid.querySelectorAll('.cellAlive').length}`;
+  ui.population.textContent = `Pop: ${ui.grid.querySelectorAll('.cellAlive').length}`;
 }
 
 
@@ -242,10 +241,10 @@ function drawMode(mode) {
     const clearBtn = document.createElement('button');
     clearBtn.id = 'clearButton';
     clearBtn.classList.add('button');
-    clearBtn.innerText = 'Clear';
+    clearBtn.textContent = 'Clear';
     clearBtn.addEventListener('click', () => {
       clearSimulation();
-      ui.population.innerText = 'Pop: 0';
+      ui.population.textContent = 'Pop: 0';
     });
 
 
@@ -253,7 +252,7 @@ function drawMode(mode) {
     const generateBtn = document.createElement('button');
     generateBtn.id = 'generateButton';
     generateBtn.classList.add('button');
-    generateBtn.innerText = 'Generate';
+    generateBtn.textContent = 'Generate';
     generateBtn.addEventListener('click', () => {
       fetchSimulation("Drawn");
       ui.drawToggle = false;
@@ -317,8 +316,8 @@ function moveFrame(index) {
     clearSimulation();
     sim.currentIndex = index;
     writeAliveCells();
-    ui.generation.innerText = `Gen: ${sim.patternData[index]['generation'] + 1}`;
-    ui.population.innerText = `Pop: ${sim.patternData[index]['population']}`;
+    ui.generation.textContent = `Gen: ${sim.patternData[index]['generation'] + 1}`;
+    ui.population.textContent = `Pop: ${sim.patternData[index]['population']}`;
   } else {
     console.log("Target index invalid")
   }
@@ -384,9 +383,9 @@ function playSubAction () {
 
   //toggles
   ui.playToggle = true;
-  ui.playBtn.style.backgroundColor = "var(--color-stop-button-light)"
-  ui.playBtn.style.borderColor = "var(--color-stop-button)"
-  ui.playBtn.children[0].style.fill = "var(--color-stop-button)"
+  ui.playBtn.classList.remove('playButton');
+  ui.playBtn.classList.add('pauseButton');
+  ui.playBtn.children[0].classList.add('paused');
 
   ui.backwardBtn.disabled = true;
   ui.forwardBtn.disabled = true;
@@ -408,9 +407,9 @@ function pauseSubAction () {
 
   // toggles
   ui.playToggle = false;
-  ui.playBtn.style.backgroundColor = "var(--color-start-button-light)"
-  ui.playBtn.style.borderColor = "var(--color-start-button)"
-  ui.playBtn.children[0].style.fill = "var(--color-start-button)"
+  ui.playBtn.classList.remove('pauseButton');
+  ui.playBtn.classList.add('playButton');
+  ui.playBtn.children[0].classList.remove('paused');
 
   ui.backwardBtn.disabled = false;
   ui.forwardBtn.disabled = false;
@@ -457,34 +456,33 @@ function newAction () {
 }
 
 
-function selectAction () {
+function selectAction() {
   if (!ui.selectToggle) {
-
-    // toggles
     ui.selectToggle = true;
     ui.playBtn.disabled = true;
+    ui.backwardBtn.disabled = true;
+    ui.forwardBtn.disabled = true;
+    ui.resetBtn.disabled = true;
     ui.newBtn.disabled = true;
+    ui.jumpToBtn.disabled = true;
+    ui.jumpToField.style.visibility = "hidden";
     ui.drawBtn.disabled = true;
-
-    ui.typeContainer.style.display = "flex";
+    ui.selectMenu.showModal();
     console.log("selectAction() initiated. Showing the select menu");
-  } else if (ui.selectToggle) {
-
-    // toggles
+  } else {
+    ui.selectToggle = false;
     ui.selectToggle = false;
     ui.playBtn.disabled = false;
+    ui.backwardBtn.disabled = false;
+    ui.forwardBtn.disabled = false;
+    ui.resetBtn.disabled = false;
     ui.newBtn.disabled = false;
+    ui.jumpToBtn.disabled = false;
+    ui.jumpToField.style.visibility = "visible";
     ui.drawBtn.disabled = false;
-
-    ui.typeContainer.style.display = "none";
+    ui.selectMenu.close();
     console.log("selectAction() initiated. Hiding the select menu");
-  };
-}
-
-// ###WIP###
-function selectActionNew () {
-  ui.mainContainer.style.display = "none";
-  ui.selectMenu.showModal();
+  }
 }
 
 function drawAction () {
@@ -532,13 +530,13 @@ function fetchSimulation(pattern="Random") {
   }
 
   // Loading UX
-  ui.pageHeader.innerText = "Loading";
-  ui.generation.innerText = `Gen: 0`;
-  ui.population.innerText = `Pop: 0`;
+  ui.gameTitle.textContent = "Loading";
+  ui.generation.textContent = `Gen: 0`;
+  ui.population.textContent = `Pop: 0`;
   const loading = setInterval(() => {
-    ui.pageHeader.innerText += ".";
-    if (ui.pageHeader.innerText.length > 10) {
-      ui.pageHeader.innerText = "Loading";
+    ui.gameTitle.textContent += ".";
+    if (ui.gameTitle.textContent.length > 10) {
+      ui.gameTitle.textContent = "Loading";
     }
   }, 200);
 
@@ -565,7 +563,7 @@ function fetchSimulation(pattern="Random") {
     .then((patternData) => {
       sim.patternData = patternData;
       sim.pattern = pattern;
-      ui.patternName.innerText =`${pattern}`
+      ui.patternName.textContent =`${pattern}`
 
       // toggles
       ui.playBtn.disabled = false;
@@ -579,7 +577,7 @@ function fetchSimulation(pattern="Random") {
       ui.drawBtn.disabled = false;
 
       clearInterval(loading);
-      ui.pageHeader.innerText = "Conway's Game of Life";
+      ui.gameTitle.textContent = "Conway's Game of Life";
 
       moveFrame(0);
 
@@ -589,19 +587,29 @@ function fetchSimulation(pattern="Random") {
 }
 
 
-// ###
+// ### Attach wrapper functions to buttons.
 // Attach wrapper functions to buttons.
-//###FIXME### prevent certain button clicks from firing off if certain actions have
-// been started.
 $("#playButton").click(() => playAction()); 
 $("#stepForwards").click(() => stepForwardAction());
 $("#stepBackwards").click(() => stepBackwardAction());
-$("#resetButton").click(() => resetAction()); //###FIXME### need to disable this when sim running.
+$("#resetButton").click(() => resetAction());
 $("#newButton").click(() => newAction());
 $("#jumpToButton").click(() => jumpToAction());
-$("#selectButton").click(() => selectActionNew());
+$("#selectButton").click(() => selectAction());
 $("#drawButton").click(() => drawAction());
 
+
+$("#selectMenu").click(event => {
+  const rect = ui.selectMenu.getBoundingClientRect();
+  const isInDialog =
+    event.clientX >= rect.left &&
+    event.clientX <= rect.right &&
+    event.clientY >= rect.top &&
+    event.clientY <= rect.bottom;
+  if (!isInDialog) {
+    selectAction();
+  }
+});
 
 $("#type1").click(() => {
   fetchSimulation("Random");
