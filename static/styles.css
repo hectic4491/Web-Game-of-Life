@@ -1,42 +1,49 @@
 :root {
 	--color-white: #FFFFFF;
 	--color-background: #C1C1C1;
-	--color-start-button: #B6C649;
+	--color-background-dark: #78787e;
+	--color-start-button: #79a42f;
+	--color-start-button-light: #c7da70;
 	--color-stop-button: #D16666;
-	--color-simulation-field: #2C4251;
-	--color-page-border: #2C4251;
-	--color-control-border: #2C4251;
-	--color-dead-cell: #23333e;
+	--color-stop-button-light: #ed9b9b;
+	--color-blue: #2C4251;
+	--color-dark-blue: #23333e;
 	--simulation-columns: 90;
 	--simulation-rows: 50;
 	--cell-size: 3vh;
 }
 
+
 html, body {
 	margin: 0;
 	padding: 0;
+	height: 100%;
 	font-family: 'Courier New', Courier, monospace;
-	font-size: 2vh;
+	font-size: 24px;
+	color: var(--color-background);
 	overflow: hidden;
 }
 
+
+/* mainScreen */
+
+
 .mainContainer {
 	display: flex;
+	height: 100%;
 	flex-direction: column;
-	width: 100vw;
-	height: 100vh;
 	overflow: hidden;
 	transition: all 0.3s allow-discrete;
 }
 
 .mainHeader {
-	font-weight: 400;
-	padding: 1vh;
+	font-weight: 100;
+	padding: 0.5rem;
 	font-size: 2rem;
-	background-color: var(--color-background);
-	border: 0.5rem solid var(--color-page-border);
+	background-color: var(--color-dark-blue);
+	border: 0.5rem solid var(--color-blue);
 	border-bottom: 0;
-	min-height: 3vh;
+	min-height: 1rem;
 	
 	/* These help to center the text */
 	display: flex;
@@ -46,142 +53,166 @@ html, body {
 
 .mainBody {
 	display: flex;
-	height: 100vh;
+	height: 100%;
 	overflow: hidden;
 }
 
+
+/* Control Panel */
+
+
 .controlPanel {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	border: 0.5rem solid var(--color-page-border);
+	border: 0.5rem solid var(--color-blue);
 	border-right: 0;
-	background-color: var(--color-background);
+	background-color: var(--color-dark-blue);
+}
+
+.controlSection {
+	display: flex;
+	flex-direction: column;
 	padding: 0.5rem;
-	width: 8rem;
 }
 
-.buttonContainer{
-	width: 100%;
-	min-width: 6rem;
+.controlCategory {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	padding: 0;
-}
-
-.buttonSection {
-	width: 100%;
-	display: flex;
 	flex-direction: column;
-	align-items: center;
-	border-bottom: 0.5rem solid var(--color-page-border);
+	border-bottom: 0.5rem solid var(--color-blue);
 	margin-bottom: 0.5rem;
+}
+
+.buttonRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding-bottom: 0.5rem;
+
+	input {
+		font-size: 0.5rem;
+		background-color: var(--color-background);
+		display: flex;
+		margin-left: 0.5rem;
+		border: 4px solid var(--color-background-dark);
+		border-radius: 5px;
+		width: 2rem;
+		height: 1.25rem;
+	}
+
+	input:focus {
+		outline: none;
+	}
+}
+
+.buttonRow.single {
+	justify-content: center;
 }
 
 .button {
 	display: flex;
-	align-items: center;
 	justify-content: center;
-	font-size: 1rem;
-	background-color: var(--color-white);
-	padding: 0.5vh;
-	margin: 0.5rem;
-	margin-top: 0;
-	width: 100%;
-
-	cursor: pointer;
-
-	border: 3px solid var(--color-control-border);
+	align-items: center;
+	min-width: 2.5rem;
+	min-height: 2.5rem;
+	padding: 4px;
+	border: 6px solid var(--color-background-dark);
 	border-radius: 5px;
+	transition: transform 0.3s, scale 1s, rotate 0.3s;
 }
 
-.smallButtonContainer {
-	width: 100%;
-	min-width: 6rem;
-	display: flex;
-	justify-content: space-between;
-	padding: 0;
-	margin: 0.5rem;
-	margin-top: 0;
-}
-
-.smallButton {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 1vh;
-	width: 40%;
+.button:hover {
 	cursor: pointer;
-	background-color: var(--color-white);
-	border: 3px solid var(--color-control-border);
-	border-radius: 5px;
-}
-
-.mediumButton {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.25vh;
-	width: 40%;
-	cursor: pointer;
-	background-color: var(--color-white);
-	border: 3px solid var(--color-control-border);
-	border-radius: 5px;
+	transform: translateY(2px);
 }
 
 .button:active {
-	background-color: var(--color-background);
+	transform: translateY(8px) scale(0.85);
+}
+.button.active { /*For use in js*/
+	transform: translateY(8px) scale(0.85);
 }
 
-.playButton {
-	margin-top: 0;
-	padding: 0;
+.button:disabled {
+	transform: scale(0.0);
+}
+
+.button.playButton {
+	background-color: var(--color-start-button-light);
+	border-color: var(--color-start-button);
+	width: 100%;
+}
+
+.button.playButton:hover {
 	background-color: var(--color-start-button);
+
+	.playIcon {
+		fill: var(--color-start-button-light);
+	}
 }
 
-.jumpToButton {
-	width:40%;
-	padding: 0;
+.button.generalButton {
+	background-color: var(--color-background);
+	border-color: var(--color-background-dark);
 }
 
-.jumpToField {
-	width: 50%;
-	margin: 0.25rem 0rem 0.25rem 0.5rem;
+.button.generalButton:hover {
+	background-color: var(--color-background-dark);
+
+	.stepIcon,
+	.resetIcon,
+	.jumpIcon {
+		fill: var(--color-background);
+	}
+
+	.newIcon {
+		polygon {
+			fill: var(--color-background);
+		}
+		path {
+			stroke: var(--color-background);
+		}
+	}
+
+	.loadIcon {
+		polygon {
+			fill: var(--color-background);
+		}
+		path {
+			stroke: var(--color-background);
+		}
+	}
+
+	.drawIcon {
+		path {
+			stroke: var(--color-background);
+		}
+	}
 }
 
 
-.labelContainer {
-	font-family: sans-serif;
-	font-size: 1rem;
-	background-color: var(--color-white);
-	min-width: 6rem;
+.simInfo { 
+	color: var(--color-background);
+	font-size: 0.75rem;
+	margin: 0;
+}
 
-	text-align: center;
 
-	border: 3px solid var(--color-control-border);
-	border-radius: 5px;
-	}
+/* simulation window */
 
-.simulationType {
-		margin: 0.5rem;
-	}
-	
-.population {
-		margin: 0.5rem;
-	}
 
 .simulationWindow {
-	flex: 1;
+	flex: 10;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 
-	border: 0.5rem solid var(--color-page-border);
+	border: 0.5rem solid var(--color-blue);
 	overflow: hidden;
-	background-color: var(--color-control-border);
+	background-color: var(--color-blue);
 	box-sizing: border-box;
 }
 
@@ -190,7 +221,6 @@ html, body {
 	width: 100%;
 	height: 100%;
 	background: rgba(0,0,0,0);
-	border: 0.5rem solid var(--color-background);
 	overflow: hidden;
 	box-sizing: border-box;
 }
@@ -201,7 +231,7 @@ html, body {
 	left: 0;
 	width: calc(var(--simulation-columns) * var(--cell-size));
 	height: calc(var(--simulation-rows) * var(--cell-size));
-	border: calc(var(--cell-size) * 0.9) solid var(--color-dead-cell);
+	border: calc(var(--cell-size) * 0.9) solid var(--color-dark-blue);
 	padding:calc(var(--cell-size) * 0.1);
 	/*This is for the Simulation*/
 	display: grid;
@@ -214,13 +244,72 @@ html, body {
 	align-content: start;
 }
 
+
+.arrowKeyContainer {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	bottom: 0;
+	right: 10%;
+	width: 14rem;
+	height: 8rem;
+	background-color: rgba(0,0,0,0);
+	border: 10px;
+	z-index: 1;
+}
+
+.arrowKeyRow {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	svg {
+		width: 3rem;
+		height: 3rem;
+		
+		polygon {
+		fill: rgba(216, 216, 216, 0.422);
+		}
+
+		path {
+			stroke:rgba(175, 175, 175, 0.507);
+			fill: none;
+		}
+	}
+}
+
+.arrowKeyRow.upper {
+	margin-bottom: 0.25rem;
+}
+
+.arrowKeyRow.lower {
+	gap: 0.25rem;
+}
+
+.arrowKeyContainerHandle {
+	position: fixed;
+	display: flex;
+	bottom: 8rem;
+	right: 10%;
+	width: 2rem;
+	height: 2rem;
+	background-color: rgba(0, 119, 255, 0.974);
+	border: 10px;
+	z-index: 1;
+}
+
+
 /* Cell element classes*/
+
+
 .cell {
-	background-color: var(--color-dead-cell);
+	background-color: var(--color-dark-blue);
 	position: relative;
 	width: var(--cell-size);
 	height: var(--cell-size);
-	border: calc(var(--cell-size) * 0.1) solid var(--color-control-border);
+	border: calc(var(--cell-size) * 0.1) solid var(--color-blue);
 	transition: transform 0.1s ease-in-out;
 	transform-origin: center;
 	box-sizing: border-box;
@@ -242,14 +331,15 @@ html, body {
 }
 
 
+/* selectScreen */
+
+
 .menu {
-	position: absolute;
-	align-items: center;
-	justify-content: center;
-	max-width: none; /*Necessary for filling the screen*/
-	max-height: none; /*Necessary for filling the screen*/
-	width: 100vw;
-	height: 100vh;
+	max-width: 100vw;
+	max-height: 100vh;
+	height: 100%;
+	width: 100%;
+	margin: 0;
 	border: none;
 	background-color: rgb(98, 183, 209);
 	/*transition*/
@@ -262,12 +352,11 @@ html, body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
-	height: 100%;
 }
+
 .typeContainer{
 	background-color: var(--color-start-button);
-	border: 3px solid var(--color-control-border);
+	border: 3px solid var(--color-blue);
 }
 
 .typeButton {
@@ -275,10 +364,8 @@ html, body {
 	background-color: var(--color-white);
 	padding: 0.5rem;
 	margin: 0.5rem;
-
 	cursor: pointer;
-
-	border: 3px solid var(--color-control-border);
+	border: 3px solid var(--color-blue);
 	border-radius: 5px;
 }
 
@@ -298,36 +385,61 @@ html, body {
 	}
 }
 
-.icon {
-	fill: var(--color-dead-cell);
+
+/*SVG Utility classes*/
+
+
+.squareSVG {
+	width: 1rem;
+	height: 1rem;
 }
 
-.icon.iconPath{
+.longSVG {
+	width: 2rem;
+	height: 1rem;
+}
+
+
+/* Default Style SVGs */
+
+
+.playIcon {
+	fill: var(--color-start-button);
+}
+
+.stepIcon,
+.resetIcon,
+.jumpIcon {
+	fill: var(--color-background-dark);
+}
+
+.newIcon {
+	polygon {
+		fill: var(--color-background-dark);
+	}
 	path {
-		fill: none;
-		stroke: var(--color-dead-cell);
+		stroke: var(--color-background-dark);
 		stroke-width: 6;
-	}
-	rect {
-		fill: var(--color-dead-cell);
-	}
-}
-
-.icon.iconPath.loadButton,
-.icon.iconPath.saveButton {
-	path {
 		fill: none;
-		stroke: var(--color-dead-cell);
-		stroke-width: 1;
-	}
-	rect {
-		fill: var(--color-dead-cell);
 	}
 }
 
-.icon.iconPath.drawButton {
+.loadIcon {
+	polygon {
+		fill: var(--color-background-dark);
+	}
 	path {
+		stroke: var(--color-background-dark);
 		stroke-width: 1;
+		fill: none;
+	}
+}
+
+.drawIcon {
+	path {
+		stroke: var(--color-background-dark);
+		stroke-width: 1;
+		fill: none;
 	}
 	.thickPath {
 		stroke-width: 2;

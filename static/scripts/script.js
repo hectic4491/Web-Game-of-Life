@@ -41,10 +41,11 @@ const ui = {
   otherSection: document.getElementById("otherSection"),
   // Buttons
   playBtn: document.getElementById("playButton"),
+  backwardBtn: document.getElementById("stepBackwards"),
+  forwardBtn: document.getElementById("stepForwards"),
+  resetBtn: document.getElementById("resetButton"),
   newBtn: document.getElementById("newButton"),
   jumpToBtn: document.getElementById("jumpToButton"),
-  forwardBtn: document.getElementById('stepForwards'),
-  backwardBtn: document.getElementById('stepBackwards'),
   selectBtn: document.getElementById("selectButton"),
   drawBtn: document.getElementById("drawButton"),
   // Button Toggles
@@ -101,39 +102,72 @@ document.addEventListener('keydown', function(event) {
   // 'p' to play and pause the simulation.
   if (event.key === "p" && !ui.heldDownKeys['p'] && !sim.drawing && !sim.fetching) {
     ui.heldDownKeys['p'] = true;
-    if (!ui.playToggle) {
-      playSubAction();
-    } else {
-      pauseSubAction();
-    }
+    ui.playBtn.classList.add('active');
+
+    ui.playBtn.click();
+
+    setTimeout(function() {
+      ui.playBtn.classList.remove('active');
+    }, 150);
   }
   // 's' to open the select menu.
   if (event.key == "s" && !ui.heldDownKeys['s'] && !sim.drawing && !sim.fetching && !ui.playToggle) {
     ui.heldDownKeys['s'] = true;
+    ui.selectBtn.classList.add('active');
+
     if (!ui.selectMenu.open) {
       selectActionNew();
     } else {
       ui.mainContainer.style.display = "flex";
       ui.selectMenu.close();
     }
+
+    setTimeout(function() {
+      ui.selectBtn.classList.remove('active');
+    }, 150);
   }
   // '.' (>) to move to the next frame.
   if (event.key == "." && !ui.playToggle && !sim.fetching) {
-    moveFrame(sim.currentIndex + 1);
+    ui.forwardBtn.classList.add('active');
+    ui.forwardBtn.click();
   }
   // ',' (<) to move to the previous frame.
   if (event.key == "," && !ui.playToggle && !sim.fetching) {
-    moveFrame(sim.currentIndex - 1);
+    ui.backwardBtn.classList.add('active');
+    ui.backwardBtn.click();
   }
   // 'r' to reset the simulation.) {
   if (event.key == "r" && !ui.heldDownKeys['r'] && !ui.playToggle && !sim.fetching) {
     ui.heldDownKeys['r'] = true;
-    moveFrame(0);
+    ui.resetBtn.classList.add('active');
+
+    ui.resetBtn.click();
+
+    setTimeout(function() {
+      ui.resetBtn.classList.remove('active');
+    }, 150);
   }
   // 'n' to fetch a new simulation.
   if (event.key == "n" && !ui.heldDownKeys['n'] && !ui.playToggle && !sim.drawing && !sim.fetching) {
     ui.heldDownKeys['n'] = true;
-    newAction();
+    ui.newBtn.classList.add('active');
+
+    ui.newBtn.click();
+
+    setTimeout(function() {
+      ui.newBtn.classList.remove('active');
+    }, 150);
+  }
+  // 'j' to fetch a new simulation.
+  if (event.key == "j" && !ui.heldDownKeys['j'] && !ui.playToggle && !sim.drawing && !sim.fetching) {
+    ui.heldDownKeys['j'] = true;
+    ui.jumpToBtn.classList.add('active');
+
+    ui.jumpToBtn.click();
+
+    setTimeout(function() {
+      ui.jumpToBtn.classList.remove('active');
+    }, 150);
   }
   // 'd' to toggle the draw mode.
   if (event.key == "d" && !ui.heldDownKeys['d'] && !ui.playToggle && !sim.fetching) {
@@ -150,6 +184,12 @@ document.addEventListener('keydown', function(event) {
 // Handle up key events.
 document.addEventListener('keyup', function(event) {
   ui.heldDownKeys[event.key] = false;
+  if (event.key == '.') {
+    ui.forwardBtn.classList.remove('active');
+  }
+  if (event.key == ',') {
+    ui.backwardBtn.classList.remove('active');
+  }
 });
 
 
@@ -344,10 +384,19 @@ function playSubAction () {
 
   //toggles
   ui.playToggle = true;
-  ui.playBtn.style.backgroundColor = "var(--color-stop-button)"
+  ui.playBtn.style.backgroundColor = "var(--color-stop-button-light)"
+  ui.playBtn.style.borderColor = "var(--color-stop-button)"
+  ui.playBtn.children[0].style.fill = "var(--color-stop-button)"
+
+  ui.backwardBtn.disabled = true;
+  ui.forwardBtn.disabled = true;
+  ui.resetBtn.disabled = true;
   ui.newBtn.disabled = true;
+  ui.jumpToBtn.disabled = true;
+  ui.jumpToField.style.visibility = "hidden"; /* we should instead add a class that helps it simulate the button's disabled transition. */
   ui.selectBtn.disabled = true;
   ui.drawBtn.disabled = true;
+  
   
   renderSimulation();
   console.log("playSubAction() complete.")
@@ -359,29 +408,51 @@ function pauseSubAction () {
 
   // toggles
   ui.playToggle = false;
-  ui.playBtn.style.backgroundColor = "var(--color-start-button)"
+  ui.playBtn.style.backgroundColor = "var(--color-start-button-light)"
+  ui.playBtn.style.borderColor = "var(--color-start-button)"
+  ui.playBtn.children[0].style.fill = "var(--color-start-button)"
+
+  ui.backwardBtn.disabled = false;
+  ui.forwardBtn.disabled = false;
+  ui.resetBtn.disabled = false;
   ui.newBtn.disabled = false;
+  ui.jumpToBtn.disabled = false;
+  ui.jumpToField.style.visibility = "visible";
   ui.selectBtn.disabled = false;
   ui.drawBtn.disabled = false;
 
   console.log("pauseSubAction() complete.");
 }
 
+function stepBackwardAction() {
+  console.log("stepBackwardAction() initiated.");
+  moveFrame(sim.currentIndex - 1);
+  console.log("stepBackwardAction() complete.");
+}
+
+function stepForwardAction() {
+  console.log("stepForwardAction() initiated.");
+  moveFrame(sim.currentIndex + 1);
+  console.log("stepForwardAction() complete.");
+}
+
+function resetAction() {
+  console.log("resetAction() initiated.");
+  moveFrame(0);
+  console.log("resetAction() complete.");
+}
+
+function jumpToAction() {
+  console.log("jumpToAction() initiated.");
+  moveFrame(ui.jumpToField.value - 1);
+  ui.jumpToField.value = '';
+  console.log("jumpToAction() complete.");
+}
+
 
 function newAction () {
   console.log("newAction() initiated.");
-
-  // toggles
-  ui.playBtn.disabled = true;
-  ui.newBtn.disabled = true;
-  ui.selectBtn.disabled = true;
-  ui.drawBtn.disabled = true;
-  
-  ui.generation.innerHTML = "Gen: 0";
-  ui.population.innerHTML = "Pop: 0";
-
   fetchSimulation(sim.pattern);
-  
   console.log("newAction() complete.");
 }
 
@@ -475,8 +546,19 @@ function fetchSimulation(pattern="Random") {
   clearSimulation();
   sim.resetAnimation();
 
+  // toggles
+  ui.playToggle = false;
   ui.selectToggle = false;
+  ui.drawToggle = false;
+  ui.playBtn.disabled = true;
+  ui.backwardBtn.disabled = true;
+  ui.forwardBtn.disabled = true;
+  ui.resetBtn.disabled = true;
+  ui.newBtn.disabled = true;
+  ui.jumpToBtn.disabled = true;
+  ui.jumpToField.style.visibility = "hidden";
   ui.selectBtn.disabled = true;
+  ui.drawBtn.disabled = true;
 
   fetch('/simdata', {method: "POST", body: form})
     .then((response) => response.json())
@@ -487,7 +569,12 @@ function fetchSimulation(pattern="Random") {
 
       // toggles
       ui.playBtn.disabled = false;
+      ui.backwardBtn.disabled = false;
+      ui.forwardBtn.disabled = false;
+      ui.resetBtn.disabled = false;
       ui.newBtn.disabled = false;
+      ui.jumpToBtn.disabled = false;
+      ui.jumpToField.style.visibility = "visible";
       ui.selectBtn.disabled = false;
       ui.drawBtn.disabled = false;
 
@@ -507,11 +594,11 @@ function fetchSimulation(pattern="Random") {
 //###FIXME### prevent certain button clicks from firing off if certain actions have
 // been started.
 $("#playButton").click(() => playAction()); 
-$("#stepForwards").click(() => moveFrame(sim.currentIndex + 1));
-$("#stepBackwards").click(() => moveFrame(sim.currentIndex - 1));
-$("#resetButton").click(() => moveFrame(0)); //###FIXME### need to disable this when sim running.
+$("#stepForwards").click(() => stepForwardAction());
+$("#stepBackwards").click(() => stepBackwardAction());
+$("#resetButton").click(() => resetAction()); //###FIXME### need to disable this when sim running.
 $("#newButton").click(() => newAction());
-$("#jumpToButton").click(() => moveFrame(ui.jumpToField.value - 1));
+$("#jumpToButton").click(() => jumpToAction());
 $("#selectButton").click(() => selectActionNew());
 $("#drawButton").click(() => drawAction());
 

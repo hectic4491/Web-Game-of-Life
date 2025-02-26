@@ -17,78 +17,124 @@
 
 		<!--Main Screen-->
 		<div class="mainContainer" id="mainContainer">
-			<div class="mainHeader" id="mainHeader">Conway's Game of Life</div>
-			<div class="mainBody">
-				<div class="controlPanel">
-					<div class="buttonContainer" id="buttonContainer">
-						<div class ="buttonSection simControlSection" id="simControlSection">
-						<button class="button playButton" id="playButton" title="[ p ] - Play/Pause Simulation">
-							<svg width="60" height="60">
-								<use xlink:href="#playIcon"/>      
-							</svg>
-						</button>
-						<div class="smallButtonContainer">
-							<button class="smallButton stepBackwards" id="stepBackwards" title="[ &lt; ] - Step Backwards">
-								<svg width="35" height="35">
-									<use xlink:href="#stepBackwardsIcon"/>      
-								</svg>
-							</button>
-							<button class="smallButton stepForwards" id="stepForwards" title="[ &gt; ] - Step Forwards">
-								<svg width="35" height="35">
-									<use xlink:href="#stepForwardsIcon"/>      
-								</svg>
-							</button>
-						</div>
-						<div class="smallButtonContainer">
-							<button class="smallButton resetButton" id="resetButton" title="[ r ] - Reset Simulation">
-								<svg width="35" height="35">
-									<use xlink:href="#resetIcon"/>      
-								</svg>
-							</button>
-							<button class="smallButton newButton" id="newButton" title="[ n ] - New Simulation">
-								<svg width="35" height="35">
-									<use xlink:href="#newIcon"/>      
-								</svg>
-							</button>
-						</div>
-						<div class="smallButtonContainer">
-							<button class="smallButton jumpToButton" id="jumpToButton" title="[ j ] - Jump to Generation">
-								<svg width="60" height="35">
-									<use xlink:href="#jumpToIcon"/>      
-								</svg>
-							</button>
-							<input type="number" min="1" max="200" class="jumpToField" id="jumpToField" placeholder="Gen #">
-						</div>
-					  </div>
-						<div class="buttonSection otherSection" id="otherSection">
-						<button class="button" id="selectButton" title="[ s ] - Select Simulation">Select</button>
-						<button class="button" id="drawButton" title="[ d ] - Draw On Grid">Draw</button>
-						<button class="button" id="drawButton2" title="[ d ] - Draw On Grid">
-							<svg width="40" height="40">
-							<use xlink:href="#drawIcon"/>      
-						</svg>
-					</button>
 
-						<div class="smallButtonContainer">
-							<button class="mediumButton loadButton" id="loadButton">
-								<svg width="50" height="50">
-									<use xlink:href="#loadIcon"/>      
-								</svg>
-							</button>
-							<button class="mediumButton saveButton" id="saveButton">
-								<svg width="50" height="50">
-									<use xlink:href="#saveIcon"/>      
-								</svg>
-							</button>
+			<div class="mainHeader" id="mainHeader">
+				Conway's Game of Life
+			</div>
+
+			<div class="mainBody">
+
+				<div class="controlPanel">
+
+					<div class="controlSection" id="buttonSection">
+
+						<div class ="controlCategory" id="simButtonCategory">
+							
+							<div class="buttonRow single">
+
+								<button class="button playButton" id="playButton" title="[ p ] - Play/Pause Simulation">
+									<svg class="longSVG playIcon" viewBox="0 0 90 50">
+										<polygon points="0,0 0,50, 50,25" />
+										<rect x="50" y="0" width="15" height="50"/>
+										<rect x="75" y="0" width="15" height="50"/>    
+									</svg>
+								</button>
+
+							</div>
+
+							<div class="buttonRow">
+
+								<button class="button generalButton" id="stepBackwards" title="[ &lt; ] - Step Backwards">
+									<svg class="squareSVG stepIcon" viewBox="0 0 50 50">
+											<rect x="0" y="0" width="15" height="50"/>
+											<polygon points="15,25 50,0 50,50"/>     
+									</svg>
+								</button>
+
+								<button class="button generalButton" id="stepForwards" title="[ &gt; ] - Step Forwards">
+									<svg class="squareSVG stepIcon" viewBox="0 0 50 50">
+										<polygon points="0,0 0,50, 35,25" />
+										<rect x="35" y="0" width="15" height="50"/>     
+									</svg>
+								</button>
+
+							</div>
+
+							<div class="buttonRow">
+
+								<button class="button generalButton" id="resetButton" title="[ r ] - Reset Simulation">
+									<svg class="squareSVG resetIcon" viewBox="0 0 50 50">
+										<polygon points="5,5 45,5 45,20 50,20 40,33 30,20 35,20 35,15 5,15"/>
+										<polygon points="45,45 5,45 5,30 0,30 10,17 20,30 15,30 15,35 45,35"/>      
+									</svg>
+								</button>
+
+								<button class="button generalButton" id="newButton" title="[ n ] - New Simulation">
+									<svg class="squareSVG newIcon" viewBox="0 0 50 50">
+										<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+										<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+									</svg>
+								</button>
+
+							</div>
+							<div class="buttonRow">
+
+								<button class="button generalButton" id="jumpToButton" title="[ j ] - Jump to Generation">
+									<svg class="squareSVG jumpIcon" viewBox="0 0 70, 50">
+										<rect x="10" y="20" width="10" height="10" />
+										<polygon points="25,20 50,20 50,15 65,25 50,35 50,30, 25,30"/>    
+									</svg>
+								</button>
+
+								<input class="jumpToField" type="number" min="1" max="200" id="jumpToField" placeholder="Gen #">
+
+							</div>
+
+					  </div>
+
+						<div class="controlCategory" id="selectDrawButtonCategory">
+
+							<div class="buttonRow">
+
+								<button class="button generalButton" id="selectButton" title="[ s ] - Select Simulation">
+									<svg class="squareSVG loadIcon" viewBox="0 0 24, 24">
+										<path d="M4,20 L20,20 20,8 16,8 12,10 4,10 4,20"/>
+										<path d="M10,10 L10,2 L22,2 L22,14 20,14"/>
+										<path d="M10,6 L22,6"/>
+										<path d="M20,10 L22,10"/>
+										<path d="M14,2 L14,9"/>
+										<path d="M18,2 L18,8"/>
+										<polygon points="11,18, 13,18 13,15 15,15 12,12 9,15 11,15"/>     
+									</svg>
+								</button>
+
+								<button class="button generalButton" id="drawButton" title="[ d ] - Draw On Grid">
+									<svg class="squareSVG drawIcon" viewBox="0 0 30, 30">
+										<path class="thickPath" d="M1,1 L29,1 L29,29 L1,29 Z"/>
+										<path d="M13,15 L12,18 L15,17 Z"/>
+										<path d="M15,17 L24,8 L22,6 L13,15"/>
+										<path d="M19,8 L22,11" fill="none"/>
+										<path d="M10,0 L10,30" fill="none"/>
+										<path d="M20,0 L20,8 M20,12 L20,30"/>
+										<path d="M0,10 L18,10 M22,10 L30,10"/>
+										<path d="M0,20 L30,20"/>     
+									</svg>
+								</button>
+
+							</div>
+
 						</div>
-						</div>
+
 					</div>
-					<div class="labelContainer">
-						<p class="simulationType" id="simulationType"></p>
-						<p class="generation" id="generation"></p>
-						<p class="population" id="population"></p>
+
+					<div class="controlSection" id="labelSection">
+						<p class="simInfo" id="simulationType"></p>
+						<p class="simInfo" id="generation"></p>
+						<p class="simInfo" id="population"></p>
 					</div>
+
 				</div>
+
 				<div class="simulationWindow" id="simulationWindow">
 					<div class="gridFrame" id="gridFrame">
 						<div class="grid" id="grid"></div>
@@ -96,6 +142,35 @@
 						cell elements to during the simulation.-->
 					</div>
 				</div>
+
+			</div>
+
+			<div class="arrowKeyContainer">
+				<div class="arrowKeyRow upper">
+					<svg class="squareSVG upArrowIcon" viewbox="0 0 50 50" width="50" hidden="50">
+						<path d="M3,3 L47,3 L47,47 L3,47 Z" fill="none" stroke="white" stroke-width="5"/>
+						<polygon points="15,32 35,32 25,12" fill="white"/>
+					</svg>
+				</div>
+
+				<div class="arrowKeyRow lower">
+					<svg class="squareSVG leftArrowIcon" viewbox="0 0 50 50" width="50" hidden="50">
+						<path d="M3,3 L47,3 L47,47 L3,47 Z" fill="none" stroke="white" stroke-width="5"/>
+						<polygon points="32,15 32,35 12,25" fill="white"/>
+					</svg>
+			
+					<svg class="squareSVG downArrowIcon" viewbox="0 0 50 50" width="50" hidden="50">
+						<path d="M3,3 L47,3 L47,47 L3,47 Z" fill="none" stroke="white" stroke-width="5"/>
+						<polygon points="15,18 35,18 25,38" fill="white"/>
+					</svg>
+
+					<svg class="squareSVG rightArrowIcon" viewbox="0 0 50 50" width="50" hidden="50">
+						<path d="M3,3 L47,3 L47,47 L3,47 Z" fill="none" stroke="white" stroke-width="5"/>
+						<polygon points="18,15 18,35 38,25" fill="white"/>
+					</svg>
+				</div>
+			</div>
+			<div class="arrowKeyContainerHandle">
 			</div>
 		</div>
 
@@ -117,66 +192,15 @@
 		<!--SVG symbols-->
 		<svg width="0" height="0" style="position: absolute; visibility: hidden;" >
       <defs>
-        <symbol class="icon stepBackwardsIcon" id="stepBackwardsIcon" viewBox="0 0 50 50">
-          <rect x="0" y="0" width="15" height="50" />
-          <polygon points="15,25 50,0 50,50" />
-        </symbol>
 
-        <symbol class="icon playButtonIcon" id="playIcon" viewBox="0 0 90 50">
-          <polygon points="0,0 0,50, 50,25" />
-          <rect x="50" y="0" width="15" height="50" />
-          <rect x="75" y="0" width="15" height="50" />
-        </symbol>
-
-        <symbol class="icon stepForwardsIcon" id="stepForwardsIcon" viewBox="0 0 50 50">
-          <polygon points="0,0 0,50, 35,25" />
-          <rect x="35" y="0" width="15" height="50" />
-        </symbol>
-
-				<symbol class="icon resetButtonIcon" id="resetIcon" viewBox="0 0 50 50">
-          <polygon points="5,5 45,5 45,20 50,20 40,33 30,20 35,20 35,15 5,15"/>
-          <polygon points="45,45 5,45 5,30 0,30 10,17 20,30 15,30 15,35 45,35"/>
-        </symbol>
-
-				<symbol class="icon iconPath newButton" id="newIcon" viewBox="0 0 50 50">
-          <path d="M3,3 L47,3 L47,47 L3,47 Z" fill="none" stroke-width="6"/>
-          <polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22" />
-        </symbol>
-
-				<symbol class="icon jumpTo" id="jumpToIcon" viewBox="0 0 70, 50">
-          <rect x="10" y="20" width="10" height="10" />
-          <polygon points="25,20 50,20 50,15 65,25 50,35 50,30, 25,30" />
-        </symbol>
-
-				<symbol class="icon iconPath loadButton" id="loadIcon" viewBox="0 0 24, 24">
-          <path d="M4,20 L20,20 20,8 16,8 12,10 4,10 Z" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M10,10 L10,2 L22,2 L22,14 20,14" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M10,6 L22,6" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M20,10 L22,10" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M14,2 L14,9" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M18,2 L18,8" fill="none" stroke="white" stroke-width="1"/>
-          <polygon points="11,18, 13,18 13,15 15,15 12,12 9,15 11,15" />
-        </symbol>
-
-        <symbol class="icon iconPath saveButton" id="saveIcon" viewBox="0 0 24, 24">
-          <path d="M4,20 L20,20 20,8 16,8 12,10 4,10 Z" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M10,10 L10,2 L22,2 L22,14 20,14" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M10,6 L22,6" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M20,10 L22,10" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M14,2 L14,9" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M18,2 L18,8" fill="none" stroke="white" stroke-width="1"/>
-          <polygon points="13,12 11,12 11,15 9,15 12,18 15,15 13,15" />
-        </symbol>
-
-				<symbol class="icon iconPath drawButton" id="drawIcon" viewBox="0 0 30, 30">
-          <path class="thickPath" d="M1,1 L29,1 L29,29 L1,29 Z" fill="none" stroke="white" stroke-width="2"/>
-          <path d="M13,15 L12,18 L15,17 Z" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M15,17 L24,8 L22,6 L13,15" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M19,8 L22,11" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M10,0 L10,30" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M20,0 L20,8 M20,12 L20,30" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M0,10 L18,10 M22,10 L30,10" fill="none" stroke="white" stroke-width="1"/>
-          <path d="M0,20 L30,20" fill="none" stroke="white" stroke-width="1"/>
+        <symbol class="icon saveIcon" id="saveIcon" viewBox="0 0 24,24">
+          <path d="M4,20 L20,20 20,8 16,8 12,10 4,10 Z"/>
+          <path d="M10,10 L10,2 L22,2 L22,14 20,14"/>
+          <path d="M10,6 L22,6"/>
+          <path d="M20,10 L22,10"/>
+          <path d="M14,2 L14,9"/>
+          <path d="M18,2 L18,8"/>
+          <polygon points="13,12 11,12 11,15 9,15 12,18 15,15 13,15"/>
         </symbol>
 
       </defs>
