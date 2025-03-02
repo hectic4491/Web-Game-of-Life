@@ -93,7 +93,7 @@ html, body {
 
 .button.badgeButton:hover {
 	cursor: pointer;
-	filter: blur(1px) brightness(1.3) drop-shadow(0 0 0.25rem var(--color-start-button-super-light));
+	filter: brightness(1.5) drop-shadow(0 0 12px var(--color-start-button-super-light));
 	transform: translateY(-4px);
 
 	svg {
@@ -102,7 +102,7 @@ html, body {
 }
 
 .button.badgeButton:active {
-	filter: blur(0) brightness(3) drop-shadow(0 0 0.4rem var(--color-start-button-super-light-bright));
+	filter: brightness(3) drop-shadow(0 0 16px var(--color-start-button-super-light-bright));
 	transform: translateY(6px) scale(0.85);
 }
 
@@ -177,7 +177,7 @@ html, body {
 	padding: 4px;
 	border: 6px solid var(--color-background-dark);
 	border-radius: 5px;
-	transition: transform 0.3s, scale 1s, rotate 0.3s;
+	transition: transform 0.3s, scale 1s;
 }
 
 .button:hover {
@@ -185,10 +185,8 @@ html, body {
 	transform: translateY(2px);
 }
 
-.button:active {
-	transform: translateY(8px) scale(0.85);
-}
-.button.active { /*For use in js*/
+.button:active,
+.button.active {
 	transform: translateY(8px) scale(0.85);
 }
 
@@ -282,7 +280,7 @@ html, body {
 
 .footerButtonContainer {
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	gap: 1rem;
 	margin-bottom: 0.5rem;
@@ -306,7 +304,7 @@ html, body {
 
 .button.footerButton:hover {
 	cursor: pointer;
-	filter: brightness(1.3) drop-shadow(0 0 0.25rem var(--color-start-button-super-light));
+	filter: brightness(1.3) drop-shadow(0 0 10px var(--color-start-button-super-light));
 	transform: translateY(-2px);
 
 	svg {
@@ -315,7 +313,7 @@ html, body {
 }
 
 .button.footerButton:active {
-	filter: brightness(3) drop-shadow(0 0 0.4rem var(--color-start-button-super-light-bright));
+	filter: brightness(3) drop-shadow(0 0 14px var(--color-start-button-super-light-bright));
 	transform: translateY(0px) scale(0.85);
 }
 
@@ -392,7 +390,6 @@ html, body {
 	width: 14rem;
 	height: 8rem;
 	background-color: rgba(0,0,0,0);
-	border: 10px;
 	z-index: 1;
 }
 
@@ -400,20 +397,6 @@ html, body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-	svg {
-		width: 2.5rem;
-		height: 2.5rem;
-		
-		polygon {
-		fill: rgba(216, 216, 216, 0.3);
-		}
-
-		path {
-			stroke:rgba(216, 216, 216, 0.3);
-			fill: none;
-		}
-	}
 }
 
 .arrowKeyRow.upper {
@@ -429,7 +412,58 @@ html, body {
 	border: none;
 	background-color: rgba(63, 75, 82, 0.456);
 	padding: 8px;
+	transition: transform 0.2s, filter 0.15s;
+
+	svg {
+		width: 2.5rem;
+		height: 2.5rem;
+		
+		polygon {
+		fill: rgba(216, 216, 216, 0.3);
+		}
+
+		path {
+			stroke:rgba(216, 216, 216, 0.3);
+		}
+	}
 }
+
+.button.arrow:hover {
+	transition: transform 0.2s, background-color 0.15s, filter 0.15s;
+
+	background-color: rgba(110, 126, 125, 0.456);
+
+	filter: brightness(1.3) drop-shadow(0 0 10px var(--color-start-button-super-light));
+
+	svg {
+		polygon {
+		fill: rgba(216, 216, 216, 0.55);
+		}
+
+		path {
+			stroke:rgba(216, 216, 216, 0.55);
+		}
+	}
+}
+
+.button.arrow:active,
+.button.arrow.active {
+	transition: transform 0.2s, background-color 0.15s, filter 0.15s;
+
+	filter: brightness(1.6) drop-shadow(0 0 14px var(--color-start-button-super-light));
+
+	svg {
+		polygon {
+		fill: var(--color-start-button-light);
+		}
+
+		path {
+			stroke: var(--color-start-button-light);
+		}
+	}
+}
+
+
 
 
 .arrowKeyContainerHandle {
@@ -454,21 +488,24 @@ html, body {
 	position: relative;
 	width: var(--cell-size);
 	height: var(--cell-size);
+
 	border: calc(var(--cell-size) * 0.1) solid var(--color-blue);
-	transition: transform 0.1s ease-in-out;
+
 	transform-origin: center;
 	box-sizing: border-box;
-	transform: scale(1);
 }
 
-.cellAlive {
-	transition: background-color 0.15s ease;
+.cell.cellAlive {
 	background-color: var(--color-start-button);
 }
 
+
 .cell:hover {
-	border: calc(var(--cell-size) * 0.2) solid var(--color-white);
+	border: calc(var(--cell-size) * 0.2) solid var(--color-start-button-super-light-bright);
+	background-color: var(--color-start-button-light);
+	box-shadow: 0px 0px 20px rgba(255, 253, 181, 0.80);
 	transform: scale(0.8);
+	z-index: 1;
 }
 
 
@@ -481,6 +518,7 @@ html, body {
 	background-color: var(--color-dark-blue);
 	border: 0.5rem solid var(--color-blue);
 	border-radius: 16px;
+
 	/*transition*/
 	opacity: 0;
 	transition: all 0.3s allow-discrete;
@@ -523,19 +561,32 @@ html, body {
 	justify-content: center;
 }
 
-
-.typeButton {
-	font-size: 1rem;
-	background-color: var(--color-white);
-	padding: 0.5rem;
-	margin: 0.5rem;
-	cursor: pointer;
-	border: 3px solid var(--color-blue);
-	border-radius: 5px;
+.headerRow {
+	display: flex;
 }
 
-.typeButton:active {
-	background-color: var(--color-background);
+.patternRow {
+	display: flex;
+}
+
+	.rowButton {
+		display: flex;
+	}
+
+	.rowInfo {
+		display: flex;
+	}
+
+		.rowName {
+			display: flex;
+		}
+
+		.rowDescription {
+			display: flex;
+		}
+
+.typeRow {
+	display: flex;
 }
 
 

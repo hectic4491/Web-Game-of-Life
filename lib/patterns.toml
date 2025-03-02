@@ -1,6 +1,69 @@
 # Built in simulation patterns #
 
+["Block"]
+type = "Still life"
+description = "A still life is a stabile configuration. It does not change from one generation to the next. Block is the most common still life to generate from a random initial state."
+alive_cells = [
+    [1, 1],
+    [1, 2],
+    [2, 1],
+    [2, 2]
+    ]
+
+
+["Beehive"]
+type = "Still life"
+description = "The second most common still life is the Beehive. They are frequently created in sets of four in a formation known as a 'Honey Farm'."
+alive_cells = [
+    [1, 2],
+    [1, 3],
+    [2, 1],
+    [2, 4],
+    [3, 2],
+    [3, 3]
+    ]
+
+
+["Loaf"]
+type = "Still life"
+description = "The third most common still Life is the loaf. Loaves are often found together in a pairing known as a 'bi-loaf'."
+alive_cells = [
+    [1, 2],
+    [1, 3],
+    [2, 1],
+    [2, 4],
+    [3, 2],
+    [3, 4],
+    [4, 3]
+    ]
+
+
+["Tub"]
+type = "Still life"
+description = "A tub consists of four live cells placed in a diamond shape around a central dead cell."
+alive_cells = [
+    [1, 2],
+    [2, 1],
+    [2, 3],
+    [3, 2]
+    ]
+
+
+["Boat"]
+type = "Still life"
+description = "Similar to the Tub. By adding a fifth cell diagonally to the central cell we get a Boat."
+alive_cells = [
+    [1, 1],
+    [1, 2],
+    [2, 1],
+    [2, 3],
+    [3, 2]
+    ]
+
+
 ["Blinker"]
+type = "Oscillator"
+description = "Period: 2. An oscillator is a pattern that returns to its original state, in the same orientation and position, after a finite number of generations."
 alive_cells = [
     [2, 1],
     [2, 2],
@@ -9,6 +72,8 @@ alive_cells = [
 
 
 ["Toad"]
+type = "Oscillator"
+description = "Period: 2. The minimum number of generations it takes before a pattern returns to its initial state is called it's period."
 alive_cells = [
     [2, 2],
     [2, 3],
@@ -20,6 +85,8 @@ alive_cells = [
 
 
 ["Beacon"]
+type = "Oscillator"
+description = "Period: 2. Oscillators of Period 2 are commonly generated from a random initial state."
 alive_cells = [
     [1, 1],
     [1, 2],
@@ -31,6 +98,8 @@ alive_cells = [
 
 
 ["Pulsar"]
+type = "Oscillator"
+description = "Period: 3. A large but surprisingly common oscillator. Variations of this oscillator can appear with different structures near the arms of the oscillator."
 alive_cells = [
     [2, 4],
     [2, 5],
@@ -83,7 +152,9 @@ alive_cells = [
     ]
 
 
-["P.Decathlon"]
+["Penta-Decathlon"]
+type = "Oscillator"
+description = "Period: 15. Conway's Game of Life has been proven to be omni-periodic. In otherwords, it has been shown that finite oscillators exist for all periods."
 alive_cells = [
     [5, 4],
     [6, 4],
@@ -111,6 +182,8 @@ alive_cells = [
 
 
 ["Glider"]
+type = "Spaceship"
+description = "Speed: c/4. The smallest of the Spaceships. It traverses across the grid diagonally, either forever or until it crashes into something."
 alive_cells = [
     [0, 2],
     [1, 0], 
@@ -120,7 +193,119 @@ alive_cells = [
     ]
 
 
-["Glider Gun"]
+["LWSS"]
+type = "Spaceship"
+description = "Speed: c/2. Light-weight spaceship. The existence of spaceships is a key part to the proof of Life being Turing-complete."
+alive_cells = [
+    [1, 1],
+    [1, 4],
+    [2, 5],
+    [3, 1],
+    [3, 5],
+    [4, 2],
+    [4, 3],
+    [4, 4],
+    [4, 5]
+    ]
+
+
+["MWSS"]
+type = "Spaceship"
+description = "Speed: c/2. Middle-weight spaceship. The speed of a spaceship is often expressed in terms of 'c' the metaphorical speed of light (one cell per generation)."
+alive_cells = [
+    [1, 3],
+    [2, 1],
+    [2, 5],
+    [3, 6],
+    [4, 1],
+    [4, 6],
+    [5, 2],
+    [5, 3],
+    [5, 4],
+    [5, 5],
+    [5, 6]
+    ]
+
+
+["HWSS"]
+type = "Spaceship"
+description = "Speed: c/2. Heavy-weight spaceship. These four spaceships were known since 1970. Since then, many spaceships and classifications types have been discovered."
+alive_cells = [
+    [1, 3],
+    [1, 4],
+    [2, 1],
+    [2, 6],
+    [3, 7],
+    [4, 1],
+    [4, 7],
+    [5, 2],
+    [5, 3],
+    [5, 4],
+    [5, 5],
+    [5, 6],
+    [5, 7]
+    ]
+
+
+["R-pentomino"]
+type = "Methuselah"
+description = "The first-discovered methuselah, a pattern which initiates very small and evolves for long periods before stabilizing."
+alive_cells = [
+    [1, 2],
+    [1, 3],
+    [2, 1],
+    [2, 2],
+    [3, 2]
+    ]
+
+
+["Diehard"]
+type = "Methuselah"
+description = "The term methuselah comes from the biblical figure of Methuselah, who is said to have lived 969 years."
+alive_cells = [
+    [1, 7],
+    [2, 1],
+    [2, 2],
+    [3, 2],
+    [3, 6],
+    [3, 7],
+    [3, 8]
+    ]
+
+
+["Acorn"]
+type = "Methuselah"
+description = "Methuselahs are best experienced on an infinite Game of Life grid, where their lifespan can fully play out. Acorn starts with 7 cells and can reach a maximum population of 1057."
+alive_cells = [
+    [1, 2],
+    [2, 4],
+    [3, 1],
+    [3, 2],
+    [3, 5],
+    [3, 6],
+    [3, 7]
+    ]
+
+
+["Bunnies"]
+type = "Methuselah"
+description = "Bunnies has a life span of 17332 generations! Other methuselah variations have been discovered to converge to the bunnies sequence."
+alive_cells = [
+    [10, 10],
+    [10, 16],
+    [11, 12],
+    [11, 16],
+    [12, 12],
+    [12, 15],
+    [12, 17],
+    [13, 11],
+    [13, 13]
+    ]
+
+
+["Gosper Glider Gun"]
+type = "Gun"
+description = "A gun is a stationary pattern that repeatedly emits spaceships forever. Discovered in November 1970, the Gospel glider gun was first pattern to exhibit infinite growth."
 alive_cells = [
     [0, 24],
     [1, 22],
@@ -158,18 +343,4 @@ alive_cells = [
     [7, 15],
     [8, 12],
     [8, 13]
-    ]
-
-
-["Bunnies"]
-alive_cells = [
-    [10, 10],
-    [10, 16],
-    [11, 12],
-    [11, 16],
-    [12, 12],
-    [12, 15],
-    [12, 17],
-    [13, 11],
-    [13, 13]
     ]

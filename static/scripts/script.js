@@ -11,7 +11,7 @@ const sim = {
   // This object will hold the data for our simulation.
   height: 50, // TODO: Make this a user input
   width: 90, // TODO: Make this a user input
-  fps: 100, // Milliseconds; i.e.: 10fps
+  fps: 1000/12, // Milliseconds; i.e.: 10fps
   patternData: undefined, // Where we store the fetched data from the server.
   currentIndex: 0,
   pattern: "Random",
@@ -306,7 +306,7 @@ function writeAliveCells() {
     let [j, i] = cell;
     const cellId = `${j}-${i}`;
     const targetCell = document.getElementById(cellId);
-    targetCell.classList.toggle('cellAlive'); 
+    targetCell.classList.toggle('cellAlive');  
   });
 }
 
@@ -396,8 +396,8 @@ function playSubAction () {
   ui.selectBtn.disabled = true;
   ui.drawBtn.disabled = true;
   
-  
   renderSimulation();
+
   console.log("playSubAction() complete.")
 }
 
@@ -598,7 +598,7 @@ $("#jumpToButton").click(() => jumpToAction());
 $("#selectButton").click(() => selectAction());
 $("#drawButton").click(() => drawAction());
 
-
+/* Clicking outside of the select menu returns to main screen*/
 $("#selectMenu").click(event => {
   const rect = ui.selectMenu.getBoundingClientRect();
   const isInDialog =
@@ -609,25 +609,4 @@ $("#selectMenu").click(event => {
   if (!isInDialog) {
     selectAction();
   }
-});
-
-$("#type1").click(() => {
-  fetchSimulation("Random");
-  ui.mainContainer.style.display = "flex";
-  ui.selectMenu.close();
-});
-$("#type2").click(() => {
-  fetchSimulation("Blinker");
-  ui.mainContainer.style.display = "flex";
-  ui.selectMenu.close();
-});
-$("#type3").click(() => {
-  fetchSimulation("Glider");
-  ui.mainContainer.style.display = "flex";
-  ui.selectMenu.close();
-});
-$("#type4").click(() => {
-  fetchSimulation("Glider Gun");
-  ui.mainContainer.style.display = "flex";
-  ui.selectMenu.close();
 });
