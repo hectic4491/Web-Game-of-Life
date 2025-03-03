@@ -554,6 +554,69 @@ html, body {
 }
 
 
+.selectMenuHeader {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.5rem;
+	border: solid var(--color-blue);
+	border-width: 0rem 0rem 0.25rem 0rem;
+
+	.headerRow {
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+	
+		.backButton {
+			border-radius: 100%;
+			border-width: 0.25rem;
+			border-color: var(--color-blue);
+			background-color: var(--color-dark-blue);
+
+			svg {
+				width: 1.5rem;
+				height: 1.5rem;
+
+				path {
+					stroke: var(--color-blue);
+					stroke-width: 5px;
+				}
+			}
+		}
+
+		.selectMenuTitle {
+			margin: 0;
+			padding: 0 1rem 0 1rem;
+			color: var(--color-background);
+			font-size: 1rem;
+		}
+	}
+}
+
+.button.backButton {
+	transition: transform 0.2s, filter 0.15s;
+}
+
+.button.backButton:hover {
+	transform: translateX(-4px);
+	background-color: var(--color-blue);
+
+	svg {
+		background-color: var(--color-blue);
+		path {
+			stroke: var(--color-dark-blue);
+			stroke-width: 5;
+		}
+	}
+}
+
+.button.backButton:active {
+	filter: brightness(1.3) drop-shadow(0 0 8px var(--color-start-button-super-light-bright));
+	transform: translateX(0px);
+}
+
 .selectMenuBody {
 	display: flex;
 	flex-direction: column;
@@ -561,32 +624,63 @@ html, body {
 	justify-content: center;
 }
 
-.headerRow {
-	display: flex;
-}
 
 .patternRow {
 	display: flex;
+	flex-direction: row;
+	justify-content: start;
+	font-size: 1rem;
+	color: var(--color-background);
+
+	border: solid var(--color-blue);
+	border-width: 0 0 3px 0;
+
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.5rem;
 }
 
-	.rowButton {
-		display: flex;
+	.rowButtonBox {
+		width: 4rem;
+		height: 4rem;
+
+		.button.rowButton {
+			width: 4rem;
+			height: 4rem;
+			border-color: var(--color-blue);
+			background-color: var(--color-dark-blue);
+		}
 	}
 
 	.rowInfo {
 		display: flex;
+		flex-direction: column;
+		padding-left: 0.5rem;
+
 	}
 
 		.rowName {
-			display: flex;
+			max-width: 40ch;
+			padding-bottom: 0.5rem;
 		}
 
 		.rowDescription {
-			display: flex;
+			max-width: 40ch;
 		}
 
 .typeRow {
 	display: flex;
+	justify-content: center;
+
+	font-size: 1rem;
+	color: var(--color-background);
+	width: 100%;
+
+	margin: 0 0 0.5rem 0;
+	padding-bottom: 0.5rem;
+
+	border: solid var(--color-blue);
+	border-width: 0 0 3px 0;
+
 }
 
 

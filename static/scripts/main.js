@@ -4,6 +4,7 @@ $(document).ready(function() {
   loadScript('static/scripts/script.js')
   loadScript('static/scripts/move-grid.js')
   loadScript('static/scripts/badge-redirect.js')
+  loadScript('static/scripts/select-menu-init.js')
   //... Add more as needed...
 
 

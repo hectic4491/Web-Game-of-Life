@@ -558,6 +558,7 @@ function fetchSimulation(pattern="Random") {
   ui.selectBtn.disabled = true;
   ui.drawBtn.disabled = true;
 
+  /* ###FIXME### Need to handle TypeError: Failed to fetch */
   fetch('/simdata', {method: "POST", body: form})
     .then((response) => response.json())
     .then((patternData) => {
