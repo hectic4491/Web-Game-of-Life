@@ -84,14 +84,14 @@
 							<div class="buttonRow">
 
 								<button class="button generalButton" id="resetButton" title="[ r ] - Reset Simulation">
-									<svg class="squareSVG resetIcon" viewBox="0 0 50 50">
+									<svg class="bigSquareSVG resetIcon" viewBox="0 0 50 50">
 										<polygon points="5,5 45,5 45,20 50,20 40,33 30,20 35,20 35,15 5,15"/>
 										<polygon points="45,45 5,45 5,30 0,30 10,17 20,30 15,30 15,35 45,35"/>      
 									</svg>
 								</button>
 
 								<button class="button generalButton" id="newButton" title="[ n ] - New Simulation">
-									<svg class="squareSVG newIcon" viewBox="0 0 50 50">
+									<svg class="mediumSquareSVG newIcon" viewBox="0 0 50 50">
 										<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
 										<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
 									</svg>
@@ -101,7 +101,7 @@
 							<div class="buttonRow">
 
 								<button class="button generalButton" id="jumpToButton" title="[ j ] - Jump to Generation">
-									<svg class="squareSVG jumpIcon" viewBox="0 0 70, 50">
+									<svg class="bigSquareSVG jumpIcon" viewBox="0 0 70, 50">
 										<rect x="10" y="20" width="10" height="10" />
 										<polygon points="25,20 50,20 50,15 65,25 50,35 50,30, 25,30"/>    
 									</svg>
@@ -118,7 +118,7 @@
 							<div class="buttonRow">
 
 								<button class="button generalButton" id="selectButton" title="[ s ] - Select Simulation">
-									<svg class="squareSVG loadIcon" viewBox="0 0 24, 24">
+									<svg class="bigbigSquareSVG loadIcon" viewBox="0 0 24, 24">
 										<path d="M4,20 L20,20 20,8 16,8 12,10 4,10 4,20"/>
 										<path d="M10,10 L10,2 L22,2 L22,14 20,14"/>
 										<path d="M10,6 L22,6"/>
@@ -130,7 +130,7 @@
 								</button>
 
 								<button class="button generalButton" id="drawButton" title="[ d ] - Draw On Grid">
-									<svg class="squareSVG drawIcon" viewBox="0 0 30, 30">
+									<svg class="bigSquareSVG drawIcon" viewBox="0 0 30, 30">
 										<path class="thickPath" d="M1,1 L29,1 L29,29 L1,29 Z"/>
 										<path d="M13,15 L12,18 L15,17 Z"/>
 										<path d="M15,17 L24,8 L22,6 L13,15"/>
@@ -233,15 +233,40 @@
 		<dialog class="menu selectMenu" id="selectMenu">
 			<div class="selectMenuHeader" id="selectMenuHeader">
 				<div class="headerRow">
-					<button class="button backButton" id="seletMenuBackButton">
+					<button class="button backButton" id="selectMenuBackButton">
 						<svg class="squareSVG backButton" viewbox="0 0 50 50">
 							<path d="M5,25 45,25 M25,5 5,26 M25,45 5,24" fill="none" stroke="white" stroke-width="4"/>
 						</svg>
 					</button>
-					<h2 class="selectMenuTitle">Load Patterns</h2>
+					<div class="titleContainer">
+						<h2 class="selectMenuTitle">Load Patterns</h2>
+					</div>
 				</div>
 			</div>
 			<div class="selectMenuBody" id="selectMenuBody">
+
+				<div class="typeRow">
+					<h3 class="typeName">Random</h3>
+				</div>
+
+				<div class="patternRow">
+					<div class="rowButtonBox">
+						<button class="button rowButton" id="randomButton">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
+						</button>
+					</div>
+					<div class="rowInfo">
+						<div class="rowName">
+							<h4 class="patternName">Random</h4>
+						</div>
+						<div class="rowDescription">
+							<p class="patternDescription">Initializes the grid randomly. Produces a 'soup' like pattern. This pattern typically stabilizes into an assortment of still lives and oscillators.</p>
+						</div>
+					</div>
+				</div>
 
 				<div class="typeRow" id="stillLife">
 					<h3 class="typeName">Still Lives</h3>
@@ -250,6 +275,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton1">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -265,6 +294,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton2">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -280,6 +313,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton3">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -295,6 +332,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton4">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -310,6 +351,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton5">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -329,6 +374,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton6">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -344,6 +393,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton7">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -359,6 +412,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton8">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -374,6 +431,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton9">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -389,6 +450,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton10">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -408,6 +473,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton11">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -423,6 +492,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton12">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -438,6 +511,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton13">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -453,6 +530,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton14">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -472,6 +553,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton15">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -487,6 +572,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton16">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -502,6 +591,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton17">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -517,6 +610,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton18">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">
@@ -536,6 +633,10 @@
 				<div class="patternRow">
 					<div class="rowButtonBox">
 						<button class="button rowButton" id="rowButton19">
+							<svg class="bigbigSquareSVG newIcon" viewBox="0 0 50 50">
+								<path d="M3,3 L47,3 L47,47 L3,47 Z"/>
+								<polygon points="22,22 22,15 28,15 28,22 35,22 35,28 28,28 28,35 22,35 22,28 15,28 15,22 22,22"/>    
+							</svg>
 						</button>
 					</div>
 					<div class="rowInfo">

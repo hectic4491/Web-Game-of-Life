@@ -21,7 +21,7 @@ html, body {
 	padding: 0;
 	height: 100%;
 	font-family: 'Courier New', Courier, monospace;
-	font-size: 24px;
+	font-size: 30px;
 	color: var(--color-background);
 	overflow: hidden;
 }
@@ -334,7 +334,7 @@ html, body {
 
 
 .simulationWindow {
-	flex: 10;
+	flex: 9;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -570,7 +570,7 @@ html, body {
 	.headerRow {
 		display: flex;
 		flex-direction: row;
-		justify-content: start;
+		justify-content:space-between;
 		align-items: center;
 	
 		.backButton {
@@ -590,11 +590,20 @@ html, body {
 			}
 		}
 
-		.selectMenuTitle {
-			margin: 0;
-			padding: 0 1rem 0 1rem;
-			color: var(--color-background);
-			font-size: 1rem;
+		.titleContainer {
+			display: flex;
+			justify-content: center;
+			width: 100%;
+			padding-right: 75px; /* This is an offset equal to the width of the
+			button, so that the title will be centered. */
+
+
+			.selectMenuTitle {
+				margin: 0;
+				padding: 0 1rem 0 1rem;
+				color: var(--color-background);
+				font-size: 1.5rem;
+			}
 		}
 	}
 }
@@ -642,48 +651,87 @@ html, body {
 
 	padding-bottom: 0.5rem;
 	margin-bottom: 0.5rem;
+
+	transition: filter 0.3s;
 }
 
+.patternRow:hover {
+	filter: brightness(1.4);
+
 	.rowButtonBox {
+		.rowButton {
+			svg {
+				visibility: visible;
+			}
+		}
+	}
+}
+
+
+.rowButtonBox {
+	width: 4rem;
+	height: 4rem;
+
+	.button.rowButton {
 		width: 4rem;
 		height: 4rem;
+		border-color: var(--color-blue);
+		background-color: var(--color-dark-blue);
 
-		.button.rowButton {
-			width: 4rem;
-			height: 4rem;
-			border-color: var(--color-blue);
-			background-color: var(--color-dark-blue);
+		svg {
+			visibility: hidden;
+
+			polygon {
+				fill: var(--color-blue);
+			}
+			path {
+				stroke: var(--color-blue);
+			}
+		}
+	}
+}
+
+.button.rowButton {
+	transition: all 0.4s;
+}
+
+.button.rowButton:hover {
+	transform: translateY(8px);
+	filter: brightness(1.6) drop-shadow(0 0 8px rgba(128, 185, 255, 0.244));
+}
+
+.button.rowButton:active {
+	transition: all 0.2s;
+	transform: scale(0.8) translateY(6px);
+}
+
+.rowInfo {
+	display: flex;
+	flex-direction: column;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+	.rowName {
+		max-width: 40ch;
+		padding-bottom: 0.5rem;
+
+		.patternName {
+			font-size: 1rem;
+			white-space: pre-line;
+			margin: 0;
 		}
 	}
 
-	.rowInfo {
-		display: flex;
-		flex-direction: column;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
+	.rowDescription {
+		max-width: 40ch;
 
+		.patternDescription {
+			font-size: 0.8rem;
+			white-space: pre-line;
+			margin: 0;
+		}
 	}
-
-		.rowName {
-			max-width: 40ch;
-			padding-bottom: 0.5rem;
-
-			.patternName {
-				font-size: 1rem;
-				white-space: pre-line;
-				margin: 0;
-			}
-		}
-
-		.rowDescription {
-			max-width: 40ch;
-
-			.patternDescription {
-				font-size: 0.8rem;
-				white-space: pre-line;
-				margin: 0;
-			}
-		}
 
 .typeRow {
 	display: flex;
@@ -701,7 +749,6 @@ html, body {
 		font-size: 1rem;
 		color: var(--color-background);
 	}
-
 }
 
 
@@ -711,6 +758,21 @@ html, body {
 .squareSVG {
 	width: 1rem;
 	height: 1rem;
+}
+
+.mediumSquareSVG {
+	width: 1.25rem;
+	height: 1.25rem
+}
+
+.bigSquareSVG {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.bigbigSquareSVG {
+	width: 1.6rem;
+	height: 1.6rem;
 }
 
 .longSVG {

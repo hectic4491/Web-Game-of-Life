@@ -1,19 +1,12 @@
-//## Main Objects to pass around the program.
-
-//FIXME: The naming convention is not consistent
-//FIXME: The use of the sim and ui object's is not consistent.
-//       The functions should be able to take in the objects as arguments.
-
 // ###
 // Objects
 const sim = {
-  // This object will hold the data for our simulation.
   height: 50, // TODO: Make this a user input
   width: 90, // TODO: Make this a user input
   fps: 1000/12, // Milliseconds; i.e.: 10fps
   patternData: undefined, // Where we store the fetched data from the server.
   currentIndex: 0,
-  pattern: "Random",
+  patternName: "Random",
   drawnPattern: undefined,
   drawing: false,
   fetching: false,
@@ -74,7 +67,7 @@ const ui = {
     this.newBtn.disabled = true;
     this.selectBtn.disabled = true;
     this.drawBtn.disabled = true;
-    this.patternName.textContent = `${sim.pattern}`;
+    this.patternName.textContent = `${sim.patternName}`;
     this.generation.textContent = `Gen: 0` ;
     this.population.textContent = `Pop: 0`
   }
@@ -413,7 +406,9 @@ function pauseSubAction () {
   ui.backwardBtn.disabled = false;
   ui.forwardBtn.disabled = false;
   ui.resetBtn.disabled = false;
-  ui.newBtn.disabled = false;
+  if (sim.patternName === 'Random'){
+    ui.newBtn.disabled = false;
+  }
   ui.jumpToBtn.disabled = false;
   ui.jumpToField.style.visibility = "visible";
   ui.selectBtn.disabled = false;
@@ -450,7 +445,7 @@ function jumpToAction() {
 
 function newAction () {
   console.log("newAction() initiated.");
-  fetchSimulation(sim.pattern);
+  fetchSimulation(sim.patternName);
   console.log("newAction() complete.");
 }
 
@@ -509,6 +504,77 @@ function drawAction () {
 }
 
 
+function loadSimulation() {
+
+  const form = new FormData();
+
+  form.append("PatternName", JSON.stringify($("body").data("selection").patternName));
+  form.append("PatternData", JSON.stringify($("body").data("selection").patternData));
+
+  // Loading UX
+  ui.gameTitle.textContent = "Loading";
+  ui.generation.textContent = `Gen: 0`;
+  ui.population.textContent = `Pop: 0`;
+  const loading = setInterval(() => {
+    ui.gameTitle.textContent += ".";
+    if (ui.gameTitle.textContent.length > 10) {
+      ui.gameTitle.textContent = "Loading";
+    }
+  }, 200);
+
+
+  clearSimulation();
+  sim.resetAnimation();
+
+  // toggles
+  ui.playToggle = false;
+  ui.selectToggle = false;
+  ui.drawToggle = false;
+  ui.playBtn.disabled = true;
+  ui.backwardBtn.disabled = true;
+  ui.forwardBtn.disabled = true;
+  ui.resetBtn.disabled = true;
+  ui.newBtn.disabled = true;
+  ui.jumpToBtn.disabled = true;
+  ui.jumpToField.style.visibility = "hidden";
+  ui.selectBtn.disabled = true;
+  ui.drawBtn.disabled = true;
+
+  fetch('/loadsim', {method: "POST", body: form})
+    .then((response) => response.json())
+    .then((patternData) => {
+
+      sim.patternData = patternData;
+      sim.patternName = $("body").data("selection").patternName;
+      ui.patternName.textContent = $("body").data("selection").patternName;
+
+      // toggles
+      ui.playBtn.disabled = false;
+      ui.backwardBtn.disabled = false;
+      ui.forwardBtn.disabled = false;
+      ui.resetBtn.disabled = false;
+      if (sim.patternName === 'Random') {
+        ui.newBtn.disabled = false;
+      }
+      ui.jumpToBtn.disabled = false;
+      ui.jumpToField.style.visibility = "visible";
+      ui.selectBtn.disabled = false;
+      ui.drawBtn.disabled = false;
+
+      clearInterval(loading);
+      ui.gameTitle.textContent = "Conway's Game of Life";
+
+      moveFrame(0);
+
+      $("body").data("selection").patternName = 'None';
+      $("body").data("selection").patternData = 'None';
+      
+      sim.fetching = false;
+      console.log("fetchSimulation() complete!");
+    })
+}
+
+
 function fetchSimulation(pattern="Random") {
   console.log("fetchSimulation() called.")
   sim.fetching = true;
@@ -562,7 +628,7 @@ function fetchSimulation(pattern="Random") {
     .then((response) => response.json())
     .then((patternData) => {
       sim.patternData = patternData;
-      sim.pattern = pattern;
+      sim.patternName = pattern;
       ui.patternName.textContent =`${pattern}`
 
       // toggles
