@@ -513,6 +513,8 @@ html, body {
 
 
 .menu {
+	display: flex;
+	flex-direction: column;
 	padding: 0.5rem;
 	font-size: 2rem;
 	background-color: var(--color-dark-blue);
@@ -556,6 +558,7 @@ html, body {
 
 .selectMenuHeader {
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -566,8 +569,9 @@ html, body {
 
 	.headerRow {
 		display: flex;
-		justify-content: center;
-		align-items: flex-end;
+		flex-direction: row;
+		justify-content: start;
+		align-items: center;
 	
 		.backButton {
 			border-radius: 100%;
@@ -621,7 +625,8 @@ html, body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: start;
+	overflow-y: scroll;
 }
 
 
@@ -655,24 +660,34 @@ html, body {
 		display: flex;
 		flex-direction: column;
 		padding-left: 0.5rem;
+		padding-right: 0.5rem;
 
 	}
 
 		.rowName {
 			max-width: 40ch;
 			padding-bottom: 0.5rem;
+
+			.patternName {
+				font-size: 1rem;
+				white-space: pre-line;
+				margin: 0;
+			}
 		}
 
 		.rowDescription {
 			max-width: 40ch;
+
+			.patternDescription {
+				font-size: 0.8rem;
+				white-space: pre-line;
+				margin: 0;
+			}
 		}
 
 .typeRow {
 	display: flex;
 	justify-content: center;
-
-	font-size: 1rem;
-	color: var(--color-background);
 	width: 100%;
 
 	margin: 0 0 0.5rem 0;
@@ -680,6 +695,12 @@ html, body {
 
 	border: solid var(--color-blue);
 	border-width: 0 0 3px 0;
+
+	.typeName {
+		margin: 0;
+		font-size: 1rem;
+		color: var(--color-background);
+	}
 
 }
 

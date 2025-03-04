@@ -4,7 +4,7 @@ lib.main is our backend processes"""
 import json
 from flask import Flask, render_template, jsonify, request
 from lib.simulation import Simulation
-from lib.read_toml import get_pattern_array
+from lib.read_toml import get_pattern_array, get_patterns
 
 
 app = Flask(__name__)
@@ -15,6 +15,16 @@ def index():
     The main webpage.
     """
     return render_template("index.html")
+
+
+@app.route('/getpatterns')
+def getpatterns():
+    """Data URL
+    Used to populate the select menu with
+    patterns when select-menu-init.js runs.
+    """
+    data = get_patterns()
+    return jsonify(data)
 
 
 @app.route('/simdata', methods=['POST'])

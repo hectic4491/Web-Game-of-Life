@@ -20,6 +20,13 @@ def get_pattern_array(pattern_name):
     return pattern_array[pattern_name]['alive_cells']
 
 
+def get_patterns():
+    """Returns all pattern data."""
+    with open(DATA_PATH, 'r', encoding="utf8") as f:
+        patterns = toml.load(f)
+    return patterns
+
+
 ### Example Code ###
 if __name__ == '__main__':
     names = get_pattern_names()

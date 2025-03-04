@@ -3,7 +3,6 @@
 //FIXME: The naming convention is not consistent
 //FIXME: The use of the sim and ui object's is not consistent.
 //       The functions should be able to take in the objects as arguments.
-//FIXME: After clicking the playBtn once, the CSS hover property doesn't work anymore.
 
 // ###
 // Objects
