@@ -16,11 +16,11 @@
 	<body>
 
 		<!--Main Screen-->
-
-
 		<div class="mainContainer" id="mainContainer">
 
+			<!--Header Section-->
 			<div class="mainHeader" id="mainHeader">
+
 				<div class="headerRow">
 					<h1 class="gameTitle" id="gameTitle">Conway's Game of Life</h1>
 					<div class="badgeContainer">
@@ -41,10 +41,12 @@
 					</button>
 					</div>
 				</div>
+			
 			</div>
 
 			<div class="mainBody">
 
+				<!--Control Section-->
 				<div class="controlPanel">
 
 					<div class="controlSection buttonSection" id="buttonSection">
@@ -71,6 +73,9 @@
 											<polygon points="15,25 50,0 50,50"/>     
 									</svg>
 								</button>
+								<div class="emptyGraphic">
+
+								</div>
 
 								<button class="button generalButton" id="stepForwards" title="[ &gt; ] - Step Forwards">
 									<svg class="squareSVG stepIcon" viewBox="0 0 50 50">
@@ -154,6 +159,7 @@
 						<p class="simInfo" id="population"></p>
 					</div>
 
+					<!--Footer Section-->
 					<div class="controlSection footerSection" id="footerSection">
 						<div class="footerButtonContainer">
 							<button class="button footerButton settingsBadge" id="settingsButton" title="Settings">
@@ -179,6 +185,7 @@
 
 				</div>
 
+				<!--Simulation Window-->
 				<div class="simulationWindow" id="simulationWindow">
 					<div class="gridFrame" id="gridFrame">
 						<div class="grid" id="grid"></div>
@@ -189,6 +196,7 @@
 
 			</div>
 
+			<!--Arrow Controls-->
 			<div class="arrowKeyContainer">
 				<div class="arrowKeyRow upper">
 					<button class="button arrow upArrow" id="upArrowButton" title="[ upArrow ] - Pan up">
@@ -222,14 +230,15 @@
 				</button>
 				</div>
 			</div>
+
+			<!--Arrow Handle-->
 			<div class="arrowKeyContainerHandle">
 			</div>
+
 		</div>
 
 
 		<!--Select Screen-->
-
-
 		<dialog class="menu selectMenu" id="selectMenu">
 			<div class="selectMenuHeader" id="selectMenuHeader">
 				<div class="headerRow">
@@ -654,8 +663,6 @@
 
 
 		<!--SVG symbols-->
-
-
 		<svg width="0" height="0" style="position: absolute; visibility: hidden;" >
       <defs>
 
@@ -674,8 +681,6 @@
 
 
 		<!--Main Script-->
-
-
 		<script src="static/scripts/main.js"></script>
 
 	</body>

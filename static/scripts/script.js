@@ -1,5 +1,7 @@
-// ###
-// Objects
+
+
+
+// sim object
 const sim = {
   height: 50, // TODO: Make this a user input
   width: 90, // TODO: Make this a user input
@@ -20,6 +22,7 @@ const sim = {
 }
 
 
+// ui object
 const ui = {
   /* This object relates its properties to elements on index.html and
   provides the starting state of buttons and other elements.
@@ -74,15 +77,13 @@ const ui = {
 }
 
 
-// ###
 // Main
 ui.initialize();
 fetchSimulation();
 generateGrid();
 
 
-// ##
-// Document event listeners.
+// Events - Keys
 // Handle down key events.
 document.addEventListener('keydown', function(event) {
   // ' ' (space bar) prevent this key from doing it's default function in
@@ -171,7 +172,6 @@ document.addEventListener('keydown', function(event) {
     }
   }
 });
-
 // Handle up key events.
 document.addEventListener('keyup', function(event) {
   ui.heldDownKeys[event.key] = false;
@@ -184,12 +184,34 @@ document.addEventListener('keyup', function(event) {
 });
 
 
-// ###
-// Functions
+// Events - Buttons
+$("#playButton").click(() => playAction()); 
+$("#stepForwards").click(() => stepForwardAction());
+$("#stepBackwards").click(() => stepBackwardAction());
+$("#resetButton").click(() => resetAction());
+$("#newButton").click(() => newAction());
+$("#jumpToButton").click(() => jumpToAction());
+$("#selectButton").click(() => selectAction());
+$("#drawButton").click(() => drawAction());
+/* Clicking outside of the select menu returns to main screen*/
+$("#selectMenu").click(event => {
+  const rect = ui.selectMenu.getBoundingClientRect();
+  const isInDialog =
+    event.clientX >= rect.left &&
+    event.clientX <= rect.right &&
+    event.clientY >= rect.top &&
+    event.clientY <= rect.bottom;
+  if (!isInDialog) {
+    selectAction();
+  }
+});
 
-//# Generate the grid based off the simulation's dimensions.
+
+// Functions
+// Functions - Utility 
 function generateGrid () {
-/**This create's the cell div elements that will be animated for
+/**Generate the grid based off the simulation's dimensions.
+ * This create's the cell div elements that will be animated for
  * the Game of Life simulation. It gives them the class name of 'cell'
  * and a unique id that corresponds to their "i-j" coordinates.
  */
@@ -204,7 +226,6 @@ function generateGrid () {
   }
 }
 
-
 function toggleCell (event) {
   /**This function is called when a cell is clicked. It toggles the
    * class of the cell between 'cellAlive' and 'cell'. Thus changing
@@ -214,7 +235,6 @@ function toggleCell (event) {
   cell.classList.toggle('cellAlive');
   ui.population.textContent = `Pop: ${ui.grid.querySelectorAll('.cellAlive').length}`;
 }
-
 
 function drawMode(mode) {
   /**This function is called when the draw button is clicked. It adds 
@@ -273,12 +293,11 @@ function drawMode(mode) {
   }
 }
 
-
-//# Clear the simulation
 function clearSimulation () {
-  /**Selects all cells of the "cellAlive" class and removes them
-   * from that class. Thus the cells revert back to their default
-   * class and use the default element's color property.
+  /**Clear the simulationSelects all cells of the "cellAlive"
+   * class and removes them from that class. Thus the cells
+   * revert back to their default class and use the default
+   * element's color property.
    * 
    * May want to rework this to just swap in an empty grid -t
    */
@@ -289,7 +308,6 @@ function clearSimulation () {
     child.classList.toggle('cellAlive');
   });
 }
-
 
 function writeAliveCells() {
   aliveList = sim.patternData[sim.currentIndex]['alive'];
@@ -302,7 +320,6 @@ function writeAliveCells() {
   });
 }
 
-
 function moveFrame(index) {
   if (index >= 0 && index < sim.patternData.length) {
     clearSimulation();
@@ -314,11 +331,6 @@ function moveFrame(index) {
     console.log("Target index invalid")
   }
 }
-
-
-//# Render the simulation. ### TODO ### this function accepts simulation as
-// an argument, but also calls global 'sim' variable. Work on only using the 
-// the argument and reducing dependence on the sim variable.
 
 function renderSimulation() {
   /**We create an inner function  named writeAlive Cellsthat processes
@@ -358,10 +370,7 @@ function renderSimulation() {
   }, sim.fps);
 }
 
-
-// ###
-// Button wrapper functions.
-
+// Functions - Button .click() 
 function playAction() {
   if (!ui.playToggle) {
     playSubAction();
@@ -387,12 +396,14 @@ function playSubAction () {
   ui.jumpToField.style.visibility = "hidden"; /* we should instead add a class that helps it simulate the button's disabled transition. */
   ui.selectBtn.disabled = true;
   ui.drawBtn.disabled = true;
+
+  const emptyGraphic = ui.backwardBtn.nextElementSibling;
+  emptyGraphic.classList.toggle('visible');
   
   renderSimulation();
 
   console.log("playSubAction() complete.")
 }
-
 
 function pauseSubAction () {
   console.log("pauseSubAction() initiated.");
@@ -413,6 +424,9 @@ function pauseSubAction () {
   ui.jumpToField.style.visibility = "visible";
   ui.selectBtn.disabled = false;
   ui.drawBtn.disabled = false;
+
+  const emptyGraphic = ui.backwardBtn.nextElementSibling;
+  emptyGraphic.classList.toggle('visible');
 
   console.log("pauseSubAction() complete.");
 }
@@ -442,13 +456,11 @@ function jumpToAction() {
   console.log("jumpToAction() complete.");
 }
 
-
 function newAction () {
   console.log("newAction() initiated.");
   fetchSimulation(sim.patternName);
   console.log("newAction() complete.");
 }
-
 
 function selectAction() {
   if (!ui.selectToggle) {
@@ -503,7 +515,7 @@ function drawAction () {
   }
 }
 
-
+// Functions - Fetching
 function loadSimulation() {
 
   const form = new FormData();
@@ -573,7 +585,6 @@ function loadSimulation() {
       console.log("fetchSimulation() complete!");
     })
 }
-
 
 function fetchSimulation(pattern="Random") {
   console.log("fetchSimulation() called.")
@@ -651,28 +662,3 @@ function fetchSimulation(pattern="Random") {
       console.log("fetchSimulation() complete!");
     })
 }
-
-
-// ### Attach wrapper functions to buttons.
-// Attach wrapper functions to buttons.
-$("#playButton").click(() => playAction()); 
-$("#stepForwards").click(() => stepForwardAction());
-$("#stepBackwards").click(() => stepBackwardAction());
-$("#resetButton").click(() => resetAction());
-$("#newButton").click(() => newAction());
-$("#jumpToButton").click(() => jumpToAction());
-$("#selectButton").click(() => selectAction());
-$("#drawButton").click(() => drawAction());
-
-/* Clicking outside of the select menu returns to main screen*/
-$("#selectMenu").click(event => {
-  const rect = ui.selectMenu.getBoundingClientRect();
-  const isInDialog =
-    event.clientX >= rect.left &&
-    event.clientX <= rect.right &&
-    event.clientY >= rect.top &&
-    event.clientY <= rect.bottom;
-  if (!isInDialog) {
-    selectAction();
-  }
-});

@@ -194,6 +194,20 @@ html, body {
 	transform: scale(0.0);
 }
 
+.emptyGraphic {
+	display: none;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 4px;
+	background-color: var(--color-start-button);
+	border: 6px solid var(--color-blue);
+	border-radius: 5px;
+}
+
+.emptyGraphic.visible {
+	display: flex;
+}
+
 .button.playButton {
 	background-color: var(--color-start-button-light);
 	border-color: var(--color-start-button);
@@ -356,6 +370,35 @@ html, body {
 }
 
 
+/* Cell element classes*/
+
+
+.cell {
+	background-color: var(--color-dark-blue);
+	position: relative;
+	width: var(--cell-size);
+	height: var(--cell-size);
+
+	border: calc(var(--cell-size) * 0.1) solid var(--color-blue);
+
+	transform-origin: center;
+	box-sizing: border-box;
+}
+
+.cell.cellAlive {
+	background-color: var(--color-start-button);
+}
+
+
+.cell:hover {
+	border: calc(var(--cell-size) * 0.2) solid var(--color-start-button-super-light-bright);
+	background-color: var(--color-start-button-light);
+	box-shadow: 0px 0px 20px rgba(255, 253, 181, 0.80);
+	transform: scale(0.8);
+	z-index: 1;
+}
+
+
 /* Arrow Controls */
 
 
@@ -477,35 +520,6 @@ html, body {
 	border: 10px;
 	z-index: 1;
 	opacity: 0; /*For now*/
-}
-
-
-/* Cell element classes*/
-
-
-.cell {
-	background-color: var(--color-dark-blue);
-	position: relative;
-	width: var(--cell-size);
-	height: var(--cell-size);
-
-	border: calc(var(--cell-size) * 0.1) solid var(--color-blue);
-
-	transform-origin: center;
-	box-sizing: border-box;
-}
-
-.cell.cellAlive {
-	background-color: var(--color-start-button);
-}
-
-
-.cell:hover {
-	border: calc(var(--cell-size) * 0.2) solid var(--color-start-button-super-light-bright);
-	background-color: var(--color-start-button-light);
-	box-shadow: 0px 0px 20px rgba(255, 253, 181, 0.80);
-	transform: scale(0.8);
-	z-index: 1;
 }
 
 
