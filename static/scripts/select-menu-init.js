@@ -58,5 +58,3 @@ fetch('/writepatterns')
 
 
 //TODO: Load in the saved patterns from local storage as the first type.
-
-//TODO: Add the random selection button

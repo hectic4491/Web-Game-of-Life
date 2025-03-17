@@ -1,6 +1,3 @@
-
-
-
 // sim object
 const sim = {
   height: 50, // TODO: Make this a user input
@@ -397,9 +394,11 @@ function playSubAction () {
   ui.selectBtn.disabled = true;
   ui.drawBtn.disabled = true;
 
+  /* ### TODO ### -> use this section to create and display the empty button graphics for the disabled buttons.
   const emptyGraphic = ui.backwardBtn.nextElementSibling;
   emptyGraphic.classList.toggle('visible');
-  
+  */
+
   renderSimulation();
 
   console.log("playSubAction() complete.")
@@ -425,8 +424,10 @@ function pauseSubAction () {
   ui.selectBtn.disabled = false;
   ui.drawBtn.disabled = false;
 
+  /* ### TODO ### -> use this section to remove and hide the empty button graphics for the disabled buttons.
   const emptyGraphic = ui.backwardBtn.nextElementSibling;
   emptyGraphic.classList.toggle('visible');
+  */
 
   console.log("pauseSubAction() complete.");
 }
