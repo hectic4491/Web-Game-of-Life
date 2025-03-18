@@ -157,7 +157,13 @@ document.addEventListener('keydown', function(event) {
   // 'd' to toggle the draw mode.
   if (event.key == "d" && !ui.heldDownKeys['d'] && !ui.playToggle && !sim.fetching) {
     ui.heldDownKeys['d'] = true;
-    drawAction();
+    ui.drawBtn.classList.add('active');
+
+    ui.drawBtn.click();
+
+    setTimeout(function() {
+      ui.drawBtn.classList.remove('active');
+    }, 150);
   }
   // 'esc' to toggle the menu visiblity.
   // ### WARNING ###
@@ -231,63 +237,6 @@ function toggleCell (event) {
   const cell = event.target;
   cell.classList.toggle('cellAlive');
   ui.population.textContent = `Pop: ${ui.grid.querySelectorAll('.cellAlive').length}`;
-}
-
-function drawMode(mode) {
-  /**This function is called when the draw button is clicked. It adds 
-   * an event listener to each cell in the grid that toggles the class
-   * of the cell between 'cellAlive' and 'cell' when clicked. This allows
-   * the user to draw their own patterns on the grid.
-   */
-  if (mode) {
-    sim.drawing = true;
-    const cells = ui.grid.querySelectorAll('.cell');
-    cells.forEach((cell) => {
-      cell.addEventListener('click', toggleCell);
-    });
-
-    // Create Clear button
-    const clearBtn = document.createElement('button');
-    clearBtn.id = 'clearButton';
-    clearBtn.classList.add('button');
-    clearBtn.textContent = 'Clear';
-    clearBtn.addEventListener('click', () => {
-      clearSimulation();
-      ui.population.textContent = 'Pop: 0';
-    });
-
-
-    // Create Generate button
-    const generateBtn = document.createElement('button');
-    generateBtn.id = 'generateButton';
-    generateBtn.classList.add('button');
-    generateBtn.textContent = 'Generate';
-    generateBtn.addEventListener('click', () => {
-      fetchSimulation("Drawn");
-      ui.drawToggle = false;
-      drawMode(false);
-      // toggles
-      ui.playBtn.disabled = false;
-      ui.newBtn.disabled = false;
-      ui.selectBtn.disabled = false;
-      console.log("generateBtn() initiated. Hiding the draw menu");
-    });
-
-    // Insert the buttons after the Draw button
-    ui.otherSection.insertBefore(clearBtn, ui.drawBtn.nextSibling);
-    ui.otherSection.insertBefore(generateBtn, clearBtn.nextSibling);
-  } else {
-    sim.drawing = false;
-    const cells = ui.grid.querySelectorAll('.cell');
-    cells.forEach((cell) => {
-      cell.removeEventListener('click', toggleCell);
-    });
-
-    const clearButton = document.getElementById('clearButton');
-    const generateButton = document.getElementById('generateButton');
-    clearButton.remove();
-    generateButton.remove();
-  }
 }
 
 function clearSimulation () {
@@ -493,27 +442,103 @@ function selectAction() {
 }
 
 function drawAction () {
-
   if (!ui.drawToggle) {
-    ui.drawToggle = true;
-    drawMode(true);
+    drawStartSubAction();
+  } else {
+    drawStopSubAction();
+  }
+}
 
-    // toggles
-    ui.playBtn.disabled = true;
-    ui.newBtn.disabled = true;
-    ui.selectBtn.disabled = true;
-    console.log("drawAction() initiated. Showing the draw menu");
+function drawStartSubAction() {
+  /**This function is called when the draw button is clicked. It adds 
+   * an event listener to each cell in the grid that toggles the class
+   * of the cell between 'cellAlive' and 'cell' when clicked. This allows
+   * the user to draw their own patterns on the grid.
+   */
+  console.log("drawStartSubAction() initiated. Showing the draw menu");
 
-  } else if (ui.drawToggle) {
+  ui.drawToggle = true;
+  sim.drawing = true;
+
+  // toggles
+  ui.playBtn.disabled = true;
+  ui.backwardBtn.disabled = true;
+  ui.forwardBtn.disabled = true;
+  ui.resetBtn.disabled = true;
+  ui.newBtn.disabled = true;
+  ui.jumpToBtn.disabled = true;
+  ui.jumpToField.style.visibility = "hidden"; /* we should instead add a class that helps it simulate the button's disabled transition. */
+  ui.selectBtn.disabled = true;
+
+  const cells = ui.grid.querySelectorAll('.cell');
+  cells.forEach((cell) => {
+    cell.addEventListener('click', toggleCell);
+  });
+
+  // Create Clear button
+  const clearBtn = document.createElement('button');
+  clearBtn.id = 'clearButton';
+  clearBtn.classList.add('button');
+  clearBtn.textContent = 'Clear';
+  clearBtn.addEventListener('click', () => {
+    clearSimulation();
+    ui.population.textContent = 'Pop: 0';
+  });
+
+
+  // Create Generate button
+  const generateBtn = document.createElement('button');
+  generateBtn.id = 'generateButton';
+  generateBtn.classList.add('button');
+  generateBtn.textContent = 'Generate';
+  generateBtn.addEventListener('click', () => {
+    fetchSimulation("Drawn");
     ui.drawToggle = false;
     drawMode(false);
-
     // toggles
     ui.playBtn.disabled = false;
     ui.newBtn.disabled = false;
     ui.selectBtn.disabled = false;
-    console.log("drawAction() initiated. Hiding the draw menu");
-  }
+    console.log("generateBtn() initiated. Hiding the draw menu");
+  });
+
+  // Insert the buttons after the Draw button
+
+  // ui.otherSection.insertBefore(clearBtn, ui.drawBtn.nextSibling);
+  // ui.otherSection.insertBefore(generateBtn, clearBtn.nextSibling);
+}
+
+function drawStopSubAction() {
+  /**This function is called when the draw button is clicked. It adds 
+   * an event listener to each cell in the grid that toggles the class
+   * of the cell between 'cellAlive' and 'cell' when clicked. This allows
+   * the user to draw their own patterns on the grid.
+   */
+  console.log("drawStopSubAction() initiated. Hiding the draw menu");
+
+  ui.drawToggle = false;
+  sim.drawing = false;
+
+  // toggles
+  ui.playBtn.disabled = false;
+  ui.backwardBtn.disabled = false;
+  ui.forwardBtn.disabled = false;
+  ui.resetBtn.disabled = false;
+  ui.newBtn.disabled = false;
+  ui.jumpToBtn.disabled = false;
+  ui.jumpToField.style.visibility = "visible"; /* we should instead add a class that helps it simulate the button's disabled transition. */
+  ui.selectBtn.disabled = false;
+
+  const cells = ui.grid.querySelectorAll('.cell');
+  cells.forEach((cell) => {
+    cell.removeEventListener('click', toggleCell);
+  });
+
+
+  // const clearButton = document.getElementById('clearButton');
+  // const generateButton = document.getElementById('generateButton');
+  // clearButton.remove();
+  // generateButton.remove();
 }
 
 // Functions - Fetching

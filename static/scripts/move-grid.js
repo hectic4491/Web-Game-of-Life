@@ -13,7 +13,9 @@ const moveUi = {
   rightArrow: document.getElementById('rightArrowButton'),
 }
 
-// Document Event listeners (for keybroad presses to move grid)
+
+// Document Event listeners
+// Keyboard Presses
 document.addEventListener('keydown', function(event) {
   // console.log("Hello from move-grid.js");
   moveUi.listeningMoveKeys[event.key] = true;
@@ -36,6 +38,33 @@ document.addEventListener('keyup', function(event) {
   }
   handleMoveKeyPresses();
 });
+
+// Mouse Clicks
+$('#leftArrowButton').mousedown(function() {
+  startPanning(16, 0)
+});
+$('#leftArrowButton').mouseup(stopPanning);
+$('#leftArrowButton').mouseleave(stopPanning);
+
+$('#rightArrowButton').mousedown(function() {
+  startPanning(-16, 0)
+});
+$('#rightArrowButton').mouseup(stopPanning);
+$('#rightArrowButton').mouseleave(stopPanning);
+
+$('#upArrowButton').mousedown(function() {
+  startPanning(0, 16)
+});
+$('#upArrowButton').mouseup(stopPanning);
+$('#upArrowButton').mouseleave(stopPanning);
+
+$('#downArrowButton').mousedown(function() {
+  startPanning(0, -16)
+});
+$('#downArrowButton').mouseup(stopPanning);
+$('#downArrowButton').mouseleave(stopPanning);
+
+
 
 
 function handleMoveKeyPresses() {
@@ -128,7 +157,6 @@ function panGrid(dx, dy) {
 }
 
 /* On screen button helper functions */
-
 let holdInterval;
 
 function startPanning(x, y) {
@@ -141,29 +169,4 @@ function stopPanning() {
     clearInterval(holdInterval);
     holdInterval = null; 
   }
-} 
-
-// Accessing buttons and giving them event listeners.
-$('#leftArrowButton').mousedown(function() {
-  startPanning(16, 0)
-});
-$('#leftArrowButton').mouseup(stopPanning);
-$('#leftArrowButton').mouseleave(stopPanning);
-
-$('#rightArrowButton').mousedown(function() {
-  startPanning(-16, 0)
-});
-$('#rightArrowButton').mouseup(stopPanning);
-$('#rightArrowButton').mouseleave(stopPanning);
-
-$('#upArrowButton').mousedown(function() {
-  startPanning(0, 16)
-});
-$('#upArrowButton').mouseup(stopPanning);
-$('#upArrowButton').mouseleave(stopPanning);
-
-$('#downArrowButton').mousedown(function() {
-  startPanning(0, -16)
-});
-$('#downArrowButton').mouseup(stopPanning);
-$('#downArrowButton').mouseleave(stopPanning);
+}
