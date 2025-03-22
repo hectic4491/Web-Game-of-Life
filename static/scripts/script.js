@@ -7,9 +7,7 @@ const sim = {
   currentIndex: 0,
   patternName: "Random",
   drawnPattern: undefined,
-  drawing: false,
   fetching: false,
-
 
   resetAnimation: function() {
     console.log(`sim.resetAnimation() called.`);
@@ -29,8 +27,9 @@ const ui = {
   // Game Ttitle
   gameTitle: document.getElementById("gameTitle"),
   // Button Sections 
-  simControlSection: document.getElementById("simControlSection"),
-  otherSection: document.getElementById("otherSection"),
+  simCategoryControls: document.getElementById("simButtonCategory"),
+  selectDrawCategoryControls: document.getElementById("selectDrawButtonCategory"),
+  drawCategoryControls: document.getElementById("drawButtonCategory"),
   // Buttons
   playBtn: document.getElementById("playButton"),
   backwardBtn: document.getElementById("stepBackwards"),
@@ -70,6 +69,8 @@ const ui = {
     this.patternName.textContent = `${sim.patternName}`;
     this.generation.textContent = `Gen: 0` ;
     this.population.textContent = `Pop: 0`
+    this.drawCategoryControls.style.width=this.selectDrawCategoryControls.width;
+    this.drawCategoryControls.style.height=this.selectDrawCategoryControls.height;
   }
 }
 
@@ -90,7 +91,7 @@ document.addEventListener('keydown', function(event) {
     console.log('Space bar pressed - default behavior prevented.');
   }
   // 'p' to play and pause the simulation.
-  if (event.key === "p" && !ui.heldDownKeys['p'] && !sim.drawing && !sim.fetching) {
+  if (event.key === "p" && !ui.heldDownKeys['p'] && !sim.fetching) {
     ui.heldDownKeys['p'] = true;
     ui.playBtn.classList.add('active');
 
@@ -101,7 +102,7 @@ document.addEventListener('keydown', function(event) {
     }, 150);
   }
   // 's' to open the select menu.
-  if (event.key == "s" && !ui.heldDownKeys['s'] && !sim.drawing && !sim.fetching && !ui.playToggle) {
+  if (event.key == "s" && !ui.heldDownKeys['s'] && !sim.fetching && !ui.playToggle) {
     ui.heldDownKeys['s'] = true;
     ui.selectBtn.classList.add('active');
 
@@ -133,7 +134,7 @@ document.addEventListener('keydown', function(event) {
     }, 150);
   }
   // 'n' to fetch a new simulation.
-  if (event.key == "n" && !ui.heldDownKeys['n'] && !ui.playToggle && !sim.drawing && !sim.fetching) {
+  if (event.key == "n" && !ui.heldDownKeys['n'] && !ui.playToggle && !sim.fetching) {
     ui.heldDownKeys['n'] = true;
     ui.newBtn.classList.add('active');
 
@@ -144,7 +145,7 @@ document.addEventListener('keydown', function(event) {
     }, 150);
   }
   // 'j' to fetch a new simulation.
-  if (event.key == "j" && !ui.heldDownKeys['j'] && !ui.playToggle && !sim.drawing && !sim.fetching) {
+  if (event.key == "j" && !ui.heldDownKeys['j'] && !ui.playToggle && !sim.fetching) {
     ui.heldDownKeys['j'] = true;
     ui.jumpToBtn.classList.add('active');
 
@@ -196,7 +197,7 @@ $("#newButton").click(() => newAction());
 $("#jumpToButton").click(() => jumpToAction());
 $("#selectButton").click(() => selectAction());
 $("#drawButton").click(() => drawAction());
-/* Clicking outside of the select menu returns to main screen*/
+/* Clicking outside of the select menu returns to main screen */
 $("#selectMenu").click(event => {
   const rect = ui.selectMenu.getBoundingClientRect();
   const isInDialog =
@@ -321,7 +322,7 @@ function playAction() {
   if (!ui.playToggle) {
     playSubAction();
   } else {
-    pauseSubAction();
+    ui.playToggle = false;
   }
 }
 
@@ -458,7 +459,7 @@ function drawStartSubAction() {
   console.log("drawStartSubAction() initiated. Showing the draw menu");
 
   ui.drawToggle = true;
-  sim.drawing = true;
+  ui.gameTitle.textContent = "Draw Mode";
 
   // toggles
   ui.playBtn.disabled = true;
@@ -470,42 +471,91 @@ function drawStartSubAction() {
   ui.jumpToField.style.visibility = "hidden"; /* we should instead add a class that helps it simulate the button's disabled transition. */
   ui.selectBtn.disabled = true;
 
+  // Add event listeners to each cell
   const cells = ui.grid.querySelectorAll('.cell');
   cells.forEach((cell) => {
     cell.addEventListener('click', toggleCell);
   });
 
+  // Reformat the Control Section
+  // TODO
+
+  // Create Button Row
+  const buttonRowA = document.createElement('div');
+  buttonRowA.classList.add('buttonRow');
+  ui.drawCategoryControls.style.width = ui.selectDrawCategoryControls.style.width;
+
+  // Create Back button
+  const backBtn = document.createElement('button');
+  backBtn.classList.add('button');
+  backBtn.classList.add('generalButton');
+  backBtn.id = 'backButton';
+  backBtn.title = "[ d ] - Back";
+  backBtn.addEventListener('click', () => {
+    drawStopSubAction();
+  });
+  // Create Back button SVG
+  const backBtnSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  backBtnSvg.classList.add('mediumSquareSVG');
+  backBtnSvg.classList.add('backIcon');
+  backBtnSvg.setAttribute('viewBox', '0 0 50 50');
+  // Create Back button SVG Path
+  const backBtnPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  backBtnPath.setAttribute('d', 'M 3 3 L 47 3 L 47 47 L 3 47 Z');
+  // Append the path to the SVG
+  backBtnSvg.appendChild(backBtnPath);
+  backBtn.appendChild(backBtnSvg);
+  
+
   // Create Clear button
   const clearBtn = document.createElement('button');
-  clearBtn.id = 'clearButton';
   clearBtn.classList.add('button');
-  clearBtn.textContent = 'Clear';
+  clearBtn.classList.add('generalButton');
+  clearBtn.id = 'clearButton';
+  clearBtn.title = "[ c ] - Clear grid";
   clearBtn.addEventListener('click', () => {
     clearSimulation();
     ui.population.textContent = 'Pop: 0';
   });
-
+  // Create Clear button SVG
+  const clearBtnSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  clearBtnSvg.classList.add('mediumSquareSVG');
+  clearBtnSvg.classList.add('clearIcon');
+  clearBtnSvg.setAttribute('viewBox', '0 0 50 50');
+  // Create Clear button SVG Path
+  const clearBtnPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+  clearBtnPath.setAttribute('d', 'M 3 3 L 47 3 L 47 47 L 3 47 Z');
+  // Append the path to the SVG
+  clearBtnSvg.appendChild(clearBtnPath);
+  clearBtn.appendChild(clearBtnSvg);
 
   // Create Generate button
-  const generateBtn = document.createElement('button');
-  generateBtn.id = 'generateButton';
-  generateBtn.classList.add('button');
-  generateBtn.textContent = 'Generate';
-  generateBtn.addEventListener('click', () => {
-    fetchSimulation("Drawn");
-    ui.drawToggle = false;
-    drawMode(false);
-    // toggles
-    ui.playBtn.disabled = false;
-    ui.newBtn.disabled = false;
-    ui.selectBtn.disabled = false;
-    console.log("generateBtn() initiated. Hiding the draw menu");
-  });
+  // const generateBtn = document.createElement('button');
+  // generateBtn.id = 'generateButton';
+  // generateBtn.classList.add('button');
+  // generateBtn.textContent = 'Generate';
+  // generateBtn.addEventListener('click', () => {
+  //   fetchSimulation("Drawn");
+  //   ui.drawToggle = false;
+  //   drawMode(false);
+  //   // toggles
+  //   ui.playBtn.disabled = false;
+  //   ui.newBtn.disabled = false;
+  //   ui.selectBtn.disabled = false;
+  //   console.log("generateBtn() initiated. Hiding the draw menu");
+  // });
 
-  // Insert the buttons after the Draw button
+  // Insert the buttons into the drawButtonCategory
+  ui.drawCategoryControls.appendChild(buttonRowA);
+  buttonRowA.appendChild(clearBtn);
+  buttonRowA.appendChild(backBtn);
 
-  // ui.otherSection.insertBefore(clearBtn, ui.drawBtn.nextSibling);
-  // ui.otherSection.insertBefore(generateBtn, clearBtn.nextSibling);
+
+  console.log(ui.drawCategoryControls.style.width);
+  console.log(ui.selectDrawCategoryControls.style.width);
+console.log(ui.gameTitle.style.width);
+
+  // enable the keyboard event listeners
 }
 
 function drawStopSubAction() {
@@ -517,7 +567,8 @@ function drawStopSubAction() {
   console.log("drawStopSubAction() initiated. Hiding the draw menu");
 
   ui.drawToggle = false;
-  sim.drawing = false;
+
+  ui.gameTitle.textContent = "Conway's Game of Life";
 
   // toggles
   ui.playBtn.disabled = false;
@@ -534,11 +585,17 @@ function drawStopSubAction() {
     cell.removeEventListener('click', toggleCell);
   });
 
+  // Reformat the Control Section
+  // TODO
 
-  // const clearButton = document.getElementById('clearButton');
+  // remove the buttons from the drawButtonCategory
+  const clearButton = document.getElementById('clearButton');
+  clearButton.parentElement.remove(); // remove the button row
+  clearButton.remove();
   // const generateButton = document.getElementById('generateButton');
-  // clearButton.remove();
   // generateButton.remove();
+
+  // disable the keyboard event listeners
 }
 
 // Functions - Fetching
