@@ -1,3 +1,3 @@
-![](Web-Game-Of-Life-Exmaple-1.png)
+![](Web-Game-Of-Life-Example-1.png)
 
-![](Web-Game-Of-Life-Exmaple-2.png)
+![](Web-Game-Of-Life-Example-2.png)
