@@ -156,16 +156,17 @@ document.addEventListener('keydown', function(event) {
     }, 150);
   }
   // 'd' to toggle the draw mode.
-  if (event.key == "d" && !ui.heldDownKeys['d'] && !ui.playToggle && !sim.fetching) {
-    ui.heldDownKeys['d'] = true;
-    ui.drawBtn.classList.add('active');
+  // if (event.key == "d" && !ui.heldDownKeys['d'] && !ui.playToggle && !sim.fetching) {
+  //   ui.heldDownKeys['d'] = true;
+  //   ui.drawBtn.classList.add('active');
 
-    ui.drawBtn.click();
+  //   ui.drawBtn.click();
 
-    setTimeout(function() {
-      ui.drawBtn.classList.remove('active');
-    }, 150);
-  }
+  //   setTimeout(function() {
+  //     ui.drawBtn.classList.remove('active');
+  //   }, 150);
+  // }
+  
   // 'esc' to toggle the menu visiblity.
   // ### WARNING ###
   // This will have to depend on which menu is being shown.
@@ -196,7 +197,7 @@ $("#resetButton").click(() => resetAction());
 $("#newButton").click(() => newAction());
 $("#jumpToButton").click(() => jumpToAction());
 $("#selectButton").click(() => selectAction());
-$("#drawButton").click(() => drawAction());
+// $("#drawButton").click(() => drawAction());
 /* Clicking outside of the select menu returns to main screen */
 $("#selectMenu").click(event => {
   const rect = ui.selectMenu.getBoundingClientRect();
@@ -441,7 +442,7 @@ function selectAction() {
     console.log("selectAction() initiated. Hiding the select menu");
   }
 }
-
+// ###WIP!!! drawAction() and the draw functionality is WIP
 function drawAction () {
   if (!ui.drawToggle) {
     drawStartSubAction();

@@ -1,3 +1,5 @@
 **/__pycache__/
 data/
 database_connection/
+venv/
+.venv/
