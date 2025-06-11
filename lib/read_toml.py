@@ -1,9 +1,13 @@
 """Module to store the read toml functions."""
-
-from pathlib import Path
 import toml
+import os
 
-DATA_PATH = Path('lib') / "patterns.toml"
+if "PYTHONANYWHERE_SITE" in os.environ:
+    # This is the data path when I deploy the app on pythonanywhere.
+    DATA_PATH = "mysite/lib/patterns.toml"
+else:
+    # This is the data path when I run the app locally.
+    DATA_PATH = "lib/patterns.toml"
 
 
 def get_pattern_names():
